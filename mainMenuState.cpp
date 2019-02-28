@@ -16,20 +16,20 @@ mainMenuStateClass::mainMenuStateClass()
 
     nameOfGameText.setSize(60);
     nameOfGameText.setMessage("Indev Bugged Game");
-    nameOfGameText.setColor(sf::Color::Green);
+    nameOfGameText.setFillColor(sf::Color::Green);
     nameOfGameText.setPosition(25, 25);
 
     playText.setSize(40);
     playText.setMessage("Jouer");
-    playText.setColor(sf::Color::Green);
+    playText.setFillColor(sf::Color::Green);
 
     nothingText.setSize(40);
     nothingText.setMessage("Rien");
-    nothingText.setColor(sf::Color::Green);
+    nothingText.setFillColor(sf::Color::Green);
 
     leaveText.setSize(40);
     leaveText.setMessage("Quitter");
-    leaveText.setColor(sf::Color::Green);
+    leaveText.setFillColor(sf::Color::Green);
 
     listOfButton.push_back(std::move(playText));
     listOfButton.push_back(std::move(nothingText));
@@ -39,7 +39,7 @@ mainMenuStateClass::mainMenuStateClass()
 
     cursorText.setSize(50);
     cursorText.setMessage(">");
-    cursorText.setColor(sf::Color::Green);
+    cursorText.setFillColor(sf::Color::Green);
     cursorText.setPosition(listOfButton[currentId].getPosition().x - cursorText.getHitbox().width - 20, 0);
 
     cursorText.setCentralVerticalPos(listOfButton[currentId].getCentralVerticalPos());

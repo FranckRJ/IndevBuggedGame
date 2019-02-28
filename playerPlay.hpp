@@ -13,10 +13,11 @@ public:
     playerPlayClass();
     void update();
     void draw(sf::RenderWindow& window);
+    void updateSpriteShape();
     bool applyMove();
     bool applyVerticalMove();
     void applySpriteDeformation();
-    void moveSpriteDeformation(int amount);
+    bool moveSpriteWidthDeformation(int amount);
     void hasEnterInCollide(direction dir);
     void startJump();
     void attractTo(sf::Vector2i thisDirection);
@@ -35,9 +36,10 @@ public:
 private:
     sf::RectangleShape sprite;
     sf::RectangleShape spriteVisor;
-    sf::Vector2f spriteDeformation;
+    sf::Vector2i baseSpriteSize;
+    sf::Vector2i spriteSizeDeformation;
     int currentFrame;
-    int spriteDeformationNeeded;
+    int spriteWidthDeformationNeeded;
     particleMotorClass particleMotor;
     std::unique_ptr<movementClass> movement;
     direction currentDir;

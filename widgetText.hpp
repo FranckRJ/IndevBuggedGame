@@ -17,7 +17,7 @@ public:
     void setNumberOfBlinkNeeded(int newNumber);
     void setCentralVerticalPos(int newPosY);
     void setMessage(std::string newMessage, bool isOriginalMessage = true);
-    void setColor(sf::Color newColor);
+    void setFillColor(sf::Color newColor);
     void setSize(int newSize);
     void setPosition(int newPosX, int newPosY);
 protected:

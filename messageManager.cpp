@@ -11,7 +11,7 @@ void messageManagerClass::initialize()
 
         messageToShow.setFont(global::font);
         messageToShow.setCharacterSize(20);
-        messageToShow.setColor(sf::Color::Green);
+        messageToShow.setFillColor(sf::Color::Green);
         messageToShow.setPosition(WIDTH_SCREEN / 2, HEIGHT_SCREEN / 2);
 
         listOfRect.push_back(rectForMessage());
@@ -41,7 +41,7 @@ void messageManagerClass::initialize()
 
         messageToShow.setFont(global::font);
         messageToShow.setCharacterSize(20);
-        messageToShow.setColor(sf::Color::Blue);
+        messageToShow.setFillColor(sf::Color::Blue);
         messageToShow.setPosition(WIDTH_SCREEN / 2, HEIGHT_SCREEN / 2);
 
         listOfRect.push_back(rectForMessage());

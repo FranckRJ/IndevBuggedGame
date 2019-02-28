@@ -14,27 +14,27 @@ widgetTextClass::widgetTextClass(std::string newMessage, sf::Color newColor, int
     widgetTextClass()
 {
     setMessage(newMessage);
-    setColor(newColor);
+    setFillColor(newColor);
     setSize(newSize);
     setPosition(newPosX, newPosY);
 }
 
 void widgetTextClass::update()
 {
-    if(numberOfTimeBlinkNeeded > 0 && messageToShow.getColor().a == 255 && timerForBlink.getElapsedTime().asSeconds() > 0.1)
+    if(numberOfTimeBlinkNeeded > 0 && messageToShow.getFillColor().a == 255 && timerForBlink.getElapsedTime().asSeconds() > 0.1)
     {
-        sf::Color tmpColor = messageToShow.getColor();
+        sf::Color tmpColor = messageToShow.getFillColor();
         tmpColor.a = 127;
-        messageToShow.setColor(tmpColor);
+        messageToShow.setFillColor(tmpColor);
         --numberOfTimeBlinkNeeded;
         timerForBlink.restart();
     }
 
-    if(messageToShow.getColor().a == 127 && timerForBlink.getElapsedTime().asSeconds() > 0.1)
+    if(messageToShow.getFillColor().a == 127 && timerForBlink.getElapsedTime().asSeconds() > 0.1)
     {
-        sf::Color tmpColor = messageToShow.getColor();
+        sf::Color tmpColor = messageToShow.getFillColor();
         tmpColor.a = 255;
-        messageToShow.setColor(tmpColor);
+        messageToShow.setFillColor(tmpColor);
         timerForBlink.restart();
     }
 
@@ -112,9 +112,9 @@ void widgetTextClass::setMessage(std::string newMessage, bool isOriginalMessage)
     }
 }
 
-void widgetTextClass::setColor(sf::Color newColor)
+void widgetTextClass::setFillColor(sf::Color newColor)
 {
-    messageToShow.setColor(newColor);
+    messageToShow.setFillColor(newColor);
 }
 
 void widgetTextClass::setSize(int newSize)

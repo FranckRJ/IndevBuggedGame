@@ -14,6 +14,7 @@ gamePlayedClass::gamePlayedClass(std::string nameOfLevel)
     global::versionOfGame = infoForLevel.initialGameVersion;
     playerPlay.setPosition(infoForLevel.playerStartPosition);
     updateGameVersion();
+    playerPlay.update();
 }
 
 void gamePlayedClass::update()

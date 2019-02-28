@@ -12,13 +12,12 @@ playerPlayClass::playerPlayClass()
     infoForMove.currentVerticalVelocity = 0;
     infoForMove.canJump = true;
     infoForMove.isInJump = false;
-    spriteDeformation = sf::Vector2f(0, 0);
-    spriteDeformationNeeded = 0;
-    sizeOfCollideBox = sf::Vector2i(40, 80);
-    sprite.setSize(sf::Vector2f(40, 80));
+    spriteSizeDeformation = sf::Vector2i(0, 0);
+    spriteWidthDeformationNeeded = 0;
+    baseSpriteSize = sf::Vector2i(40, 80);
+    sizeOfCollideBox = baseSpriteSize;
     sprite.setFillColor(sf::Color::Blue);
     spriteVisor.setFillColor(sf::Color(0, 0, 150));
-    setVisorForSprite();
     currentDir = NONE;
     setMovementForVersion();
 }
@@ -33,6 +32,7 @@ void playerPlayClass::update()
         applySpriteDeformation();
     }
 
+    updateSpriteShape();
     particleMotor.update();
 }
 
@@ -43,13 +43,25 @@ void playerPlayClass::draw(sf::RenderWindow& window)
     window.draw(spriteVisor);
 }
 
+void playerPlayClass::updateSpriteShape()
+{
+    if (spriteSizeDeformation.y < 0)
+    {
+        sprite.setPosition(position.x - (spriteSizeDeformation.x / 2), position.y - spriteSizeDeformation.y);
+    }
+    else
+    {
+        sprite.setPosition(position.x - (spriteSizeDeformation.x / 2), position.y);
+    }
+    sprite.setSize(sf::Vector2f(baseSpriteSize.x + spriteSizeDeformation.x, baseSpriteSize.y + spriteSizeDeformation.y));
+    setVisorForSprite();
+}
+
 bool playerPlayClass::applyMove()
 {
     if(movement.get() != nullptr && currentDir != NONE)
     {
         position = movement->moveCharacterTo(infoForMove, currentDir, position);
-        sprite.setPosition(position.x - spriteDeformation.x, position.y - spriteDeformation.y);
-        setVisorForSprite();
 
         if(currentFrame % 8 == 0 && infoForMove.isInJump == false && infoForMove.currentVerticalVelocity < (GRAVITY * 2))
         {
@@ -77,8 +89,6 @@ bool playerPlayClass::applyVerticalMove()
     if(movement.get() != nullptr && infoForMove.currentVerticalVelocity != 0)
     {
         position = movement->applyGravity(infoForMove, position);
-        sprite.setPosition(position.x - spriteDeformation.x, position.y - spriteDeformation.y);
-        setVisorForSprite();
     }
 
     return false;
@@ -86,38 +96,97 @@ bool playerPlayClass::applyVerticalMove()
 
 void playerPlayClass::applySpriteDeformation()
 {
-    if(spriteDeformationNeeded != 0)
+    if(spriteWidthDeformationNeeded != 0)
     {
-        if(spriteDeformationNeeded < 0)
+        if(spriteWidthDeformationNeeded < 0)
         {
-            moveSpriteDeformation(-1);
-            ++spriteDeformationNeeded;
+            if (moveSpriteWidthDeformation(-2) == false)
+            {
+                spriteWidthDeformationNeeded = 0;
+            }
+            else
+            {
+                ++spriteWidthDeformationNeeded;
+            }
+        }
+        else
+        {
+            if (moveSpriteWidthDeformation(2) == false)
+            {
+                spriteWidthDeformationNeeded = 0;
+            }
+            else
+            {
+                --spriteWidthDeformationNeeded;
+            }
         }
     }
     else
     {
-        if(spriteDeformation.x != 0)
+        if(spriteSizeDeformation.x != 0)
         {
-            if(spriteDeformation.x < 0)
+            if(spriteSizeDeformation.x < 0)
             {
-                moveSpriteDeformation(1);
+                moveSpriteWidthDeformation(2);
+            }
+            else
+            {
+                moveSpriteWidthDeformation(-2);
             }
         }
     }
-
-    sprite.setPosition(position.x - spriteDeformation.x, position.y - spriteDeformation.y);
-    setVisorForSprite();
 }
 
-void playerPlayClass::moveSpriteDeformation(int amount)
+bool playerPlayClass::moveSpriteWidthDeformation(int amount)
 {
-    spriteDeformation.x += amount;
-    spriteDeformation.y -= amount;
-    sprite.setSize(sf::Vector2f(sprite.getSize().x + (amount * 2), sprite.getSize().y - (amount * 2)));
+    bool hasMovedFully = true;
+
+    spriteSizeDeformation.x += amount;
+    if (spriteSizeDeformation.x > 8)
+    {
+        spriteSizeDeformation.x = 8;
+        hasMovedFully = false;
+    }
+    else if (spriteSizeDeformation.x < -8)
+    {
+        spriteSizeDeformation.x = -8;
+        hasMovedFully = false;
+    }
+    spriteSizeDeformation.y -= amount;
+    if (spriteSizeDeformation.y > 8)
+    {
+        spriteSizeDeformation.y = 8;
+        hasMovedFully = false;
+    }
+    else if (spriteSizeDeformation.y < -8)
+    {
+        spriteSizeDeformation.y = -8;
+        hasMovedFully = false;
+    }
+    return hasMovedFully;
 }
 
 void playerPlayClass::hasEnterInCollide(direction dir)
 {
+    if (dir == DOWN)
+    {
+        if (infoForMove.currentVerticalVelocity >= 32)
+        {
+            spriteWidthDeformationNeeded += 4;
+        }
+        else if (infoForMove.currentVerticalVelocity >= 16)
+        {
+            spriteWidthDeformationNeeded += 3;
+        }
+        else if (infoForMove.currentVerticalVelocity >= 8)
+        {
+            spriteWidthDeformationNeeded += 2;
+        }
+        else if (infoForMove.currentVerticalVelocity >= 4)
+        {
+            spriteWidthDeformationNeeded += 1;
+        }
+    }
     if(movement.get() != nullptr)
     {
         movement->enterInCollide(infoForMove, dir);
@@ -130,10 +199,7 @@ void playerPlayClass::startJump()
     {
         if(movement->startJump(infoForMove) == true)
         {
-            if(spriteDeformationNeeded == 0 && spriteDeformation.x == 0)
-            {
-                spriteDeformationNeeded = -4;
-            }
+            spriteWidthDeformationNeeded -= 4;
         }
     }
 }
@@ -197,15 +263,11 @@ void playerPlayClass::setMoveTo(direction dir)
 void playerPlayClass::setPosition(sf::Vector2i newPosition)
 {
     position = newPosition;
-    sprite.setPosition(position.x - spriteDeformation.x, position.y - spriteDeformation.y);
-    setVisorForSprite();
 }
 
 void playerPlayClass::setPosition(int newX, int newY)
 {
-    position = sf::Vector2i(newX, newY);
-    sprite.setPosition(newX - spriteDeformation.x, newY - spriteDeformation.y);
-    setVisorForSprite();
+    setPosition(sf::Vector2i(newX, newY));
 }
 
 void playerPlayClass::setMovementForVersion()

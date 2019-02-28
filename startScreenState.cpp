@@ -12,11 +12,11 @@ startScreenStateClass::startScreenStateClass()
     sf::Text baseMessage;
     baseMessage.setCharacterSize(80);
     baseMessage.setFont(global::font);
-    baseMessage.setString("> start IBG.exe");
+    baseMessage.setString("> start IBG.exe_");
 
     messageToShow.setCharacterSize(80);
     messageToShow.setFont(global::font);
-    messageToShow.setColor(sf::Color::Green);
+    messageToShow.setFillColor(sf::Color::Green);
     messageToShow.setOrigin(0, static_cast<int>(baseMessage.getLocalBounds().top));
     messageToShow.setPosition((WIDTH_SCREEN / 2) - (baseMessage.getGlobalBounds().width / 2), (HEIGHT_SCREEN / 2) - (baseMessage.getGlobalBounds().height / 2));
 
