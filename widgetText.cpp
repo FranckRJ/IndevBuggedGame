@@ -38,9 +38,9 @@ void widgetTextClass::update()
         timerForBlink.restart();
     }
 
-    if(textIsBugged == true)
+    if(textIsBugged)
     {
-        if(isInBug == false)
+        if(!isInBug)
         {
             if(timerForBug.getElapsedTime().asSeconds() > 0.5)
             {
@@ -105,7 +105,7 @@ void widgetTextClass::setCentralVerticalPos(int newPosY)
 void widgetTextClass::setMessage(std::string newMessage, bool isOriginalMessage)
 {
     messageToShow.setString(newMessage);
-    if(isOriginalMessage == true)
+    if(isOriginalMessage)
     {
         originalMessage = newMessage;
         messageToShow.setOrigin(0, static_cast<int>(messageToShow.getLocalBounds().top));

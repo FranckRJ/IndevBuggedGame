@@ -63,7 +63,7 @@ bool playerPlayClass::applyMove()
     {
         position = movement->moveCharacterTo(infoForMove, currentDir, position);
 
-        if(currentFrame % 8 == 0 && infoForMove.isInJump == false && infoForMove.currentVerticalVelocity < (GRAVITY * 2))
+        if(currentFrame % 8 == 0 && !(infoForMove.isInJump) && infoForMove.currentVerticalVelocity < (GRAVITY * 2))
         {
             if(currentDir == RIGHT)
             {
@@ -100,7 +100,7 @@ void playerPlayClass::applySpriteDeformation()
     {
         if(spriteWidthDeformationNeeded < 0)
         {
-            if (moveSpriteWidthDeformation(-2) == false)
+            if (!moveSpriteWidthDeformation(-2))
             {
                 spriteWidthDeformationNeeded = 0;
             }
@@ -111,7 +111,7 @@ void playerPlayClass::applySpriteDeformation()
         }
         else
         {
-            if (moveSpriteWidthDeformation(2) == false)
+            if (!moveSpriteWidthDeformation(2))
             {
                 spriteWidthDeformationNeeded = 0;
             }
@@ -197,7 +197,7 @@ void playerPlayClass::startJump()
 {
     if(movement.get() != nullptr)
     {
-        if(movement->startJump(infoForMove) == true)
+        if(movement->startJump(infoForMove))
         {
             spriteWidthDeformationNeeded -= 4;
         }

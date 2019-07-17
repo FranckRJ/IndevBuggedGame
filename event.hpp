@@ -8,7 +8,7 @@ struct eventInfo
     bool isUpdateEvent = false;
     bool isShowMessageEvent = false;
     std::string messageToShow;
-    float newVersion;
+    double newVersion;
 };
 
 class eventClass

@@ -16,7 +16,7 @@ struct levelInfo
     std::list<std::unique_ptr<eventClass>> listOfEvent;
     sf::IntRect limitOfGame;
     sf::Vector2i playerStartPosition;
-    float initialGameVersion;
+    double initialGameVersion;
     std::string nextLevelName;
 };
 

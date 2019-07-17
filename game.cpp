@@ -12,10 +12,10 @@ gameClass::gameClass()
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
     window.create(sf::VideoMode(WIDTH_SCREEN, HEIGHT_SCREEN), "Indev Bugged Game", sf::Style::Titlebar | sf::Style::Close, settings);
-	//window.setFramerateLimit(61);
-    window.setVerticalSyncEnabled(true);
+    window.setFramerateLimit(61);
+    //window.setVerticalSyncEnabled(true);
 
-    srand(time(NULL));
+    srand(time(nullptr));
 
     global::activeGameStateStack = &gameStateStack;
     global::font.loadFromFile("lucon.ttf");
@@ -34,7 +34,7 @@ void gameClass::run()
             gameStateStack.setChange(false);
             gameStateStack.update(window);
         }
-        while(gameStateStack.getChange() == true);
+        while(gameStateStack.getChange());
 
         gameStateStack.draw(window);
         window.display();

@@ -56,7 +56,7 @@ void mainMenuStateClass::update(sf::RenderWindow& window)
         {
             window.close();
         }
-        else if(event.type == sf::Event::KeyPressed && choiceIsSelected == false)
+        else if(event.type == sf::Event::KeyPressed && !choiceIsSelected)
         {
             if(event.key.code == sf::Keyboard::Up)
             {
@@ -91,7 +91,7 @@ void mainMenuStateClass::update(sf::RenderWindow& window)
         }
     }
 
-    if(choiceIsSelected == true && listOfButton[currentId].getNumberOfBlinkNeeded() == 0)
+    if(choiceIsSelected && listOfButton[currentId].getNumberOfBlinkNeeded() == 0)
     {
         if(currentId == 0)
         {
@@ -99,7 +99,7 @@ void mainMenuStateClass::update(sf::RenderWindow& window)
         }
         else if(currentId == 1)
         {
-            //global::activeGameStateStack->add(new screenTransitionStateClass(new editLevelStateClass("level4.txt"), sf::Color::Black, 25));
+            global::activeGameStateStack->add(new screenTransitionStateClass(new editLevelStateClass("level4.txt"), sf::Color::Black, 25));
         }
 
         choiceIsSelected = false;

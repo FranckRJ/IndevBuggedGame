@@ -9,7 +9,7 @@ void particleMotorClass::update()
     {
         (*thisParticle)->update();
 
-        if((*thisParticle)->getIsDead() == true)
+        if((*thisParticle)->getIsDead())
         {
             listOfParticle.erase(thisParticle++);
             continue;

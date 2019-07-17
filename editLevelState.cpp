@@ -46,6 +46,7 @@ void editLevelStateClass::update(sf::RenderWindow& window)
             }
             else if(event.key.code == sf::Keyboard::L)
             {
+                infoForLevel.mapOfGame.clear();
                 levelManagerClass::loadBasicLevelFromFile(infoForLevel, currentLevelName);
                 playerSprite.setPosition(infoForLevel.playerStartPosition.x, infoForLevel.playerStartPosition.y);
             }

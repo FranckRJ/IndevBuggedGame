@@ -20,7 +20,7 @@ blockClass::blockClass(blockInfo newInfoForBlock, blockType newTypeOfBlock) : bl
 
 void blockClass::update()
 {
-    if(collideCheckLastFrame == true)
+    if(collideCheckLastFrame)
     {
         collideCheckLastFrame = false;
     }

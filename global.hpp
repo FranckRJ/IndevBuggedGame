@@ -13,7 +13,7 @@
 
 struct global
 {
-    static float versionOfGame;
+    static double versionOfGame;
     static gameStateStackClass* activeGameStateStack;
     static sf::Font font;
 };

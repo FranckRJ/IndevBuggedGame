@@ -30,9 +30,9 @@ void messageStateClass::update(sf::RenderWindow& window)
             }
             else if(event.key.code == sf::Keyboard::Space || event.key.code == sf::Keyboard::Return)
             {
-                if(timeToLeave == false)
+                if(!timeToLeave)
                 {
-                    if(showMessage == false)
+                    if(!showMessage)
                     {
                         for(rectForMessage& rect : listOfRect)
                         {
@@ -56,9 +56,9 @@ void messageStateClass::update(sf::RenderWindow& window)
 
     for(auto it = listOfRect.begin(); it != listOfRect.end(); )
     {
-        if(timeToLeave == false)
+        if(!timeToLeave)
         {
-            if(it->endOfIncrease == false)
+            if(!(it->endOfIncrease))
             {
                 if(time.getElapsedTime().asSeconds() > it->timeUntilStart)
                 {
@@ -79,7 +79,7 @@ void messageStateClass::update(sf::RenderWindow& window)
         {
             if(time.getElapsedTime().asSeconds() > it->timeUntilHide)
             {
-                if(changeSizeOfRect(*it, sf::Vector2i(-it->speedIncrease.x, -it->speedIncrease.y), sf::Vector2i(1, 1), -1) == true)
+                if(changeSizeOfRect(*it, sf::Vector2i(-it->speedIncrease.x, -it->speedIncrease.y), sf::Vector2i(1, 1), -1))
                 {
                     it = listOfRect.erase(it);
                     continue;
@@ -90,7 +90,7 @@ void messageStateClass::update(sf::RenderWindow& window)
         ++it;
     }
 
-    if(listOfRect.empty() == true)
+    if(listOfRect.empty())
     {
         global::activeGameStateStack->pop();
         return;
@@ -108,7 +108,7 @@ void messageStateClass::draw(sf::RenderWindow& window)
         window.draw(rect.rect);
     }
 
-    if(showMessage == true)
+    if(showMessage)
     {
         window.draw(messageToShow);
     }

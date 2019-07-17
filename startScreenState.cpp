@@ -91,27 +91,30 @@ void startScreenStateClass::update(sf::RenderWindow& window)
         }
     }
 
-    if(listOfInstruction.front().typeOfInstruction == "SET_MESSAGE")
+    if (!listOfInstruction.empty())
     {
-        messageToShow.setString(listOfInstruction.front().infoForInstruction);
-        listOfInstruction.pop_front();
-    }
-    else if(listOfInstruction.front().typeOfInstruction == "WAIT")
-    {
-        if(waiting == false)
+        if(listOfInstruction.front().typeOfInstruction == "SET_MESSAGE")
         {
-            waiting = true;
-            timer.restart();
-        }
-
-        if(timer.getElapsedTime().asSeconds() > std::atof(listOfInstruction.front().infoForInstruction.c_str()))
-        {
-            waiting = false;
+            messageToShow.setString(listOfInstruction.front().infoForInstruction);
             listOfInstruction.pop_front();
         }
+        else if(listOfInstruction.front().typeOfInstruction == "WAIT")
+        {
+            if(!waiting)
+            {
+                waiting = true;
+                timer.restart();
+            }
+
+            if(timer.getElapsedTime().asSeconds() > std::atof(listOfInstruction.front().infoForInstruction.c_str()))
+            {
+                waiting = false;
+                listOfInstruction.pop_front();
+            }
+        }
     }
 
-    if(listOfInstruction.empty() == true)
+    if(listOfInstruction.empty())
     {
         global::activeGameStateStack->add(new screenTransitionStateClass(new mainMenuStateClass, sf::Color::Black, 25));
     }

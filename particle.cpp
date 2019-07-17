@@ -36,7 +36,7 @@ void particleClass::update()
 
     sprite.move(infoForParticle.horizontalVelocity, infoForParticle.verticalVelocity);
 
-    if(infoForParticle.attractedByGravity == true)
+    if(infoForParticle.attractedByGravity)
     {
         infoForParticle.verticalVelocity += GRAVITY;
     }

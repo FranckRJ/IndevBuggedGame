@@ -47,7 +47,7 @@ void gameStateStackClass::popBefore()
 
 void gameStateStackClass::update(sf::RenderWindow& window)
 {
-    if(listOfState.empty() == false)
+    if(!listOfState.empty())
     {
         listOfState.back()->update(window);
     }
@@ -65,7 +65,7 @@ void gameStateStackClass::oldUpdate(sf::RenderWindow& window)
 
 void gameStateStackClass::draw(sf::RenderWindow& window)
 {
-    if(listOfState.empty() == false)
+    if(!listOfState.empty())
     {
         listOfState.back()->draw(window);
     }

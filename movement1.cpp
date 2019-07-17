@@ -53,7 +53,7 @@ void movement1Class::enterInCollide(moveInfo& infoForMove, direction dir)
 
 bool movement1Class::startJump(moveInfo& infoForMove)
 {
-    if((global::versionOfGame > 1.25 && infoForMove.canJump == true) || (global::versionOfGame > 1.15 && global::versionOfGame < 1.25))
+    if((global::versionOfGame > 1.25 && infoForMove.canJump) || (global::versionOfGame > 1.15 && global::versionOfGame < 1.25))
     {
         infoForMove.currentVerticalVelocity = infoForMove.jumpPower;
         infoForMove.canJump = false;

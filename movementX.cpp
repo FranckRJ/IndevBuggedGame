@@ -36,7 +36,7 @@ void movementXClass::enterInCollide(moveInfo& infoForMove, direction dir)
 
 bool movementXClass::startJump(moveInfo& infoForMove)
 {
-    if(infoForMove.canJump == true)
+    if(infoForMove.canJump)
     {
         infoForMove.currentVerticalVelocity = infoForMove.jumpPower;
         infoForMove.canJump = false;

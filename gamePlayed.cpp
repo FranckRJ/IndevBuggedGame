@@ -28,7 +28,7 @@ void gamePlayedClass::update()
         checkCharacterCollideWithBlock(playerPlay, playerPlay.getDirection(), true);
         setCameraToCharacter(playerPlay);
     }
-    while(continueMove == true);
+    while(continueMove);
 
     do
     {
@@ -37,10 +37,10 @@ void gamePlayedClass::update()
         checkCharacterCollideWithBlock(playerPlay, playerPlay.getVerticalDirection(), true);
         setCameraToCharacter(playerPlay);
     }
-    while(continueMove == true);
+    while(continueMove);
 
     checkCharacterInBorder(playerPlay);
-    if(checkCharacterCollideWithBlock(playerPlay, playerPlay.getDirection()) == true)
+    if(checkCharacterCollideWithBlock(playerPlay, playerPlay.getDirection()))
     {
         setCameraToCharacter(playerPlay);
         return;
@@ -60,7 +60,7 @@ void gamePlayedClass::update()
             if(block != infoForLevel.mapOfGame.end())
             {
                 block->second->update();
-                if(block->second->getBlockInfo().isForeGroundBlock == true)
+                if(block->second->getBlockInfo().isForeGroundBlock)
                 {
                     listOfForegroundBlock.push_back(block->second.get());
                 }
@@ -68,7 +68,7 @@ void gamePlayedClass::update()
         }
     }
 
-    if(playerPlay.getIsDead() == true)
+    if(playerPlay.getIsDead())
     {
         global::activeGameStateStack->add(new screenTransitionStateClass(new playStateClass(currentLevelName), sf::Color::Black, 25));
     }
@@ -143,29 +143,29 @@ bool gamePlayedClass::checkCharacterCollideWithBlock(characterClass& character, 
 
             if(block != infoForLevel.mapOfGame.end())
             {
-                if(block->second->getBlockInfo().isOnlyOneBlock == true && block->second->getOldCollide() == true)
+                if(block->second->getBlockInfo().isOnlyOneBlock && block->second->getOldCollide())
                 {
                     block->second->isCollideWith(character.getCollideBox(), dir);
                 }
                 else
                 {
-                    if(onlySolid == true)
+                    if(onlySolid)
                     {
-                        if(block->second->getBlockInfo().isSolidBlock == true && block->second->isCollideWith(character.getCollideBox(), dir) == true)
+                        if(block->second->getBlockInfo().isSolidBlock && block->second->isCollideWith(character.getCollideBox(), dir))
                         {
                             character.hasEnterInCollide(dir);
                             character.setPosition(block->second->getNewPosOf(character.getCollideBox(), dir));
                         }
                     }
-                    else if(block->second->isCollideWith(character.getCollideBox(), dir) == true)
+                    else if(block->second->isCollideWith(character.getCollideBox(), dir))
                     {
-                        if(block->second->getBlockInfo().isKillPlayerBlock == true)
+                        if(block->second->getBlockInfo().isKillPlayerBlock)
                         {
                             character.setIsDead(true);
                         }
-                        if(block->second->getBlockInfo().isFinishBlock == true)
+                        if(block->second->getBlockInfo().isFinishBlock)
                         {
-                            if(infoForLevel.nextLevelName.empty() == true)
+                            if(infoForLevel.nextLevelName.empty())
                             {
                                 infoForLevel.nextLevelName = currentLevelName;
                             }
@@ -185,15 +185,15 @@ void gamePlayedClass::checkCharacterCollideWithEvent(characterClass& character)
 {
     for(auto eventIte = infoForLevel.listOfEvent.begin(); eventIte != infoForLevel.listOfEvent.end(); )
     {
-        if((*eventIte)->isCollideWith(character.getCollideBox()) == true)
+        if((*eventIte)->isCollideWith(character.getCollideBox()))
         {
-            if((*eventIte)->getEventInfo().isUpdateEvent == true)
+            if((*eventIte)->getEventInfo().isUpdateEvent)
             {
                 global::versionOfGame = (*eventIte)->getEventInfo().newVersion;
 
                 updateGameVersion();
             }
-            if((*eventIte)->getEventInfo().isShowMessageEvent == true)
+            if((*eventIte)->getEventInfo().isShowMessageEvent)
             {
                 messageManagerClass::addMessageStateToStack("NORMAL_MESSAGE", (*eventIte)->getEventInfo().messageToShow);
                 infoForLevel.listOfEvent.erase(eventIte++);

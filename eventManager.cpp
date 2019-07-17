@@ -16,7 +16,7 @@ eventInfo eventManagerClass::getEventInfoFor(std::string eventName, std::string 
         infoForEvent.newVersion = utilitiesClass::stringToDouble(utilitiesClass::readFirstString(additionnalInfo));
         infoForEvent.messageToShow = utilitiesClass::addNewLine(additionnalInfo);
 
-        if(infoForEvent.messageToShow.empty() == false)
+        if(!infoForEvent.messageToShow.empty())
         {
             infoForEvent.isShowMessageEvent = true;
         }

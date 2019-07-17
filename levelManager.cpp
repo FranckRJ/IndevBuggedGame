@@ -132,7 +132,7 @@ void levelManagerClass::loadBasicLevelFromFile(basicLevelInfo& currentLevel, std
         {
             std::string newLine = firstWordOfLine;
 
-            if(currentLine.empty() == false)
+            if(!currentLine.empty())
             {
                 newLine += " " + currentLine;
             }
