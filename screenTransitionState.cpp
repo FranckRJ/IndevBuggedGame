@@ -1,21 +1,20 @@
 #include "screenTransitionState.hpp"
 #include "global.hpp"
 
-screenTransitionStateClass::screenTransitionStateClass(gameStateClass* newState, sf::Color color, int newSpeed)
+screenTransitionStateClass::screenTransitionStateClass(std::unique_ptr<gameStateClass>&& newState, sf::Color color, int newSpeed) : stateToSet(std::move(newState))
 {
-    sf::Color colorOfSprite = color;
-    speed = newSpeed;
+    sf::Color colorOfFadeEffect = color;
+    speedOfFade = newSpeed;
 
-    colorOfSprite.a = 0;
-    stateToAdd.reset(newState);
-    sprite.setFillColor(colorOfSprite);
-    sprite.setSize(sf::Vector2f(WIDTH_SCREEN, HEIGHT_SCREEN));
+    colorOfFadeEffect.a = 0;
+    fadeEffect.setFillColor(colorOfFadeEffect);
+    fadeEffect.setSize(sf::Vector2f(WIDTH_SCREEN, HEIGHT_SCREEN));
 }
 
 void screenTransitionStateClass::update(sf::RenderWindow& window)
 {
     sf::Event event;
-    sf::Color newColor = sprite.getFillColor();
+    sf::Color newColor = fadeEffect.getFillColor();
 
     while(window.pollEvent(event))
     {
@@ -25,34 +24,35 @@ void screenTransitionStateClass::update(sf::RenderWindow& window)
         }
     }
 
-    if(speed > 0)
+    if(speedOfFade > 0)
     {
-        if(newColor.a + speed >= 255)
+        if(newColor.a + speedOfFade >= 255)
         {
             newColor.a = 255;
-            speed = -speed;
+            speedOfFade = -speedOfFade;
             global::activeGameStateStack->popBefore();
-            global::activeGameStateStack->addBefore(std::unique_ptr<gameStateClass>(stateToAdd.release()));
+            global::activeGameStateStack->addBefore(std::move(stateToSet));
+            stateToSet.release(); //normalement pas utile mais on sait jamais.
         }
         else
         {
-            newColor.a += speed;
+            newColor.a += speedOfFade;
         }
     }
     else
     {
-        if(newColor.a + speed <= 0)
+        if(newColor.a + speedOfFade <= 0)
         {
             global::activeGameStateStack->pop();
             return;
         }
         else
         {
-            newColor.a += speed;
+            newColor.a += speedOfFade;
         }
     }
 
-    sprite.setFillColor(newColor);
+    fadeEffect.setFillColor(newColor);
 }
 
 void screenTransitionStateClass::draw(sf::RenderWindow& window)
@@ -61,5 +61,5 @@ void screenTransitionStateClass::draw(sf::RenderWindow& window)
 
     window.setView(window.getDefaultView());
 
-    window.draw(sprite);
+    window.draw(fadeEffect);
 }

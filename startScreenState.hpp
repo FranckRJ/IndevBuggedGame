@@ -9,8 +9,8 @@
 struct instructionStruct
 {
     std::string typeOfInstruction;
-    std::string infoForInstruction;
-    instructionStruct(std::string baseType, std::string baseInfo) : typeOfInstruction(baseType), infoForInstruction(baseInfo) {}
+    std::string infosForInstruction;
+    instructionStruct(std::string baseType, std::string baseInfo) : typeOfInstruction(baseType), infosForInstruction(baseInfo) {}
 };
 
 class startScreenStateClass : public gameStateClass
@@ -20,10 +20,10 @@ public:
     void update(sf::RenderWindow& window);
     void draw(sf::RenderWindow& window);
 private:
-    std::list<instructionStruct> listOfInstruction;
-    sf::Text messageToShow;
+    std::list<instructionStruct> listOfInstructions;
+    sf::Text currentMessage;
     sf::Clock timer;
-    bool waiting;
+    bool isWaiting = false;
 };
 
 #endif

@@ -70,7 +70,7 @@ void gamePlayedClass::update()
 
     if(playerPlay.getIsDead())
     {
-        global::activeGameStateStack->add(std::make_unique<screenTransitionStateClass>(new playStateClass(currentLevelName), sf::Color::Black, 25));
+        global::activeGameStateStack->add(std::make_unique<screenTransitionStateClass>(std::make_unique<playStateClass>(currentLevelName), sf::Color::Black, 25));
     }
 }
 
@@ -169,7 +169,7 @@ bool gamePlayedClass::checkCharacterCollideWithBlock(characterClass& character, 
                             {
                                 infoForLevel.nextLevelName = currentLevelName;
                             }
-                            global::activeGameStateStack->add(std::make_unique<screenTransitionStateClass>(new playStateClass(infoForLevel.nextLevelName), sf::Color::Black, 25));
+                            global::activeGameStateStack->add(std::make_unique<screenTransitionStateClass>(std::make_unique<playStateClass>(infoForLevel.nextLevelName), sf::Color::Black, 25));
                             return true;
                         }
                     }

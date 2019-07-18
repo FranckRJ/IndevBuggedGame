@@ -1,5 +1,3 @@
-#include <cstdlib>
-
 #include "startScreenState.hpp"
 #include "screenTransitionState.hpp"
 #include "mainMenuState.hpp"
@@ -7,69 +5,67 @@
 
 startScreenStateClass::startScreenStateClass()
 {
-    waiting = false;
+    sf::Text finalMessage;
+    finalMessage.setCharacterSize(80);
+    finalMessage.setFont(global::font);
+    finalMessage.setString("> start IBG.exe_");
 
-    sf::Text baseMessage;
-    baseMessage.setCharacterSize(80);
-    baseMessage.setFont(global::font);
-    baseMessage.setString("> start IBG.exe_");
+    currentMessage.setCharacterSize(80);
+    currentMessage.setFont(global::font);
+    currentMessage.setFillColor(sf::Color::Green);
+    currentMessage.setOrigin(0, static_cast<int>(finalMessage.getLocalBounds().top));
+    currentMessage.setPosition((WIDTH_SCREEN / 2) - (finalMessage.getGlobalBounds().width / 2), (HEIGHT_SCREEN / 2) - (finalMessage.getGlobalBounds().height / 2));
 
-    messageToShow.setCharacterSize(80);
-    messageToShow.setFont(global::font);
-    messageToShow.setFillColor(sf::Color::Green);
-    messageToShow.setOrigin(0, static_cast<int>(baseMessage.getLocalBounds().top));
-    messageToShow.setPosition((WIDTH_SCREEN / 2) - (baseMessage.getGlobalBounds().width / 2), (HEIGHT_SCREEN / 2) - (baseMessage.getGlobalBounds().height / 2));
-
-    listOfInstruction.push_back(instructionStruct("SET_MESSAGE", "> _"));
-    listOfInstruction.push_back(instructionStruct("WAIT", "0.5"));
-    listOfInstruction.push_back(instructionStruct("SET_MESSAGE", "> "));
-    listOfInstruction.push_back(instructionStruct("WAIT", "0.5"));
-    listOfInstruction.push_back(instructionStruct("SET_MESSAGE", "> _"));
-    listOfInstruction.push_back(instructionStruct("WAIT", "0.5"));
-    listOfInstruction.push_back(instructionStruct("SET_MESSAGE", "> "));
-    listOfInstruction.push_back(instructionStruct("WAIT", "0.5"));
-    listOfInstruction.push_back(instructionStruct("SET_MESSAGE", "> _"));
-    listOfInstruction.push_back(instructionStruct("WAIT", "0.5"));
-    listOfInstruction.push_back(instructionStruct("SET_MESSAGE", "> s_"));
-    listOfInstruction.push_back(instructionStruct("WAIT", "0.1"));
-    listOfInstruction.push_back(instructionStruct("SET_MESSAGE", "> st_"));
-    listOfInstruction.push_back(instructionStruct("WAIT", "0.1"));
-    listOfInstruction.push_back(instructionStruct("SET_MESSAGE", "> sta_"));
-    listOfInstruction.push_back(instructionStruct("WAIT", "0.1"));
-    listOfInstruction.push_back(instructionStruct("SET_MESSAGE", "> star_"));
-    listOfInstruction.push_back(instructionStruct("WAIT", "0.1"));
-    listOfInstruction.push_back(instructionStruct("SET_MESSAGE", "> start_"));
-    listOfInstruction.push_back(instructionStruct("WAIT", "0.1"));
-    listOfInstruction.push_back(instructionStruct("SET_MESSAGE", "> start _"));
-    listOfInstruction.push_back(instructionStruct("WAIT", "0.1"));
-    listOfInstruction.push_back(instructionStruct("SET_MESSAGE", "> start I_"));
-    listOfInstruction.push_back(instructionStruct("WAIT", "0.1"));
-    listOfInstruction.push_back(instructionStruct("SET_MESSAGE", "> start IB_"));
-    listOfInstruction.push_back(instructionStruct("WAIT", "0.1"));
-    listOfInstruction.push_back(instructionStruct("SET_MESSAGE", "> start IBG_"));
-    listOfInstruction.push_back(instructionStruct("WAIT", "0.1"));
-    listOfInstruction.push_back(instructionStruct("SET_MESSAGE", "> start IBG._"));
-    listOfInstruction.push_back(instructionStruct("WAIT", "0.1"));
-    listOfInstruction.push_back(instructionStruct("SET_MESSAGE", "> start IBG.e_"));
-    listOfInstruction.push_back(instructionStruct("WAIT", "0.1"));
-    listOfInstruction.push_back(instructionStruct("SET_MESSAGE", "> start IBG.ex_"));
-    listOfInstruction.push_back(instructionStruct("WAIT", "0.1"));
-    listOfInstruction.push_back(instructionStruct("SET_MESSAGE", "> start IBG.exe_"));
-    listOfInstruction.push_back(instructionStruct("WAIT", "0.5"));
-    listOfInstruction.push_back(instructionStruct("SET_MESSAGE", "> start IBG.exe"));
-    listOfInstruction.push_back(instructionStruct("WAIT", "0.5"));
-    listOfInstruction.push_back(instructionStruct("SET_MESSAGE", "> start IBG.exe_"));
-    listOfInstruction.push_back(instructionStruct("WAIT", "0.5"));
-    listOfInstruction.push_back(instructionStruct("SET_MESSAGE", "> start IBG.exe"));
-    listOfInstruction.push_back(instructionStruct("WAIT", "0.5"));
-    listOfInstruction.push_back(instructionStruct("SET_MESSAGE", "> start IBG.exe_"));
-    listOfInstruction.push_back(instructionStruct("WAIT", "0.5"));
-    listOfInstruction.push_back(instructionStruct("SET_MESSAGE", "> start IBG.exe"));
-    listOfInstruction.push_back(instructionStruct("WAIT", "0.5"));
-    listOfInstruction.push_back(instructionStruct("SET_MESSAGE", "> start IBG.exe_"));
-    listOfInstruction.push_back(instructionStruct("WAIT", "0.5"));
-    listOfInstruction.push_back(instructionStruct("SET_MESSAGE", "> start IBG.exe"));
-    listOfInstruction.push_back(instructionStruct("WAIT", "0.1"));
+    listOfInstructions.push_back(instructionStruct("SET_MESSAGE", "> _"));
+    listOfInstructions.push_back(instructionStruct("WAIT", "0.5"));
+    listOfInstructions.push_back(instructionStruct("SET_MESSAGE", "> "));
+    listOfInstructions.push_back(instructionStruct("WAIT", "0.5"));
+    listOfInstructions.push_back(instructionStruct("SET_MESSAGE", "> _"));
+    listOfInstructions.push_back(instructionStruct("WAIT", "0.5"));
+    listOfInstructions.push_back(instructionStruct("SET_MESSAGE", "> "));
+    listOfInstructions.push_back(instructionStruct("WAIT", "0.5"));
+    listOfInstructions.push_back(instructionStruct("SET_MESSAGE", "> _"));
+    listOfInstructions.push_back(instructionStruct("WAIT", "0.5"));
+    listOfInstructions.push_back(instructionStruct("SET_MESSAGE", "> s_"));
+    listOfInstructions.push_back(instructionStruct("WAIT", "0.1"));
+    listOfInstructions.push_back(instructionStruct("SET_MESSAGE", "> st_"));
+    listOfInstructions.push_back(instructionStruct("WAIT", "0.1"));
+    listOfInstructions.push_back(instructionStruct("SET_MESSAGE", "> sta_"));
+    listOfInstructions.push_back(instructionStruct("WAIT", "0.1"));
+    listOfInstructions.push_back(instructionStruct("SET_MESSAGE", "> star_"));
+    listOfInstructions.push_back(instructionStruct("WAIT", "0.1"));
+    listOfInstructions.push_back(instructionStruct("SET_MESSAGE", "> start_"));
+    listOfInstructions.push_back(instructionStruct("WAIT", "0.1"));
+    listOfInstructions.push_back(instructionStruct("SET_MESSAGE", "> start _"));
+    listOfInstructions.push_back(instructionStruct("WAIT", "0.1"));
+    listOfInstructions.push_back(instructionStruct("SET_MESSAGE", "> start I_"));
+    listOfInstructions.push_back(instructionStruct("WAIT", "0.1"));
+    listOfInstructions.push_back(instructionStruct("SET_MESSAGE", "> start IB_"));
+    listOfInstructions.push_back(instructionStruct("WAIT", "0.1"));
+    listOfInstructions.push_back(instructionStruct("SET_MESSAGE", "> start IBG_"));
+    listOfInstructions.push_back(instructionStruct("WAIT", "0.1"));
+    listOfInstructions.push_back(instructionStruct("SET_MESSAGE", "> start IBG._"));
+    listOfInstructions.push_back(instructionStruct("WAIT", "0.1"));
+    listOfInstructions.push_back(instructionStruct("SET_MESSAGE", "> start IBG.e_"));
+    listOfInstructions.push_back(instructionStruct("WAIT", "0.1"));
+    listOfInstructions.push_back(instructionStruct("SET_MESSAGE", "> start IBG.ex_"));
+    listOfInstructions.push_back(instructionStruct("WAIT", "0.1"));
+    listOfInstructions.push_back(instructionStruct("SET_MESSAGE", "> start IBG.exe_"));
+    listOfInstructions.push_back(instructionStruct("WAIT", "0.5"));
+    listOfInstructions.push_back(instructionStruct("SET_MESSAGE", "> start IBG.exe"));
+    listOfInstructions.push_back(instructionStruct("WAIT", "0.5"));
+    listOfInstructions.push_back(instructionStruct("SET_MESSAGE", "> start IBG.exe_"));
+    listOfInstructions.push_back(instructionStruct("WAIT", "0.5"));
+    listOfInstructions.push_back(instructionStruct("SET_MESSAGE", "> start IBG.exe"));
+    listOfInstructions.push_back(instructionStruct("WAIT", "0.5"));
+    listOfInstructions.push_back(instructionStruct("SET_MESSAGE", "> start IBG.exe_"));
+    listOfInstructions.push_back(instructionStruct("WAIT", "0.5"));
+    listOfInstructions.push_back(instructionStruct("SET_MESSAGE", "> start IBG.exe"));
+    listOfInstructions.push_back(instructionStruct("WAIT", "0.5"));
+    listOfInstructions.push_back(instructionStruct("SET_MESSAGE", "> start IBG.exe_"));
+    listOfInstructions.push_back(instructionStruct("WAIT", "0.5"));
+    listOfInstructions.push_back(instructionStruct("SET_MESSAGE", "> start IBG.exe"));
+    listOfInstructions.push_back(instructionStruct("WAIT", "0.1"));
 }
 
 void startScreenStateClass::update(sf::RenderWindow& window)
@@ -86,37 +82,37 @@ void startScreenStateClass::update(sf::RenderWindow& window)
         {
             if(event.key.code == sf::Keyboard::Space)
             {
-                listOfInstruction.clear();
+                listOfInstructions.clear();
             }
         }
     }
 
-    if (!listOfInstruction.empty())
+    if (!listOfInstructions.empty())
     {
-        if(listOfInstruction.front().typeOfInstruction == "SET_MESSAGE")
+        if(listOfInstructions.front().typeOfInstruction == "SET_MESSAGE")
         {
-            messageToShow.setString(listOfInstruction.front().infoForInstruction);
-            listOfInstruction.pop_front();
+            currentMessage.setString(listOfInstructions.front().infosForInstruction);
+            listOfInstructions.pop_front();
         }
-        else if(listOfInstruction.front().typeOfInstruction == "WAIT")
+        else if(listOfInstructions.front().typeOfInstruction == "WAIT")
         {
-            if(!waiting)
+            if(!isWaiting)
             {
-                waiting = true;
+                isWaiting = true;
                 timer.restart();
             }
 
-            if(timer.getElapsedTime().asSeconds() > std::atof(listOfInstruction.front().infoForInstruction.c_str()))
+            if(timer.getElapsedTime().asSeconds() > std::stof(listOfInstructions.front().infosForInstruction))
             {
-                waiting = false;
-                listOfInstruction.pop_front();
+                isWaiting = false;
+                listOfInstructions.pop_front();
             }
         }
     }
 
-    if(listOfInstruction.empty())
+    if(listOfInstructions.empty())
     {
-        global::activeGameStateStack->add(std::make_unique<screenTransitionStateClass>(new mainMenuStateClass, sf::Color::Black, 25));
+        global::activeGameStateStack->add(std::make_unique<screenTransitionStateClass>(std::make_unique<mainMenuStateClass>(), sf::Color::Black, 25));
     }
 }
 
@@ -124,5 +120,5 @@ void startScreenStateClass::draw(sf::RenderWindow& window)
 {
     window.setView(window.getDefaultView());
     window.clear(sf::Color::Black);
-    window.draw(messageToShow);
+    window.draw(currentMessage);
 }
