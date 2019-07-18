@@ -22,7 +22,7 @@ gameClass::gameClass()
     blockManagerClass::initialize();
     messageManagerClass::initialize();
     particleManagerClass::initialize();
-    gameStateStack.set(new startScreenStateClass);
+    gameStateStack.set(std::make_unique<startScreenStateClass>());
 }
 
 void gameClass::run()
@@ -31,10 +31,10 @@ void gameClass::run()
     {
         do
         {
-            gameStateStack.setChange(false);
+            gameStateStack.resetStackHasChanged();
             gameStateStack.update(window);
         }
-        while(gameStateStack.getChange());
+        while(gameStateStack.getStackHasChanged());
 
         gameStateStack.draw(window);
         window.display();

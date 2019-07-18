@@ -88,5 +88,5 @@ void messageManagerClass::addMessageStateToStack(std::string nameOfMessage, std:
     infos.second.setOrigin(infos.second.getGlobalBounds().width / 2, infos.second.getGlobalBounds().height / 2);
     infos.second.setPosition(infos.second.getPosition());
 
-    global::activeGameStateStack->add(new messageStateClass(infos.first, infos.second));
+    global::activeGameStateStack->add(std::make_unique<messageStateClass>(infos.first, infos.second));
 }

@@ -116,7 +116,7 @@ void startScreenStateClass::update(sf::RenderWindow& window)
 
     if(listOfInstruction.empty())
     {
-        global::activeGameStateStack->add(new screenTransitionStateClass(new mainMenuStateClass, sf::Color::Black, 25));
+        global::activeGameStateStack->add(std::make_unique<screenTransitionStateClass>(new mainMenuStateClass, sf::Color::Black, 25));
     }
 }
 

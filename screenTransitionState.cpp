@@ -32,7 +32,7 @@ void screenTransitionStateClass::update(sf::RenderWindow& window)
             newColor.a = 255;
             speed = -speed;
             global::activeGameStateStack->popBefore();
-            global::activeGameStateStack->addBefore(stateToAdd.release());
+            global::activeGameStateStack->addBefore(std::unique_ptr<gameStateClass>(stateToAdd.release()));
         }
         else
         {

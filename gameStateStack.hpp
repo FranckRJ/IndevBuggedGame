@@ -9,21 +9,20 @@
 class gameStateStackClass
 {
 public:
-    gameStateStackClass();
-    void set(gameStateClass* state);
-    void add(gameStateClass* state);
-    void addBefore(gameStateClass* state);
+    void set(std::unique_ptr<gameStateClass>&& state);
+    void add(std::unique_ptr<gameStateClass>&& state);
+    void addBefore(std::unique_ptr<gameStateClass>&& state);
     void pop();
     void popBefore();
     void update(sf::RenderWindow& window);
     void oldUpdate(sf::RenderWindow& window);
     void draw(sf::RenderWindow& window);
     void oldDraw(sf::RenderWindow& window);
-    bool getChange();
-    void setChange(bool newChange);
+    bool getStackHasChanged();
+    void resetStackHasChanged();
 private:
-    std::list<std::unique_ptr<gameStateClass>> listOfState;
-    bool change;
+    std::list<std::unique_ptr<gameStateClass>> listOfStates;
+    bool stackHasChanged = false;
 };
 
 #endif

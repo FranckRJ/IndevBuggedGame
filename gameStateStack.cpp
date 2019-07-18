@@ -1,63 +1,60 @@
+#include <utility>
+
 #include "gameStateStack.hpp"
 
-gameStateStackClass::gameStateStackClass()
+void gameStateStackClass::set(std::unique_ptr<gameStateClass>&& state)
 {
-    change = false;
+    listOfStates.clear();
+    add(std::move(state));
 }
 
-void gameStateStackClass::set(gameStateClass* state)
+void gameStateStackClass::add(std::unique_ptr<gameStateClass>&& state)
 {
-    listOfState.clear();
-    add(state);
+    stackHasChanged = true;
+    listOfStates.emplace_back(std::move(state));
 }
 
-void gameStateStackClass::add(gameStateClass* state)
+void gameStateStackClass::addBefore(std::unique_ptr<gameStateClass>&& state)
 {
-    change = true;
-    listOfState.push_back(std::unique_ptr<gameStateClass>(state));
-}
-
-void gameStateStackClass::addBefore(gameStateClass* state)
-{
-    if(listOfState.size() > 0)
+    if(listOfStates.size() > 0)
     {
-        auto it = listOfState.end();
-        change = true;
+        auto it = listOfStates.end();
+        stackHasChanged = true;
         --it;
-        listOfState.insert(it, std::unique_ptr<gameStateClass>(state));
+        listOfStates.emplace(it, std::move(state));
     }
 }
 
 void gameStateStackClass::pop()
 {
-    change = true;
-    listOfState.pop_back();
+    stackHasChanged = true;
+    listOfStates.pop_back();
 }
 
 void gameStateStackClass::popBefore()
 {
-    if(listOfState.size() >= 2)
+    if(listOfStates.size() >= 2)
     {
-        auto it = listOfState.end();
-        change = true;
+        auto it = listOfStates.end();
+        stackHasChanged = true;
         ----it;
-        listOfState.erase(it);
+        listOfStates.erase(it);
     }
 }
 
 void gameStateStackClass::update(sf::RenderWindow& window)
 {
-    if(!listOfState.empty())
+    if(!listOfStates.empty())
     {
-        listOfState.back()->update(window);
+        listOfStates.back()->update(window);
     }
 }
 
 void gameStateStackClass::oldUpdate(sf::RenderWindow& window)
 {
-    if(listOfState.size() >= 2)
+    if(listOfStates.size() >= 2)
     {
-        auto it = listOfState.rbegin();
+        auto it = listOfStates.rbegin();
         ++it;
         (*it)->update(window);
     }
@@ -65,28 +62,28 @@ void gameStateStackClass::oldUpdate(sf::RenderWindow& window)
 
 void gameStateStackClass::draw(sf::RenderWindow& window)
 {
-    if(!listOfState.empty())
+    if(!listOfStates.empty())
     {
-        listOfState.back()->draw(window);
+        listOfStates.back()->draw(window);
     }
 }
 
 void gameStateStackClass::oldDraw(sf::RenderWindow& window)
 {
-    if(listOfState.size() >= 2)
+    if(listOfStates.size() >= 2)
     {
-        auto it = listOfState.rbegin();
+        auto it = listOfStates.rbegin();
         ++it;
         (*it)->draw(window);
     }
 }
 
-bool gameStateStackClass::getChange()
+bool gameStateStackClass::getStackHasChanged()
 {
-    return change;
+    return stackHasChanged;
 }
 
-void gameStateStackClass::setChange(bool newChange)
+void gameStateStackClass::resetStackHasChanged()
 {
-    change = newChange;
+    stackHasChanged = false;
 }
