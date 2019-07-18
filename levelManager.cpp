@@ -20,7 +20,7 @@ void levelManagerClass::loadLevelFromFile(levelInfo& currentLevel, std::string f
     std::string currentType;
     std::string firstWordOfLine;
     std::ifstream file;
-    file.open(filePath);
+    file.open("resources/" + filePath);
 
     while(std::getline(file, currentLine))
     {
@@ -87,7 +87,7 @@ void levelManagerClass::loadBasicLevelFromFile(basicLevelInfo& currentLevel, std
     std::string currentType;
     std::string firstWordOfLine;
     std::ifstream file;
-    file.open(filePath);
+    file.open("resources/" + filePath);
 
     while(std::getline(file, currentLine))
     {
@@ -147,7 +147,7 @@ void levelManagerClass::loadBasicLevelFromFile(basicLevelInfo& currentLevel, std
 void levelManagerClass::saveBasicLevel(basicLevelInfo& currentLevel, std::string levelName)
 {
     std::ofstream file;
-    file.open(levelName);
+    file.open("resources/" + levelName);
 
     file << "SIZE_OF_LEVEL " << currentLevel.limitOfGame.width << " " << currentLevel.limitOfGame.height << std::endl;
     file << "PLAYER_POSITION " << currentLevel.playerStartPosition.x << " " << currentLevel.playerStartPosition.y << std::endl;

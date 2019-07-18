@@ -18,7 +18,7 @@ gameClass::gameClass()
     srand(time(nullptr));
 
     global::activeGameStateStack = &gameStateStack;
-    global::font.loadFromFile("lucon.ttf");
+    global::font.loadFromFile("resources/lucon.ttf");
     blockManagerClass::initialize();
     messageManagerClass::initialize();
     particleManagerClass::initialize();
