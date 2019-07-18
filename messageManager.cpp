@@ -21,7 +21,7 @@ void messageManagerClass::initialize()
         listOfRect.back().speedDecrease = sf::Vector2i(30, 30);
         listOfRect.back().trueSize.x = (WIDTH_SCREEN / 10) * 9;
         listOfRect.back().trueSize.y = (HEIGHT_SCREEN / 10) * 9;
-        listOfRect.back().timeUntilHide = 0.25;
+        listOfRect.back().timeUntilHide = 0.1;
 
         listOfRect.push_back(rectForMessage());
         listOfRect.back().origin = sf::Vector2i(WIDTH_SCREEN / 2, HEIGHT_SCREEN / 2);
@@ -30,7 +30,7 @@ void messageManagerClass::initialize()
         listOfRect.back().speedDecrease = sf::Vector2i(30, 30);
         listOfRect.back().trueSize.x = (WIDTH_SCREEN / 10) * 8;
         listOfRect.back().trueSize.y = (HEIGHT_SCREEN / 10) * 8;
-        listOfRect.back().timeUntilStart = 0.25;
+        listOfRect.back().timeUntilStart = 0.1;
 
         listOfMessage["NORMAL_MESSAGE"] = std::pair<std::vector<rectForMessage>, sf::Text>(listOfRect, messageToShow);
     }
@@ -60,7 +60,7 @@ void messageManagerClass::initialize()
         listOfRect.back().speedDecrease = sf::Vector2i(1000, 1000);
         listOfRect.back().trueSize.x = WIDTH_SCREEN;
         listOfRect.back().trueSize.y = HEIGHT_SCREEN;
-        listOfRect.back().timeUntilStart = 5;
+        listOfRect.back().timeUntilStart = 3;
 
         listOfMessage["CRASH_MESSAGE"] = std::pair<std::vector<rectForMessage>, sf::Text>(listOfRect, messageToShow);
     }
