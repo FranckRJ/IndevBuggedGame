@@ -16,7 +16,7 @@ void gameStateStackClass::add(std::unique_ptr<gameStateClass>&& state)
 
 void gameStateStackClass::addBefore(std::unique_ptr<gameStateClass>&& state)
 {
-    if(listOfStates.size() > 0)
+    if (listOfStates.size() > 0)
     {
         auto it = listOfStates.end();
         stackHasChanged = true;
@@ -33,7 +33,7 @@ void gameStateStackClass::pop()
 
 void gameStateStackClass::popBefore()
 {
-    if(listOfStates.size() >= 2)
+    if (listOfStates.size() >= 2)
     {
         auto it = listOfStates.end();
         stackHasChanged = true;
@@ -44,7 +44,7 @@ void gameStateStackClass::popBefore()
 
 void gameStateStackClass::update(sf::RenderWindow& window)
 {
-    if(!listOfStates.empty())
+    if (!listOfStates.empty())
     {
         listOfStates.back()->update(window);
     }
@@ -52,7 +52,7 @@ void gameStateStackClass::update(sf::RenderWindow& window)
 
 void gameStateStackClass::oldUpdate(sf::RenderWindow& window)
 {
-    if(listOfStates.size() >= 2)
+    if (listOfStates.size() >= 2)
     {
         auto it = listOfStates.rbegin();
         ++it;
@@ -62,7 +62,7 @@ void gameStateStackClass::oldUpdate(sf::RenderWindow& window)
 
 void gameStateStackClass::draw(sf::RenderWindow& window)
 {
-    if(!listOfStates.empty())
+    if (!listOfStates.empty())
     {
         listOfStates.back()->draw(window);
     }
@@ -70,7 +70,7 @@ void gameStateStackClass::draw(sf::RenderWindow& window)
 
 void gameStateStackClass::oldDraw(sf::RenderWindow& window)
 {
-    if(listOfStates.size() >= 2)
+    if (listOfStates.size() >= 2)
     {
         auto it = listOfStates.rbegin();
         ++it;

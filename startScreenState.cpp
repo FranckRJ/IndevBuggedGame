@@ -1,7 +1,7 @@
 #include "startScreenState.hpp"
-#include "screenTransitionState.hpp"
-#include "mainMenuState.hpp"
 #include "global.hpp"
+#include "mainMenuState.hpp"
+#include "screenTransitionState.hpp"
 
 startScreenStateClass::startScreenStateClass()
 {
@@ -14,7 +14,8 @@ startScreenStateClass::startScreenStateClass()
     currentMessage.setFont(global::font);
     currentMessage.setFillColor(sf::Color::Green);
     currentMessage.setOrigin(0, static_cast<int>(finalMessage.getLocalBounds().top));
-    currentMessage.setPosition((WIDTH_SCREEN / 2) - (finalMessage.getGlobalBounds().width / 2), (HEIGHT_SCREEN / 2) - (finalMessage.getGlobalBounds().height / 2));
+    currentMessage.setPosition((WIDTH_SCREEN / 2) - (finalMessage.getGlobalBounds().width / 2),
+                               (HEIGHT_SCREEN / 2) - (finalMessage.getGlobalBounds().height / 2));
 
     listOfInstructions.push_back(instructionStruct("SET_MESSAGE", "> _"));
     listOfInstructions.push_back(instructionStruct("WAIT", "0.5"));
@@ -72,15 +73,15 @@ void startScreenStateClass::update(sf::RenderWindow& window)
 {
     sf::Event event;
 
-    while(window.pollEvent(event))
+    while (window.pollEvent(event))
     {
-        if(event.type == sf::Event::Closed)
+        if (event.type == sf::Event::Closed)
         {
             window.close();
         }
-        else if(event.type == sf::Event::KeyPressed)
+        else if (event.type == sf::Event::KeyPressed)
         {
-            if(event.key.code == sf::Keyboard::Space)
+            if (event.key.code == sf::Keyboard::Space)
             {
                 listOfInstructions.clear();
             }
@@ -89,20 +90,20 @@ void startScreenStateClass::update(sf::RenderWindow& window)
 
     if (!listOfInstructions.empty())
     {
-        if(listOfInstructions.front().typeOfInstruction == "SET_MESSAGE")
+        if (listOfInstructions.front().typeOfInstruction == "SET_MESSAGE")
         {
             currentMessage.setString(listOfInstructions.front().infosForInstruction);
             listOfInstructions.pop_front();
         }
-        else if(listOfInstructions.front().typeOfInstruction == "WAIT")
+        else if (listOfInstructions.front().typeOfInstruction == "WAIT")
         {
-            if(!isWaiting)
+            if (!isWaiting)
             {
                 isWaiting = true;
                 timer.restart();
             }
 
-            if(timer.getElapsedTime().asSeconds() > std::stof(listOfInstructions.front().infosForInstruction))
+            if (timer.getElapsedTime().asSeconds() > std::stof(listOfInstructions.front().infosForInstruction))
             {
                 isWaiting = false;
                 listOfInstructions.pop_front();
@@ -110,9 +111,10 @@ void startScreenStateClass::update(sf::RenderWindow& window)
         }
     }
 
-    if(listOfInstructions.empty())
+    if (listOfInstructions.empty())
     {
-        global::activeGameStateStack->add(std::make_unique<screenTransitionStateClass>(std::make_unique<mainMenuStateClass>(), sf::Color::Black, 25));
+        global::activeGameStateStack->add(
+            std::make_unique<screenTransitionStateClass>(std::make_unique<mainMenuStateClass>(), sf::Color::Black, 25));
     }
 }
 

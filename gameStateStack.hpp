@@ -20,6 +20,7 @@ public:
     void oldDraw(sf::RenderWindow& window);
     bool getStackHasChanged();
     void resetStackHasChanged();
+
 private:
     std::list<std::unique_ptr<gameStateClass>> listOfStates;
     bool stackHasChanged = false;

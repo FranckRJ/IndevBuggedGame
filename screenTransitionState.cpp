@@ -1,7 +1,9 @@
 #include "screenTransitionState.hpp"
 #include "global.hpp"
 
-screenTransitionStateClass::screenTransitionStateClass(std::unique_ptr<gameStateClass>&& newState, sf::Color color, int newSpeed) : stateToSet(std::move(newState))
+screenTransitionStateClass::screenTransitionStateClass(std::unique_ptr<gameStateClass>&& newState, sf::Color color,
+                                                       int newSpeed)
+    : stateToSet(std::move(newState))
 {
     sf::Color colorOfFadeEffect = color;
     speedOfFade = newSpeed;
@@ -16,23 +18,23 @@ void screenTransitionStateClass::update(sf::RenderWindow& window)
     sf::Event event;
     sf::Color newColor = fadeEffect.getFillColor();
 
-    while(window.pollEvent(event))
+    while (window.pollEvent(event))
     {
-        if(event.type == sf::Event::Closed)
+        if (event.type == sf::Event::Closed)
         {
             window.close();
         }
     }
 
-    if(speedOfFade > 0)
+    if (speedOfFade > 0)
     {
-        if(newColor.a + speedOfFade >= 255)
+        if (newColor.a + speedOfFade >= 255)
         {
             newColor.a = 255;
             speedOfFade = -speedOfFade;
             global::activeGameStateStack->popBefore();
             global::activeGameStateStack->addBefore(std::move(stateToSet));
-            stateToSet.release(); //normalement pas utile mais on sait jamais.
+            stateToSet.release(); // normalement pas utile mais on sait jamais.
         }
         else
         {
@@ -41,7 +43,7 @@ void screenTransitionStateClass::update(sf::RenderWindow& window)
     }
     else
     {
-        if(newColor.a + speedOfFade <= 0)
+        if (newColor.a + speedOfFade <= 0)
         {
             global::activeGameStateStack->pop();
             return;
