@@ -34,6 +34,7 @@ SOURCES += \
         screenTransitionState.cpp \
         startScreenState.cpp \
         utilities.cpp \
+        versionNumber.cpp \
         widgetCursor.cpp \
         widgetText.cpp
 
@@ -64,5 +65,6 @@ HEADERS += \
     screenTransitionState.hpp \
     startScreenState.hpp \
     utilities.hpp \
+    versionNumber.hpp \
     widgetCursor.hpp \
     widgetText.hpp
