@@ -33,17 +33,18 @@ public:
     void setPosition(int newX, int newY);
     void setMovementForVersion();
     void setVisorForSprite();
+
 private:
     sf::RectangleShape sprite;
     sf::RectangleShape spriteVisor;
     sf::Vector2i baseSpriteSize;
     sf::Vector2i spriteSizeDeformation;
-    int currentFrame;
-    int spriteWidthDeformationNeeded;
+    int currentFrame = 0;
+    int spriteWidthDeformationNeeded = 0;
     particleMotorClass particleMotor;
-    std::unique_ptr<movementClass> movement;
-    direction currentDir;
-    direction lastDir;
+    movementClass movement;
+    direction currentDir = NONE;
+    direction lastDir = RIGHT;
 };
 
 #endif

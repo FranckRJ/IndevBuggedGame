@@ -10,6 +10,7 @@ LIBS += -lsfml-graphics -lsfml-window -lsfml-system
 SOURCES += \
         block.cpp \
         blockManager.cpp \
+        character.cpp \
         collision.cpp \
         collision1.cpp \
         editLevelState.cpp \
@@ -24,8 +25,7 @@ SOURCES += \
         mainMenuState.cpp \
         messageManager.cpp \
         messageState.cpp \
-        movement1.cpp \
-        movementX.cpp \
+        movement.cpp \
         particle.cpp \
         particleManager.cpp \
         particleMotor.cpp \
@@ -56,8 +56,6 @@ HEADERS += \
     messageManager.hpp \
     messageState.hpp \
     movement.hpp \
-    movement1.hpp \
-    movementX.hpp \
     particle.hpp \
     particleManager.hpp \
     particleMotor.hpp \
