@@ -1,5 +1,6 @@
 #include "playerPlay.hpp"
 #include "global.hpp"
+#include "utilities.hpp"
 
 playerPlayClass::playerPlayClass()
 {
@@ -83,7 +84,7 @@ bool playerPlayClass::applyMove()
 
 bool playerPlayClass::applyVerticalMove()
 {
-    if (infoForMove.currentVerticalVelocity != 0)
+    if (!utilitiesClass::doubleIsNear(infoForMove.currentVerticalVelocity, 0.0))
     {
         position = movement.applyGravity(infoForMove, position);
     }

@@ -14,6 +14,10 @@ public:
     static int stringToInt(std::string thisString);
     static double stringToDouble(std::string thisString);
     static std::string& addNewLine(std::string& thisString);
+    static bool doubleIsNear(double baseVal, double compareVal);
+
+private:
+    static constexpr double minDoublePrec = 0.000001;
 };
 
 #endif

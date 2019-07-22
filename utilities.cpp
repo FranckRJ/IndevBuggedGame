@@ -7,7 +7,7 @@ std::string utilitiesClass::readFirstString(std::string& thisString)
     size_t spacePos = thisString.find(' ');
     std::string tmpStr = thisString.substr(0, spacePos);
 
-    if(spacePos == std::string::npos)
+    if (spacePos == std::string::npos)
     {
         thisString.clear();
     }
@@ -23,7 +23,7 @@ std::vector<int> utilitiesClass::readNumber(std::string& thisString, int numberO
 {
     std::vector<int> listOfNumber;
 
-    for(int i = 0; i < numberOfNumber; ++i)
+    for (int i = 0; i < numberOfNumber; ++i)
     {
         listOfNumber.push_back(stringToInt(readFirstString(thisString)));
     }
@@ -35,7 +35,7 @@ std::vector<std::string> utilitiesClass::readString(std::string& thisString, int
 {
     std::vector<std::string> listOfString;
 
-    for(int i = 0; i < numberOfString; ++i)
+    for (int i = 0; i < numberOfString; ++i)
     {
         listOfString.push_back(readFirstString(thisString));
     }
@@ -75,11 +75,16 @@ double utilitiesClass::stringToDouble(std::string thisString)
 std::string& utilitiesClass::addNewLine(std::string& thisString)
 {
     size_t pos = 0;
-    while((pos = thisString.find("\\n", pos)) != std::string::npos)
+    while ((pos = thisString.find("\\n", pos)) != std::string::npos)
     {
         thisString.replace(pos, 2, "\n");
         pos += 1;
     }
 
     return thisString;
+}
+
+bool utilitiesClass::doubleIsNear(double baseVal, double compareVal)
+{
+    return ((baseVal - minDoublePrec) < compareVal && (baseVal + minDoublePrec) > compareVal);
 }
