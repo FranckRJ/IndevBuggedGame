@@ -5,6 +5,12 @@ CONFIG -= qt
 
 QMAKE_CXXFLAGS_RELEASE += -O2
 
+win32 {
+    LIBS += -L "C:\Program Files (x86)\SFML\lib"
+    INCLUDEPATH += "C:\Program Files (x86)\SFML\include"
+    DEPENDPATH += "C:\Program Files (x86)\SFML\include"
+}
+
 LIBS += -lsfml-graphics -lsfml-window -lsfml-system
 
 SOURCES += \
