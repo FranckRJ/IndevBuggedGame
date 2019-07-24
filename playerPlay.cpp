@@ -20,7 +20,7 @@ playerPlayClass::playerPlayClass()
 void playerPlayClass::update()
 {
     currentFrame = ((currentFrame + 1) % 64);
-    currentDir = NONE;
+    currentDir = direction::NONE;
 
     if (currentFrame % 2 == 0)
     {
@@ -55,25 +55,25 @@ void playerPlayClass::updateSpriteShape()
 
 bool playerPlayClass::applyMove()
 {
-    if (currentDir != NONE)
+    if (currentDir != direction::NONE)
     {
         position = movement.moveCharacterTo(infoForMove, currentDir, position);
 
         if (currentFrame % 8 == 0 && !(infoForMove.isInJump) && infoForMove.currentVerticalVelocity < (GRAVITY * 2))
         {
-            if (currentDir == RIGHT)
+            if (currentDir == direction::RIGHT)
             {
                 particleMotor.addParticle(sf::Vector2f(position.x, position.y + sizeOfCollideBox.y),
                                           -infoForMove.speed);
             }
-            else if (currentDir == LEFT)
+            else if (currentDir == direction::LEFT)
             {
                 particleMotor.addParticle(
                     sf::Vector2f(position.x + sizeOfCollideBox.x, position.y + sizeOfCollideBox.y), infoForMove.speed);
             }
         }
 
-        if (currentDir != NONE)
+        if (currentDir != direction::NONE)
         {
             lastDir = currentDir;
         }
@@ -166,7 +166,7 @@ bool playerPlayClass::moveSpriteWidthDeformation(int amount)
 
 void playerPlayClass::hasEnterInCollide(direction dir)
 {
-    if (dir == DOWN)
+    if (dir == direction::DOWN)
     {
         if (infoForMove.currentVerticalVelocity >= 32)
         {
@@ -230,15 +230,15 @@ direction playerPlayClass::getVerticalDirection()
 {
     if (infoForMove.currentVerticalVelocity < 0)
     {
-        return UP;
+        return direction::UP;
     }
     else if (infoForMove.currentVerticalVelocity > 0)
     {
-        return DOWN;
+        return direction::DOWN;
     }
     else
     {
-        return NONE;
+        return direction::NONE;
     }
 }
 
@@ -271,11 +271,11 @@ void playerPlayClass::setVisorForSprite()
 {
     spriteVisor.setSize(sf::Vector2f(sprite.getSize().x / 2, 10));
 
-    if (lastDir == RIGHT)
+    if (lastDir == direction::RIGHT)
     {
         spriteVisor.setPosition(sprite.getPosition().x + (sprite.getSize().x / 2), sprite.getPosition().y + 10);
     }
-    else if (lastDir == LEFT)
+    else if (lastDir == direction::LEFT)
     {
         spriteVisor.setPosition(sprite.getPosition().x, sprite.getPosition().y + 10);
     }

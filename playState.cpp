@@ -2,32 +2,31 @@
 
 playStateClass::playStateClass(std::string nameOfLevel) : gamePlayed(nameOfLevel)
 {
-
 }
 
 void playStateClass::update(sf::RenderWindow& window)
 {
     sf::Event event;
 
-    while(window.pollEvent(event))
+    while (window.pollEvent(event))
     {
-        if(event.type == sf::Event::Closed)
+        if (event.type == sf::Event::Closed)
         {
             window.close();
         }
     }
 
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
     {
         gamePlayed.jumpPlayer();
     }
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
-        gamePlayed.movePlayerTo(LEFT);
+        gamePlayed.movePlayerTo(direction::LEFT);
     }
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
-        gamePlayed.movePlayerTo(RIGHT);
+        gamePlayed.movePlayerTo(direction::RIGHT);
     }
 
     gamePlayed.update();

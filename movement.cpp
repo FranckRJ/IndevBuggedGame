@@ -4,7 +4,7 @@ namespace
 {
     sf::Vector2i moveCharacterToV1_0(moveInfo& infoForMove, direction dir, sf::Vector2i position)
     {
-        if (dir == RIGHT)
+        if (dir == direction::RIGHT)
         {
             position.x += infoForMove.speed;
         }
@@ -14,11 +14,11 @@ namespace
 
     sf::Vector2i moveCharacterToV1_1(moveInfo& infoForMove, direction dir, sf::Vector2i position)
     {
-        if (dir == RIGHT)
+        if (dir == direction::RIGHT)
         {
             position.x += infoForMove.speed;
         }
-        else if (dir == LEFT)
+        else if (dir == direction::LEFT)
         {
             position.x -= infoForMove.speed;
         }
@@ -34,7 +34,7 @@ namespace
 
     void enterInCollideV1_0(moveInfo& infoForMove, direction dir)
     {
-        if (dir == UP || dir == DOWN)
+        if (dir == direction::UP || dir == direction::DOWN)
         {
             if (infoForMove.currentVerticalVelocity > 100)
             {
@@ -45,12 +45,12 @@ namespace
                 infoForMove.currentVerticalVelocity = 0;
             }
 
-            if (dir == DOWN)
+            if (dir == direction::DOWN)
             {
                 infoForMove.isInJump = false;
             }
         }
-        if (dir != NONE)
+        if (dir != direction::NONE)
         {
             infoForMove.canJump = true;
         }
@@ -58,11 +58,11 @@ namespace
 
     void enterInCollideV1_4(moveInfo& infoForMove, direction dir)
     {
-        if (dir == UP || dir == DOWN)
+        if (dir == direction::UP || dir == direction::DOWN)
         {
             infoForMove.currentVerticalVelocity = 0;
 
-            if (dir == DOWN)
+            if (dir == direction::DOWN)
             {
                 infoForMove.isInJump = false;
             }
@@ -73,11 +73,11 @@ namespace
 
     void enterInCollideV1_5(moveInfo& infoForMove, direction dir)
     {
-        if (dir == UP || dir == DOWN)
+        if (dir == direction::UP || dir == direction::DOWN)
         {
             infoForMove.currentVerticalVelocity = 0;
 
-            if (dir == DOWN)
+            if (dir == direction::DOWN)
             {
                 infoForMove.canJump = true;
                 infoForMove.isInJump = false;

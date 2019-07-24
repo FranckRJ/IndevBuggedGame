@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 
-enum direction
+enum class direction
 {
     LEFT,
     UP,

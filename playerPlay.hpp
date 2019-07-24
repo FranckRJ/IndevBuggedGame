@@ -43,8 +43,8 @@ private:
     int spriteWidthDeformationNeeded = 0;
     particleMotorClass particleMotor;
     movementClass movement;
-    direction currentDir = NONE;
-    direction lastDir = RIGHT;
+    direction currentDir = direction::NONE;
+    direction lastDir = direction::RIGHT;
 };
 
 #endif

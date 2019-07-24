@@ -115,13 +115,13 @@ void gamePlayedClass::checkCharacterInBorder(characterClass& character)
 {
     if (character.getPosition().x < infoForLevel.limitOfGame.left)
     {
-        character.hasEnterInCollide(LEFT);
+        character.hasEnterInCollide(direction::LEFT);
         character.setPosition(infoForLevel.limitOfGame.left, character.getPosition().y);
     }
     else if (character.getPosition().x + character.getCollideBox().width >
              infoForLevel.limitOfGame.left + infoForLevel.limitOfGame.width)
     {
-        character.hasEnterInCollide(RIGHT);
+        character.hasEnterInCollide(direction::RIGHT);
         character.setPosition(infoForLevel.limitOfGame.left + infoForLevel.limitOfGame.width -
                                   character.getCollideBox().width,
                               character.getPosition().y);
@@ -129,13 +129,13 @@ void gamePlayedClass::checkCharacterInBorder(characterClass& character)
 
     if (character.getPosition().y < infoForLevel.limitOfGame.top)
     {
-        character.hasEnterInCollide(UP);
+        character.hasEnterInCollide(direction::UP);
         character.setPosition(character.getPosition().x, infoForLevel.limitOfGame.top);
     }
     else if (character.getPosition().y + character.getCollideBox().height >
              infoForLevel.limitOfGame.top + infoForLevel.limitOfGame.height)
     {
-        character.hasEnterInCollide(DOWN);
+        character.hasEnterInCollide(direction::DOWN);
         character.setPosition(character.getPosition().x, infoForLevel.limitOfGame.top +
                                                              infoForLevel.limitOfGame.height -
                                                              character.getCollideBox().height);

@@ -18,19 +18,19 @@ sf::Vector2i collisionClass::getNewPosAfterCollide(sf::FloatRect collideBox, sf:
 {
     switch (dirOfMovement)
     {
-        case LEFT:
+        case direction::LEFT:
         {
             return sf::Vector2i(toThisCollideBox.left + toThisCollideBox.width, collideBox.top);
         }
-        case UP:
+        case direction::UP:
         {
             return sf::Vector2i(collideBox.left, toThisCollideBox.top + toThisCollideBox.height);
         }
-        case RIGHT:
+        case direction::RIGHT:
         {
             return sf::Vector2i(toThisCollideBox.left - collideBox.width, collideBox.top);
         }
-        case DOWN:
+        case direction::DOWN:
         {
             return sf::Vector2i(collideBox.left, toThisCollideBox.top - collideBox.height);
         }
