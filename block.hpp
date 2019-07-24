@@ -19,7 +19,7 @@ struct blockInfo
     bool isSolidBlock;
     bool isOnlyOneBlock;
     bool isKillPlayerBlock;
-    bool isForeGroundBlock;
+    bool isForegroundBlock;
 };
 
 struct blockType

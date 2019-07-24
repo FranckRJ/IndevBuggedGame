@@ -12,7 +12,7 @@ void blockManagerClass::initialize()
     baseInfo.isSolidBlock = false;
     baseInfo.isOnlyOneBlock = false;
     baseInfo.isKillPlayerBlock = false;
-    baseInfo.isForeGroundBlock = false;
+    baseInfo.isForegroundBlock = false;
 
     baseType.colorOfBlock = sf::Color::Black;
     baseType.sizeOfBlock = sf::Vector2i(SIZE_BLOCK, SIZE_BLOCK);
@@ -24,6 +24,7 @@ void blockManagerClass::initialize()
 
         info.isFinishBlock = true;
         info.isOnlyOneBlock = true;
+        info.isForegroundBlock = true;
 
         type.colorOfBlock = sf::Color::Red;
 
@@ -46,7 +47,7 @@ void blockManagerClass::initialize()
         blockType type = baseType;
 
         info.isKillPlayerBlock = true;
-        info.isForeGroundBlock = true;
+        info.isForegroundBlock = true;
 
         type.colorOfBlock = sf::Color(255, 140, 0);
 

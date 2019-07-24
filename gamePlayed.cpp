@@ -20,6 +20,7 @@ gamePlayedClass::gamePlayedClass(std::string nameOfLevel)
 void gamePlayedClass::update()
 {
     bool continueMove = false;
+    bool playerIsAtFinishBlock = false;
 
     do
     {
@@ -41,7 +42,7 @@ void gamePlayedClass::update()
     if (checkCharacterCollideWithBlock(playerPlay, playerPlay.getDirection()))
     {
         setCameraToCharacter(playerPlay);
-        return;
+        playerIsAtFinishBlock = true;
     }
     setCameraToCharacter(playerPlay);
     checkCharacterCollideWithEvent(playerPlay);
@@ -60,7 +61,7 @@ void gamePlayedClass::update()
             if (block != infoForLevel.mapOfGame.end())
             {
                 block->second->update();
-                if (block->second->getBlockInfo().isForeGroundBlock)
+                if (block->second->getBlockInfo().isForegroundBlock)
                 {
                     listOfForegroundBlock.push_back(block->second.get());
                 }
@@ -68,7 +69,7 @@ void gamePlayedClass::update()
         }
     }
 
-    if (playerPlay.getIsDead())
+    if (playerPlay.getIsDead() && !playerIsAtFinishBlock)
     {
         global::activeGameStateStack->add(std::make_unique<screenTransitionStateClass>(
             std::make_unique<playStateClass>(currentLevelName), sf::Color::Black, 25));
