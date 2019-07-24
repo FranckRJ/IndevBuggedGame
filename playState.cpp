@@ -20,11 +20,11 @@ void playStateClass::update(sf::RenderWindow& window)
     {
         gamePlayed.jumpPlayer();
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
         gamePlayed.movePlayerTo(direction::LEFT);
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
         gamePlayed.movePlayerTo(direction::RIGHT);
     }
