@@ -99,7 +99,7 @@ void mainMenuStateClass::update(sf::RenderWindow& window)
         }
         else if(currentId == 1)
         {
-            global::activeGameStateStack->add(std::make_unique<screenTransitionStateClass>(std::make_unique<editLevelStateClass>("level4.txt"), sf::Color::Black, 25));
+            // global::activeGameStateStack->add(std::make_unique<screenTransitionStateClass>(std::make_unique<editLevelStateClass>("level4.txt"), sf::Color::Black, 25));
         }
 
         choiceIsSelected = false;
