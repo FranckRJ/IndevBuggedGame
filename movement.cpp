@@ -122,23 +122,23 @@ void movementClass::setFuncsForGameVersion(const versionNumberClass& gameVersion
     enterInCollideFunc = enterInCollideV1_0;
     startJumpFunc = startJumpV1_0;
 
-    if (gameVersion > "1.0"_vn)
+    if (gameVersion >= "1.1"_vn)
     {
         moveCharacterToFunc = moveCharacterToV1_1;
     }
-    if (gameVersion > "1.1"_vn)
+    if (gameVersion >= "1.2"_vn)
     {
         startJumpFunc = startJumpV1_2;
     }
-    if (gameVersion > "1.2"_vn)
+    if (gameVersion >= "1.3"_vn)
     {
         startJumpFunc = startJumpV1_3;
     }
-    if (gameVersion > "1.3"_vn)
+    if (gameVersion >= "1.4"_vn)
     {
         enterInCollideFunc = enterInCollideV1_4;
     }
-    if (gameVersion > "1.4"_vn)
+    if (gameVersion >= "1.5"_vn)
     {
         enterInCollideFunc = enterInCollideV1_5;
     }
