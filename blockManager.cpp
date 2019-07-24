@@ -26,7 +26,6 @@ void blockManagerClass::initialize()
         info.isOnlyOneBlock = true;
 
         type.colorOfBlock = sf::Color::Red;
-        type.typeOfColli[COLLI_ALL] = ALL_NORMAL;
 
         listOfBlock["FINISH_BLOCK"] = std::pair<blockInfo, blockType>(info, type);
     }
@@ -38,7 +37,6 @@ void blockManagerClass::initialize()
         info.isSolidBlock = true;
 
         type.colorOfBlock = sf::Color::Green;
-        type.typeOfColli[COLLI_ALL] = ALL_NORMAL;
 
         listOfBlock["COLLIDE_BLOCK"] = std::pair<blockInfo, blockType>(info, type);
     }
@@ -51,7 +49,6 @@ void blockManagerClass::initialize()
         info.isForeGroundBlock = true;
 
         type.colorOfBlock = sf::Color(255, 140, 0);
-        type.typeOfColli[COLLI_ALL] = ALL_NORMAL;
 
         listOfBlock["LAVA_BLOCK"] = std::pair<blockInfo, blockType>(info, type);
     }
@@ -61,7 +58,7 @@ blockClass* blockManagerClass::createBlock(std::string blockName)
 {
     auto infos = listOfBlock.find(blockName);
 
-    if(infos != listOfBlock.end())
+    if (infos != listOfBlock.end())
     {
         return new blockClass(infos->second.first, infos->second.second);
     }
@@ -75,7 +72,7 @@ basicBlock blockManagerClass::createBasicBlock(std::string blockName)
 {
     auto infos = listOfBlock.find(blockName);
 
-    if(infos != listOfBlock.end())
+    if (infos != listOfBlock.end())
     {
         basicBlock newBlock;
 
@@ -95,7 +92,7 @@ sf::Color blockManagerClass::getColorOfBlock(std::string blockName)
 {
     auto infos = listOfBlock.find(blockName);
 
-    if(infos != listOfBlock.end())
+    if (infos != listOfBlock.end())
     {
         return infos->second.second.colorOfBlock;
     }
@@ -108,9 +105,9 @@ sf::Color blockManagerClass::getColorOfBlock(std::string blockName)
 basicBlock blockManagerClass::getBasicBlockForBlockNumber(int number)
 {
     int counter = 0;
-    for(auto& listOfBlockIte : listOfBlock)
+    for (auto& listOfBlockIte : listOfBlock)
     {
-        if(counter >= number)
+        if (counter >= number)
         {
             return createBasicBlock(listOfBlockIte.first);
         }

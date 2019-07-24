@@ -1,8 +1,8 @@
 #include "gamePlayed.hpp"
+#include "global.hpp"
 #include "messageManager.hpp"
 #include "playState.hpp"
 #include "screenTransitionState.hpp"
-#include "global.hpp"
 
 gamePlayedClass::gamePlayedClass(std::string nameOfLevel)
 {
@@ -27,8 +27,7 @@ void gamePlayedClass::update()
         checkCharacterInBorder(playerPlay);
         checkCharacterCollideWithBlock(playerPlay, playerPlay.getDirection(), true);
         setCameraToCharacter(playerPlay);
-    }
-    while(continueMove);
+    } while (continueMove);
 
     do
     {
@@ -36,11 +35,10 @@ void gamePlayedClass::update()
         checkCharacterInBorder(playerPlay);
         checkCharacterCollideWithBlock(playerPlay, playerPlay.getVerticalDirection(), true);
         setCameraToCharacter(playerPlay);
-    }
-    while(continueMove);
+    } while (continueMove);
 
     checkCharacterInBorder(playerPlay);
-    if(checkCharacterCollideWithBlock(playerPlay, playerPlay.getDirection()))
+    if (checkCharacterCollideWithBlock(playerPlay, playerPlay.getDirection()))
     {
         setCameraToCharacter(playerPlay);
         return;
@@ -52,15 +50,17 @@ void gamePlayedClass::update()
     playerPlay.update();
 
     listOfForegroundBlock.clear();
-    for(int x = (view.getCenter().x - (WIDTH_SCREEN / 2)) / SIZE_BLOCK; x < (view.getCenter().x + (WIDTH_SCREEN / 2)) / SIZE_BLOCK; ++x)
+    for (int x = (view.getCenter().x - (WIDTH_SCREEN / 2)) / SIZE_BLOCK;
+         x < (view.getCenter().x + (WIDTH_SCREEN / 2)) / SIZE_BLOCK; ++x)
     {
-        for(int y = (view.getCenter().y - (HEIGHT_SCREEN / 2)) / SIZE_BLOCK; y < (view.getCenter().y + (HEIGHT_SCREEN / 2)) / SIZE_BLOCK; ++y)
+        for (int y = (view.getCenter().y - (HEIGHT_SCREEN / 2)) / SIZE_BLOCK;
+             y < (view.getCenter().y + (HEIGHT_SCREEN / 2)) / SIZE_BLOCK; ++y)
         {
             auto block = infoForLevel.mapOfGame.find(point(x, y));
-            if(block != infoForLevel.mapOfGame.end())
+            if (block != infoForLevel.mapOfGame.end())
             {
                 block->second->update();
-                if(block->second->getBlockInfo().isForeGroundBlock)
+                if (block->second->getBlockInfo().isForeGroundBlock)
                 {
                     listOfForegroundBlock.push_back(block->second.get());
                 }
@@ -68,9 +68,10 @@ void gamePlayedClass::update()
         }
     }
 
-    if(playerPlay.getIsDead())
+    if (playerPlay.getIsDead())
     {
-        global::activeGameStateStack->add(std::make_unique<screenTransitionStateClass>(std::make_unique<playStateClass>(currentLevelName), sf::Color::Black, 25));
+        global::activeGameStateStack->add(std::make_unique<screenTransitionStateClass>(
+            std::make_unique<playStateClass>(currentLevelName), sf::Color::Black, 25));
     }
 }
 
@@ -78,12 +79,14 @@ void gamePlayedClass::draw(sf::RenderWindow& window)
 {
     window.setView(view);
 
-    for(int x = (view.getCenter().x - (WIDTH_SCREEN / 2)) / SIZE_BLOCK; x < (view.getCenter().x + (WIDTH_SCREEN / 2)) / SIZE_BLOCK; ++x)
+    for (int x = (view.getCenter().x - (WIDTH_SCREEN / 2)) / SIZE_BLOCK;
+         x < (view.getCenter().x + (WIDTH_SCREEN / 2)) / SIZE_BLOCK; ++x)
     {
-        for(int y = (view.getCenter().y - (HEIGHT_SCREEN / 2)) / SIZE_BLOCK; y < (view.getCenter().y + (HEIGHT_SCREEN / 2)) / SIZE_BLOCK; ++y)
+        for (int y = (view.getCenter().y - (HEIGHT_SCREEN / 2)) / SIZE_BLOCK;
+             y < (view.getCenter().y + (HEIGHT_SCREEN / 2)) / SIZE_BLOCK; ++y)
         {
             auto block = infoForLevel.mapOfGame.find(point(x, y));
-            if(block != infoForLevel.mapOfGame.end())
+            if (block != infoForLevel.mapOfGame.end())
             {
                 block->second->draw(window);
             }
@@ -92,7 +95,7 @@ void gamePlayedClass::draw(sf::RenderWindow& window)
 
     playerPlay.draw(window);
 
-    for(blockClass* thisBlock : listOfForegroundBlock)
+    for (blockClass* thisBlock : listOfForegroundBlock)
     {
         thisBlock->draw(window);
     }
@@ -110,66 +113,76 @@ void gamePlayedClass::jumpPlayer()
 
 void gamePlayedClass::checkCharacterInBorder(characterClass& character)
 {
-    if(character.getPosition().x < infoForLevel.limitOfGame.left)
+    if (character.getPosition().x < infoForLevel.limitOfGame.left)
     {
         character.hasEnterInCollide(LEFT);
         character.setPosition(infoForLevel.limitOfGame.left, character.getPosition().y);
     }
-    else if(character.getPosition().x + character.getCollideBox().width > infoForLevel.limitOfGame.left + infoForLevel.limitOfGame.width)
+    else if (character.getPosition().x + character.getCollideBox().width >
+             infoForLevel.limitOfGame.left + infoForLevel.limitOfGame.width)
     {
         character.hasEnterInCollide(RIGHT);
-        character.setPosition(infoForLevel.limitOfGame.left + infoForLevel.limitOfGame.width - character.getCollideBox().width, character.getPosition().y);
+        character.setPosition(infoForLevel.limitOfGame.left + infoForLevel.limitOfGame.width -
+                                  character.getCollideBox().width,
+                              character.getPosition().y);
     }
 
-    if(character.getPosition().y < infoForLevel.limitOfGame.top)
+    if (character.getPosition().y < infoForLevel.limitOfGame.top)
     {
         character.hasEnterInCollide(UP);
         character.setPosition(character.getPosition().x, infoForLevel.limitOfGame.top);
     }
-    else if(character.getPosition().y + character.getCollideBox().height > infoForLevel.limitOfGame.top + infoForLevel.limitOfGame.height)
+    else if (character.getPosition().y + character.getCollideBox().height >
+             infoForLevel.limitOfGame.top + infoForLevel.limitOfGame.height)
     {
         character.hasEnterInCollide(DOWN);
-        character.setPosition(character.getPosition().x, infoForLevel.limitOfGame.top + infoForLevel.limitOfGame.height - character.getCollideBox().height);
+        character.setPosition(character.getPosition().x, infoForLevel.limitOfGame.top +
+                                                             infoForLevel.limitOfGame.height -
+                                                             character.getCollideBox().height);
     }
 }
 
 bool gamePlayedClass::checkCharacterCollideWithBlock(characterClass& character, direction dir, bool onlySolid)
 {
-    for(int x = character.getCollideBox().left / SIZE_BLOCK; x < (character.getCollideBox().left + character.getCollideBox().width) / SIZE_BLOCK; ++x)
+    for (int x = character.getCollideBox().left / SIZE_BLOCK;
+         x < (character.getCollideBox().left + character.getCollideBox().width) / SIZE_BLOCK; ++x)
     {
-        for(int y = character.getCollideBox().top / SIZE_BLOCK; y < (character.getCollideBox().top + character.getCollideBox().height) / SIZE_BLOCK; ++y)
+        for (int y = character.getCollideBox().top / SIZE_BLOCK;
+             y < (character.getCollideBox().top + character.getCollideBox().height) / SIZE_BLOCK; ++y)
         {
             auto block = infoForLevel.mapOfGame.find(point(x, y));
 
-            if(block != infoForLevel.mapOfGame.end())
+            if (block != infoForLevel.mapOfGame.end())
             {
-                if(block->second->getBlockInfo().isOnlyOneBlock && block->second->getOldCollide())
+                if (block->second->getBlockInfo().isOnlyOneBlock && block->second->getOldCollide())
                 {
-                    block->second->isCollideWith(character.getCollideBox(), dir);
+                    block->second->isCollideWith(character.getCollideBox());
                 }
                 else
                 {
-                    if(onlySolid)
+                    if (onlySolid)
                     {
-                        if(block->second->getBlockInfo().isSolidBlock && block->second->isCollideWith(character.getCollideBox(), dir))
+                        if (block->second->getBlockInfo().isSolidBlock &&
+                            block->second->isCollideWith(character.getCollideBox()))
                         {
                             character.hasEnterInCollide(dir);
                             character.setPosition(block->second->getNewPosOf(character.getCollideBox(), dir));
                         }
                     }
-                    else if(block->second->isCollideWith(character.getCollideBox(), dir))
+                    else if (block->second->isCollideWith(character.getCollideBox()))
                     {
-                        if(block->second->getBlockInfo().isKillPlayerBlock)
+                        if (block->second->getBlockInfo().isKillPlayerBlock)
                         {
                             character.setIsDead(true);
                         }
-                        if(block->second->getBlockInfo().isFinishBlock)
+                        if (block->second->getBlockInfo().isFinishBlock)
                         {
-                            if(infoForLevel.nextLevelName.empty())
+                            if (infoForLevel.nextLevelName.empty())
                             {
                                 infoForLevel.nextLevelName = currentLevelName;
                             }
-                            global::activeGameStateStack->add(std::make_unique<screenTransitionStateClass>(std::make_unique<playStateClass>(infoForLevel.nextLevelName), sf::Color::Black, 25));
+                            global::activeGameStateStack->add(std::make_unique<screenTransitionStateClass>(
+                                std::make_unique<playStateClass>(infoForLevel.nextLevelName), sf::Color::Black, 25));
                             return true;
                         }
                     }
@@ -183,19 +196,20 @@ bool gamePlayedClass::checkCharacterCollideWithBlock(characterClass& character, 
 
 void gamePlayedClass::checkCharacterCollideWithEvent(characterClass& character)
 {
-    for(auto eventIte = infoForLevel.listOfEvent.begin(); eventIte != infoForLevel.listOfEvent.end(); )
+    for (auto eventIte = infoForLevel.listOfEvent.begin(); eventIte != infoForLevel.listOfEvent.end();)
     {
-        if((*eventIte)->isCollideWith(character.getCollideBox()))
+        if ((*eventIte)->isCollideWith(character.getCollideBox()))
         {
-            if((*eventIte)->getEventInfo().isUpdateEvent)
+            if ((*eventIte)->getEventInfo().isUpdateEvent)
             {
                 global::versionOfGame = (*eventIte)->getEventInfo().newVersion;
 
                 updateGameVersion();
             }
-            if((*eventIte)->getEventInfo().isShowMessageEvent)
+            if ((*eventIte)->getEventInfo().isShowMessageEvent)
             {
-                messageManagerClass::addMessageStateToStack("NORMAL_MESSAGE", (*eventIte)->getEventInfo().messageToShow);
+                messageManagerClass::addMessageStateToStack("NORMAL_MESSAGE",
+                                                            (*eventIte)->getEventInfo().messageToShow);
                 infoForLevel.listOfEvent.erase(eventIte++);
                 break;
             }
@@ -208,30 +222,33 @@ void gamePlayedClass::checkCharacterCollideWithEvent(characterClass& character)
 
 void gamePlayedClass::setCameraToCharacter(characterClass& character)
 {
-    view.setCenter(character.getSpriteBox().left + character.getSpriteBox().width / 2, character.getSpriteBox().top + character.getSpriteBox().height / 2);
+    view.setCenter(character.getSpriteBox().left + character.getSpriteBox().width / 2,
+                   character.getSpriteBox().top + character.getSpriteBox().height / 2);
 
-    if(view.getCenter().x < infoForLevel.limitOfGame.left + (WIDTH_SCREEN / 2))
+    if (view.getCenter().x < infoForLevel.limitOfGame.left + (WIDTH_SCREEN / 2))
     {
         view.setCenter(infoForLevel.limitOfGame.left + (WIDTH_SCREEN / 2), view.getCenter().y);
     }
-    else if(view.getCenter().x > infoForLevel.limitOfGame.left + infoForLevel.limitOfGame.width - (WIDTH_SCREEN / 2))
+    else if (view.getCenter().x > infoForLevel.limitOfGame.left + infoForLevel.limitOfGame.width - (WIDTH_SCREEN / 2))
     {
-        view.setCenter(infoForLevel.limitOfGame.left + infoForLevel.limitOfGame.width - (WIDTH_SCREEN / 2), view.getCenter().y);
+        view.setCenter(infoForLevel.limitOfGame.left + infoForLevel.limitOfGame.width - (WIDTH_SCREEN / 2),
+                       view.getCenter().y);
     }
 
-    if(view.getCenter().y < infoForLevel.limitOfGame.top + (HEIGHT_SCREEN / 2))
+    if (view.getCenter().y < infoForLevel.limitOfGame.top + (HEIGHT_SCREEN / 2))
     {
         view.setCenter(view.getCenter().x, infoForLevel.limitOfGame.top + (HEIGHT_SCREEN / 2));
     }
-    else if(view.getCenter().y > infoForLevel.limitOfGame.top + infoForLevel.limitOfGame.height - (HEIGHT_SCREEN / 2))
+    else if (view.getCenter().y > infoForLevel.limitOfGame.top + infoForLevel.limitOfGame.height - (HEIGHT_SCREEN / 2))
     {
-        view.setCenter(view.getCenter().x, infoForLevel.limitOfGame.top + infoForLevel.limitOfGame.height - (HEIGHT_SCREEN / 2));
+        view.setCenter(view.getCenter().x,
+                       infoForLevel.limitOfGame.top + infoForLevel.limitOfGame.height - (HEIGHT_SCREEN / 2));
     }
 }
 
 void gamePlayedClass::updateGameVersion()
 {
-    for(auto& thisBlock : infoForLevel.mapOfGame)
+    for (auto& thisBlock : infoForLevel.mapOfGame)
     {
         thisBlock.second->setCollisionForVersion();
     }

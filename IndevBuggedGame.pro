@@ -12,7 +12,6 @@ SOURCES += \
         blockManager.cpp \
         character.cpp \
         collision.cpp \
-        collision1.cpp \
         editLevelState.cpp \
         event.cpp \
         eventManager.cpp \
@@ -43,7 +42,6 @@ HEADERS += \
     blockManager.hpp \
     character.hpp \
     collision.hpp \
-    collision1.hpp \
     editLevelState.hpp \
     event.hpp \
     eventManager.hpp \

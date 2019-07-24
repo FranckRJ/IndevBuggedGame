@@ -1,5 +1,4 @@
 #include "block.hpp"
-#include "collision1.hpp"
 #include "global.hpp"
 
 blockClass::blockClass()
@@ -35,99 +34,24 @@ void blockClass::draw(sf::RenderWindow& window)
     window.draw(sprite);
 }
 
-bool blockClass::isCollideWith(sf::FloatRect collideBox, direction dir)
+bool blockClass::isCollideWith(sf::FloatRect collideBox)
 {
     collideCheckLastFrame = true;
 
-    if (collision.get() != nullptr)
-    {
-        auto type = typeOfBlock.typeOfColli.find(COLLI_ALL);
-
-        if (type != typeOfBlock.typeOfColli.end())
-        {
-            oldCollide = collision->isColliAll(type->second, collideBox,
-                                               sf::FloatRect(position.x + typeOfBlock.spaceOfBlock.x,
-                                                             position.y + typeOfBlock.spaceOfBlock.y,
-                                                             typeOfBlock.sizeOfBlock.x, typeOfBlock.sizeOfBlock.y));
-        }
-        else
-        {
-            // auto lastType = typeOfBlock.typeOfColli.find(dir);
-
-            switch (dir)
-            {
-                case LEFT:
-                {
-                    break;
-                }
-                case UP:
-                {
-                    break;
-                }
-                case RIGHT:
-                {
-                    break;
-                }
-                case DOWN:
-                {
-                    break;
-                }
-                default:
-                {
-                    break;
-                }
-            }
-        }
-    }
+    oldCollide = collision.hasCollided(collideBox, sf::FloatRect(position.x + typeOfBlock.spaceOfBlock.x,
+                                                                 position.y + typeOfBlock.spaceOfBlock.y,
+                                                                 typeOfBlock.sizeOfBlock.x, typeOfBlock.sizeOfBlock.y));
 
     return oldCollide;
 }
 
 sf::Vector2i blockClass::getNewPosOf(sf::FloatRect collideBox, direction dir)
 {
-    if (collision.get() != nullptr)
-    {
-        auto type = typeOfBlock.typeOfColli.find(COLLI_ALL);
-
-        if (type != typeOfBlock.typeOfColli.end())
-        {
-            return collision->getNewPosColliAll(type->second, collideBox,
-                                                sf::FloatRect(position.x + typeOfBlock.spaceOfBlock.x,
-                                                              position.y + typeOfBlock.spaceOfBlock.y,
-                                                              typeOfBlock.sizeOfBlock.x, typeOfBlock.sizeOfBlock.y),
-                                                dir);
-        }
-        else
-        {
-            // auto lastType = typeOfBlock.typeOfColli.find(dir);
-
-            switch (dir)
-            {
-                case LEFT:
-                {
-                    break;
-                }
-                case UP:
-                {
-                    break;
-                }
-                case RIGHT:
-                {
-                    break;
-                }
-                case DOWN:
-                {
-                    break;
-                }
-                default:
-                {
-                    break;
-                }
-            }
-        }
-    }
-
-    return sf::Vector2i(collideBox.left, collideBox.top);
+    return collision.getNewPosAfterCollide(collideBox,
+                                           sf::FloatRect(position.x + typeOfBlock.spaceOfBlock.x,
+                                                         position.y + typeOfBlock.spaceOfBlock.y,
+                                                         typeOfBlock.sizeOfBlock.x, typeOfBlock.sizeOfBlock.y),
+                                           dir);
 }
 
 const blockInfo blockClass::getBlockInfo()
@@ -154,11 +78,5 @@ void blockClass::setPosition(int newX, int newY)
 
 void blockClass::setCollisionForVersion()
 {
-    if (global::versionOfGame >= "1.0"_vn)
-    {
-        if (global::versionOfGame < "2.0"_vn)
-        {
-            collision.reset(new collision1Class);
-        }
-    }
+    collision.setFuncsForGameVersion(global::versionOfGame);
 }
