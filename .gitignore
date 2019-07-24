@@ -1,0 +1,6 @@
+debug
+profile
+release
+*.pro.user
+*.autosave
+.*.swp
