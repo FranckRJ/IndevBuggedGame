@@ -1,12 +1,13 @@
 #ifndef LEVELMANAGER_HPP
 #define LEVELMANAGER_HPP
 
-#include <map>
 #include <list>
+#include <map>
 #include <memory>
 
 #include "block.hpp"
 #include "event.hpp"
+#include "versionNumber.hpp"
 
 typedef std::pair<int, int> point;
 
@@ -16,7 +17,7 @@ struct levelInfo
     std::list<std::unique_ptr<eventClass>> listOfEvent;
     sf::IntRect limitOfGame;
     sf::Vector2i playerStartPosition;
-    double initialGameVersion;
+    versionNumberClass initialGameVersion;
     std::string nextLevelName;
 };
 
@@ -31,7 +32,8 @@ struct basicLevelInfo
 class levelManagerClass
 {
 public:
-    static void setBlockHere(std::map<point, std::unique_ptr<blockClass>>& currentMap, std::string nameOfBlock, int xBlock, int yBlock);
+    static void setBlockHere(std::map<point, std::unique_ptr<blockClass>>& currentMap, std::string nameOfBlock,
+                             int xBlock, int yBlock);
     static void loadLevelFromFile(levelInfo& currentLevel, std::string filePath);
     static void loadBasicLevelFromFile(basicLevelInfo& currentLevel, std::string filePath);
     static void saveBasicLevel(basicLevelInfo& currentLevel, std::string levelName);

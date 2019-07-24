@@ -113,7 +113,7 @@ namespace
     }
 } // namespace
 
-void movementClass::setFuncsForGameVersion(double gameVersion)
+void movementClass::setFuncsForGameVersion(const versionNumberClass& gameVersion)
 {
     /* TODO: changer la maniere dont est gere gameVersion. */
     resetAllInternalFuncs();
@@ -122,23 +122,23 @@ void movementClass::setFuncsForGameVersion(double gameVersion)
     enterInCollideFunc = enterInCollideV1_0;
     startJumpFunc = startJumpV1_0;
 
-    if (gameVersion > 1.05)
+    if (gameVersion > "1.0"_vn)
     {
         moveCharacterToFunc = moveCharacterToV1_1;
     }
-    if (gameVersion > 1.15)
+    if (gameVersion > "1.1"_vn)
     {
         startJumpFunc = startJumpV1_2;
     }
-    if (gameVersion > 1.25)
+    if (gameVersion > "1.2"_vn)
     {
         startJumpFunc = startJumpV1_3;
     }
-    if (gameVersion > 1.35)
+    if (gameVersion > "1.3"_vn)
     {
         enterInCollideFunc = enterInCollideV1_4;
     }
-    if (gameVersion > 1.45)
+    if (gameVersion > "1.4"_vn)
     {
         enterInCollideFunc = enterInCollideV1_5;
     }

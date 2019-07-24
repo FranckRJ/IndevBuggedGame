@@ -1,13 +1,38 @@
+#include <stdexcept>
+
 #include "versionNumber.hpp"
 
-versionNumberClass::versionNumberClass(std::initializer_list<unsigned int> listOfVersionNumbers)
+versionNumberClass operator""_vn(const char* versionNumbersAsStr, std::size_t sizeOfStr)
+{
+    return versionNumberClass(std::string(versionNumbersAsStr, sizeOfStr));
+}
+
+versionNumberClass::versionNumberClass(const std::initializer_list<unsigned int>& listOfVersionNumbers)
     : versionNumbers(listOfVersionNumbers)
 {
 }
 
-versionNumberClass::versionNumberClass(std::string versionNumbersAsStr)
+versionNumberClass::versionNumberClass(const std::string& versionNumbersAsStr)
 {
-    // TODO
+    std::string::size_type dotIdx;
+    std::string::size_type startIdx = 0;
+    std::string::size_type nbOfDigitsInNumber;
+    int newNumber;
+
+    do
+    {
+        dotIdx = versionNumbersAsStr.find('.', startIdx);
+        nbOfDigitsInNumber = std::string::npos;
+        newNumber = std::stoi(versionNumbersAsStr.substr(startIdx, dotIdx - startIdx), &nbOfDigitsInNumber);
+
+        if (nbOfDigitsInNumber != (dotIdx - startIdx) && newNumber < 0)
+        {
+            throw std::invalid_argument("invalid version number");
+        }
+
+        versionNumbers.push_back(static_cast<unsigned int>(newNumber));
+        startIdx = dotIdx + 1;
+    } while (dotIdx != std::string::npos);
 }
 
 bool versionNumberClass::operator==(const versionNumberClass& other) const

@@ -10,18 +10,18 @@ eventInfo eventManagerClass::getEventInfoFor(std::string eventName, std::string 
 {
     eventInfo infoForEvent;
 
-    if(eventName == "UPDATE_EVENT")
+    if (eventName == "UPDATE_EVENT")
     {
         infoForEvent.isUpdateEvent = true;
-        infoForEvent.newVersion = utilitiesClass::stringToDouble(utilitiesClass::readFirstString(additionnalInfo));
+        infoForEvent.newVersion = utilitiesClass::readFirstString(additionnalInfo);
         infoForEvent.messageToShow = utilitiesClass::addNewLine(additionnalInfo);
 
-        if(!infoForEvent.messageToShow.empty())
+        if (!infoForEvent.messageToShow.empty())
         {
             infoForEvent.isShowMessageEvent = true;
         }
     }
-    else if(eventName == "MESSAGE_EVENT")
+    else if (eventName == "MESSAGE_EVENT")
     {
         infoForEvent.isShowMessageEvent = true;
         infoForEvent.messageToShow = utilitiesClass::addNewLine(additionnalInfo);

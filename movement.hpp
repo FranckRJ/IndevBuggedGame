@@ -5,11 +5,12 @@
 #include <functional>
 
 #include "character.hpp"
+#include "versionNumber.hpp"
 
 class movementClass
 {
 public:
-    void setFuncsForGameVersion(double gameVersion);
+    void setFuncsForGameVersion(const versionNumberClass& gameVersion);
     sf::Vector2i moveCharacterTo(moveInfo& infoForMove, direction dir, sf::Vector2i position);
     sf::Vector2i applyGravity(moveInfo& infoForMove, sf::Vector2i position);
     void enterInCollide(moveInfo& infoForMove, direction dir);

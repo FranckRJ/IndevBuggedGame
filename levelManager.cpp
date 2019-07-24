@@ -1,12 +1,13 @@
 #include <fstream>
 
-#include "levelManager.hpp"
 #include "blockManager.hpp"
 #include "eventManager.hpp"
-#include "utilities.hpp"
 #include "global.hpp"
+#include "levelManager.hpp"
+#include "utilities.hpp"
 
-void levelManagerClass::setBlockHere(std::map<point, std::unique_ptr<blockClass>>& currentMap, std::string nameOfBlock, int xBlock, int yBlock)
+void levelManagerClass::setBlockHere(std::map<point, std::unique_ptr<blockClass>>& currentMap, std::string nameOfBlock,
+                                     int xBlock, int yBlock)
 {
     blockClass* block = blockManagerClass::createBlock(nameOfBlock);
     block->setPosition(xBlock * SIZE_BLOCK, yBlock * SIZE_BLOCK);
@@ -22,12 +23,12 @@ void levelManagerClass::loadLevelFromFile(levelInfo& currentLevel, std::string f
     std::ifstream file;
     file.open("resources/" + filePath);
 
-    while(std::getline(file, currentLine))
+    while (std::getline(file, currentLine))
     {
         spacePos = currentLine.find(' ');
         firstWordOfLine = currentLine.substr(0, spacePos);
 
-        if(spacePos == std::string::npos)
+        if (spacePos == std::string::npos)
         {
             currentLine.clear();
         }
@@ -36,27 +37,29 @@ void levelManagerClass::loadLevelFromFile(levelInfo& currentLevel, std::string f
             currentLine.erase(0, spacePos + 1);
         }
 
-        if(firstWordOfLine == "GAME_VERSION")
+        if (firstWordOfLine == "GAME_VERSION")
         {
-            currentLevel.initialGameVersion = utilitiesClass::stringToDouble(currentLine);
+            currentLevel.initialGameVersion = versionNumberClass(currentLine);
         }
-        else if(firstWordOfLine == "NEXT_LEVEL")
+        else if (firstWordOfLine == "NEXT_LEVEL")
         {
             currentLevel.nextLevelName = currentLine;
         }
-        else if(firstWordOfLine == "SIZE_OF_LEVEL")
+        else if (firstWordOfLine == "SIZE_OF_LEVEL")
         {
             currentLevel.limitOfGame.top = 0;
             currentLevel.limitOfGame.left = 0;
             currentLevel.limitOfGame.width = utilitiesClass::stringToInt(utilitiesClass::readFirstString(currentLine));
             currentLevel.limitOfGame.height = utilitiesClass::stringToInt(utilitiesClass::readFirstString(currentLine));
         }
-        else if(firstWordOfLine == "PLAYER_POSITION")
+        else if (firstWordOfLine == "PLAYER_POSITION")
         {
-            currentLevel.playerStartPosition.x = utilitiesClass::stringToInt(utilitiesClass::readFirstString(currentLine));
-            currentLevel.playerStartPosition.y = utilitiesClass::stringToInt(utilitiesClass::readFirstString(currentLine));
+            currentLevel.playerStartPosition.x =
+                utilitiesClass::stringToInt(utilitiesClass::readFirstString(currentLine));
+            currentLevel.playerStartPosition.y =
+                utilitiesClass::stringToInt(utilitiesClass::readFirstString(currentLine));
         }
-        else if(firstWordOfLine == "NEW_BLOCK")
+        else if (firstWordOfLine == "NEW_BLOCK")
         {
             std::string nameOfBlock = utilitiesClass::readFirstString(currentLine);
             int posX = utilitiesClass::stringToInt(utilitiesClass::readFirstString(currentLine));
@@ -64,7 +67,7 @@ void levelManagerClass::loadLevelFromFile(levelInfo& currentLevel, std::string f
 
             setBlockHere(currentLevel.mapOfGame, nameOfBlock, posX, posY);
         }
-        else if(firstWordOfLine == "NEW_EVENT")
+        else if (firstWordOfLine == "NEW_EVENT")
         {
             std::string nameOfEvent = utilitiesClass::readFirstString(currentLine);
             int posX = utilitiesClass::stringToInt(utilitiesClass::readFirstString(currentLine));
@@ -73,7 +76,7 @@ void levelManagerClass::loadLevelFromFile(levelInfo& currentLevel, std::string f
             int sizeY = utilitiesClass::stringToInt(utilitiesClass::readFirstString(currentLine));
 
             currentLevel.listOfEvent.push_back(std::unique_ptr<eventClass>(
-                    eventManagerClass::createEvent(nameOfEvent, sf::FloatRect(posX, posY, sizeX, sizeY), currentLine)));
+                eventManagerClass::createEvent(nameOfEvent, sf::FloatRect(posX, posY, sizeX, sizeY), currentLine)));
         }
     }
 
@@ -89,12 +92,12 @@ void levelManagerClass::loadBasicLevelFromFile(basicLevelInfo& currentLevel, std
     std::ifstream file;
     file.open("resources/" + filePath);
 
-    while(std::getline(file, currentLine))
+    while (std::getline(file, currentLine))
     {
         spacePos = currentLine.find(' ');
         firstWordOfLine = currentLine.substr(0, spacePos);
 
-        if(spacePos == std::string::npos)
+        if (spacePos == std::string::npos)
         {
             currentLine.clear();
         }
@@ -103,19 +106,21 @@ void levelManagerClass::loadBasicLevelFromFile(basicLevelInfo& currentLevel, std
             currentLine.erase(0, spacePos + 1);
         }
 
-        if(firstWordOfLine == "SIZE_OF_LEVEL")
+        if (firstWordOfLine == "SIZE_OF_LEVEL")
         {
             currentLevel.limitOfGame.top = 0;
             currentLevel.limitOfGame.left = 0;
             currentLevel.limitOfGame.width = utilitiesClass::stringToInt(utilitiesClass::readFirstString(currentLine));
             currentLevel.limitOfGame.height = utilitiesClass::stringToInt(utilitiesClass::readFirstString(currentLine));
         }
-        else if(firstWordOfLine == "PLAYER_POSITION")
+        else if (firstWordOfLine == "PLAYER_POSITION")
         {
-            currentLevel.playerStartPosition.x = utilitiesClass::stringToInt(utilitiesClass::readFirstString(currentLine));
-            currentLevel.playerStartPosition.y = utilitiesClass::stringToInt(utilitiesClass::readFirstString(currentLine));
+            currentLevel.playerStartPosition.x =
+                utilitiesClass::stringToInt(utilitiesClass::readFirstString(currentLine));
+            currentLevel.playerStartPosition.y =
+                utilitiesClass::stringToInt(utilitiesClass::readFirstString(currentLine));
         }
-        else if(firstWordOfLine == "NEW_BLOCK")
+        else if (firstWordOfLine == "NEW_BLOCK")
         {
             basicBlock newBlock;
             newBlock.name = utilitiesClass::readFirstString(currentLine);
@@ -132,7 +137,7 @@ void levelManagerClass::loadBasicLevelFromFile(basicLevelInfo& currentLevel, std
         {
             std::string newLine = firstWordOfLine;
 
-            if(!currentLine.empty())
+            if (!currentLine.empty())
             {
                 newLine += " " + currentLine;
             }
@@ -150,14 +155,16 @@ void levelManagerClass::saveBasicLevel(basicLevelInfo& currentLevel, std::string
     file.open("resources/" + levelName);
 
     file << "SIZE_OF_LEVEL " << currentLevel.limitOfGame.width << " " << currentLevel.limitOfGame.height << std::endl;
-    file << "PLAYER_POSITION " << currentLevel.playerStartPosition.x << " " << currentLevel.playerStartPosition.y << std::endl;
+    file << "PLAYER_POSITION " << currentLevel.playerStartPosition.x << " " << currentLevel.playerStartPosition.y
+         << std::endl;
 
-    for(auto& currentLevelIte : currentLevel.mapOfGame)
+    for (auto& currentLevelIte : currentLevel.mapOfGame)
     {
-        file << "NEW_BLOCK " << currentLevelIte.second.name << " " << currentLevelIte.first.first << " " << currentLevelIte.first.second << std::endl;
+        file << "NEW_BLOCK " << currentLevelIte.second.name << " " << currentLevelIte.first.first << " "
+             << currentLevelIte.first.second << std::endl;
     }
 
-    for(std::string& line : currentLevel.otherLines)
+    for (std::string& line : currentLevel.otherLines)
     {
         file << line << std::endl;
     }

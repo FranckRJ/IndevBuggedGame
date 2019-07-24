@@ -10,10 +10,11 @@
 #include <SFML/Graphics.hpp>
 
 #include "gameStateStack.hpp"
+#include "versionNumber.hpp"
 
 struct global
 {
-    static double versionOfGame;
+    static versionNumberClass versionOfGame;
     static gameStateStackClass* activeGameStateStack;
     static sf::Font font;
 };

@@ -20,7 +20,7 @@ blockClass::blockClass(blockInfo newInfoForBlock, blockType newTypeOfBlock) : bl
 
 void blockClass::update()
 {
-    if(collideCheckLastFrame)
+    if (collideCheckLastFrame)
     {
         collideCheckLastFrame = false;
     }
@@ -39,19 +39,22 @@ bool blockClass::isCollideWith(sf::FloatRect collideBox, direction dir)
 {
     collideCheckLastFrame = true;
 
-    if(collision.get() != nullptr)
+    if (collision.get() != nullptr)
     {
         auto type = typeOfBlock.typeOfColli.find(COLLI_ALL);
 
-        if(type != typeOfBlock.typeOfColli.end())
+        if (type != typeOfBlock.typeOfColli.end())
         {
-            oldCollide = collision->isColliAll(type->second, collideBox, sf::FloatRect(position.x + typeOfBlock.spaceOfBlock.x, position.y + typeOfBlock.spaceOfBlock.y, typeOfBlock.sizeOfBlock.x, typeOfBlock.sizeOfBlock.y));
+            oldCollide = collision->isColliAll(type->second, collideBox,
+                                               sf::FloatRect(position.x + typeOfBlock.spaceOfBlock.x,
+                                                             position.y + typeOfBlock.spaceOfBlock.y,
+                                                             typeOfBlock.sizeOfBlock.x, typeOfBlock.sizeOfBlock.y));
         }
         else
         {
-            //auto lastType = typeOfBlock.typeOfColli.find(dir);
+            // auto lastType = typeOfBlock.typeOfColli.find(dir);
 
-            switch(dir)
+            switch (dir)
             {
                 case LEFT:
                 {
@@ -82,19 +85,23 @@ bool blockClass::isCollideWith(sf::FloatRect collideBox, direction dir)
 
 sf::Vector2i blockClass::getNewPosOf(sf::FloatRect collideBox, direction dir)
 {
-    if(collision.get() != nullptr)
+    if (collision.get() != nullptr)
     {
         auto type = typeOfBlock.typeOfColli.find(COLLI_ALL);
 
-        if(type != typeOfBlock.typeOfColli.end())
+        if (type != typeOfBlock.typeOfColli.end())
         {
-            return collision->getNewPosColliAll(type->second, collideBox, sf::FloatRect(position.x + typeOfBlock.spaceOfBlock.x, position.y + typeOfBlock.spaceOfBlock.y, typeOfBlock.sizeOfBlock.x, typeOfBlock.sizeOfBlock.y), dir);
+            return collision->getNewPosColliAll(type->second, collideBox,
+                                                sf::FloatRect(position.x + typeOfBlock.spaceOfBlock.x,
+                                                              position.y + typeOfBlock.spaceOfBlock.y,
+                                                              typeOfBlock.sizeOfBlock.x, typeOfBlock.sizeOfBlock.y),
+                                                dir);
         }
         else
         {
-            //auto lastType = typeOfBlock.typeOfColli.find(dir);
+            // auto lastType = typeOfBlock.typeOfColli.find(dir);
 
-            switch(dir)
+            switch (dir)
             {
                 case LEFT:
                 {
@@ -147,9 +154,9 @@ void blockClass::setPosition(int newX, int newY)
 
 void blockClass::setCollisionForVersion()
 {
-    if(global::versionOfGame >= 1)
+    if (global::versionOfGame >= "1.0"_vn)
     {
-        if(global::versionOfGame < 2)
+        if (global::versionOfGame < "2.0"_vn)
         {
             collision.reset(new collision1Class);
         }

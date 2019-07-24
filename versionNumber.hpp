@@ -5,11 +5,15 @@
 #include <string>
 #include <vector>
 
+class versionNumberClass;
+
+versionNumberClass operator""_vn(const char* versionNumbersAsStr, std::size_t sizeOfStr);
+
 class versionNumberClass
 {
 public:
-    versionNumberClass(std::initializer_list<unsigned int> listOfVersionNumbers);
-    versionNumberClass(std::string versionNumbersAsStr);
+    versionNumberClass(const std::initializer_list<unsigned int>& listOfVersionNumbers = {});
+    versionNumberClass(const std::string& versionNumbersAsStr);
     bool operator==(const versionNumberClass& other) const;
     bool operator!=(const versionNumberClass& other) const;
     bool operator<(const versionNumberClass& other) const;
