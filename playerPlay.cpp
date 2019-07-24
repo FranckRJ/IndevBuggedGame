@@ -168,19 +168,23 @@ void playerPlayClass::hasEnterInCollide(direction dir)
 {
     if (dir == direction::DOWN)
     {
-        if (infoForMove.currentVerticalVelocity >= 32)
+        if (infoForMove.currentVerticalVelocity > 64)
+        {
+            spriteWidthDeformationNeeded += 5;
+        }
+        else if (infoForMove.currentVerticalVelocity > 32)
         {
             spriteWidthDeformationNeeded += 4;
         }
-        else if (infoForMove.currentVerticalVelocity >= 16)
+        else if (infoForMove.currentVerticalVelocity > 16)
         {
             spriteWidthDeformationNeeded += 3;
         }
-        else if (infoForMove.currentVerticalVelocity >= 8)
+        else if (infoForMove.currentVerticalVelocity > 8)
         {
             spriteWidthDeformationNeeded += 2;
         }
-        else if (infoForMove.currentVerticalVelocity >= 4)
+        else if (infoForMove.currentVerticalVelocity > 4)
         {
             spriteWidthDeformationNeeded += 1;
         }
