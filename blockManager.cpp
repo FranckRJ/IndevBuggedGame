@@ -3,8 +3,6 @@
 #include "blockManager.hpp"
 #include "global.hpp"
 
-std::unordered_map<std::string, std::pair<blockProperties, blockSprite>> blockManagerClass::listOfBlock;
-
 void blockManagerClass::initialize()
 {
     blockProperties baseInfo;

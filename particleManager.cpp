@@ -1,7 +1,5 @@
 #include "particleManager.hpp"
 
-std::unordered_map<std::string, particleInfo> particleManagerClass::listOfParticle;
-
 void particleManagerClass::initialize()
 {
     particleInfo baseInfo;
@@ -22,11 +20,13 @@ void particleManagerClass::initialize()
     }
 }
 
-particleClass* particleManagerClass::createParticle(std::string particleName, sf::Color particleColor, sf::Vector2f particleSize, sf::Vector2i velocity, sf::Vector2f basePosition)
+particleClass* particleManagerClass::createParticle(std::string particleName, sf::Color particleColor,
+                                                    sf::Vector2f particleSize, sf::Vector2i velocity,
+                                                    sf::Vector2f basePosition)
 {
     auto infos = listOfParticle.find(particleName);
 
-    if(infos != listOfParticle.end())
+    if (infos != listOfParticle.end())
     {
         return new particleClass(infos->second, particleColor, particleSize, velocity, basePosition);
     }

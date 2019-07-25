@@ -1,8 +1,6 @@
 #include "messageManager.hpp"
 #include "global.hpp"
 
-std::unordered_map<std::string, std::pair<std::vector<rectForMessage>, sf::Text>> messageManagerClass::listOfMessage;
-
 void messageManagerClass::initialize()
 {
     {
@@ -70,7 +68,7 @@ std::pair<std::vector<rectForMessage>, sf::Text> messageManagerClass::getInfoFor
 {
     auto infos = listOfMessage.find(nameOfMessage);
 
-    if(infos != listOfMessage.end())
+    if (infos != listOfMessage.end())
     {
         return infos->second;
     }

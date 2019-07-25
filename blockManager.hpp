@@ -12,8 +12,9 @@ public:
     static sf::Color getColorOfBlock(std::string blockName);
     static basicBlock getBasicBlockForBlockNumber(int number);
     static int getNumberOfBlock();
+
 private:
-    static std::unordered_map<std::string, std::pair<blockProperties, blockSprite>> listOfBlock;
+    static inline std::unordered_map<std::string, std::pair<blockProperties, blockSprite>> listOfBlock;
 };
 
 #endif

@@ -24,7 +24,6 @@ SOURCES += \
         game.cpp \
         gamePlayed.cpp \
         gameStateStack.cpp \
-        global.cpp \
         levelManager.cpp \
         main.cpp \
         mainMenuState.cpp \

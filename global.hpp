@@ -12,11 +12,11 @@
 #include "gameStateStack.hpp"
 #include "versionNumber.hpp"
 
-struct global
+namespace global
 {
-    static versionNumberClass versionOfGame;
-    static gameStateStackClass* activeGameStateStack;
-    static sf::Font font;
-};
+    inline versionNumberClass versionOfGame = "1.0"_vn;
+    inline gameStateStackClass* activeGameStateStack;
+    inline sf::Font font;
+}; // namespace global
 
 #endif
