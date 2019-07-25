@@ -38,6 +38,7 @@ void gamePlayedClass::update()
         setCameraToCharacter(playerPlay);
     } while (continueMove);
 
+    playerPlay.setCanMoveIntentionally(true);
     checkCharacterInBorder(playerPlay);
     if (checkCharacterCollideWithBlock(playerPlay, playerPlay.getDirection()))
     {
@@ -176,6 +177,10 @@ bool gamePlayedClass::checkCharacterCollideWithBlock(characterClass& character, 
                         if (block->second->getBlockInfo().isDeadlyToPlayer)
                         {
                             character.setIsDead(true);
+                        }
+                        if (block->second->getBlockInfo().doStopPlayerFromMoving)
+                        {
+                            character.setCanMoveIntentionally(false);
                         }
                         if (block->second->getBlockInfo().isFinishTrigger)
                         {

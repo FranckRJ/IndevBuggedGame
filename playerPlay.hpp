@@ -21,16 +21,10 @@ public:
     void hasEnterInCollide(direction dir);
     void startJump();
     void attractTo(sf::Vector2i thisDirection);
-    bool getIsDead();
     sf::FloatRect getSpriteBox();
-    sf::FloatRect getCollideBox();
-    sf::Vector2i getPosition();
     direction getDirection();
     direction getVerticalDirection();
-    void setIsDead(bool newVal);
     void setMoveTo(direction dir);
-    void setPosition(sf::Vector2i newPosition);
-    void setPosition(int newX, int newY);
     void setMovementForVersion();
     void setVisorForSprite();
 

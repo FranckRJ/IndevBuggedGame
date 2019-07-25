@@ -28,13 +28,14 @@ public:
     virtual ~characterClass();
     virtual void draw(sf::RenderWindow& window) = 0;
     virtual void hasEnterInCollide(direction dir) = 0;
-    virtual bool getIsDead() = 0;
+    virtual bool getIsDead();
     virtual sf::FloatRect getSpriteBox() = 0;
-    virtual sf::FloatRect getCollideBox() = 0;
-    virtual sf::Vector2i getPosition() = 0;
-    virtual void setIsDead(bool newVal) = 0;
-    virtual void setPosition(sf::Vector2i newPosition) = 0;
-    virtual void setPosition(int newX, int newY) = 0;
+    virtual sf::FloatRect getCollideBox();
+    virtual sf::Vector2i getPosition();
+    virtual void setCanMoveIntentionally(bool newVal);
+    virtual void setIsDead(bool newVal);
+    virtual void setPosition(sf::Vector2i newPosition);
+    virtual void setPosition(int newX, int newY);
 
 protected:
     sf::Vector2i position;

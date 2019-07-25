@@ -210,24 +210,9 @@ void playerPlayClass::attractTo(sf::Vector2i thisDirection)
     infoForMove.currentVerticalVelocity += thisDirection.y;
 }
 
-bool playerPlayClass::getIsDead()
-{
-    return isDead;
-}
-
 sf::FloatRect playerPlayClass::getSpriteBox()
 {
     return sprite.getGlobalBounds();
-}
-
-sf::FloatRect playerPlayClass::getCollideBox()
-{
-    return sf::FloatRect(position.x, position.y, sizeOfCollideBox.x, sizeOfCollideBox.y);
-}
-
-sf::Vector2i playerPlayClass::getPosition()
-{
-    return position;
 }
 
 direction playerPlayClass::getDirection()
@@ -251,24 +236,9 @@ direction playerPlayClass::getVerticalDirection()
     }
 }
 
-void playerPlayClass::setIsDead(bool newVal)
-{
-    isDead = newVal;
-}
-
 void playerPlayClass::setMoveTo(direction dir)
 {
     currentDir = dir;
-}
-
-void playerPlayClass::setPosition(sf::Vector2i newPosition)
-{
-    position = newPosition;
-}
-
-void playerPlayClass::setPosition(int newX, int newY)
-{
-    setPosition(sf::Vector2i(newX, newY));
 }
 
 void playerPlayClass::setMovementForVersion()
