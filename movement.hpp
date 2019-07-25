@@ -11,19 +11,19 @@ class movementClass
 {
 public:
     void setFuncsForGameVersion(const versionNumberClass& gameVersion);
-    sf::Vector2i moveCharacterTo(moveInfo& infoForMove, direction dir, sf::Vector2i position);
-    sf::Vector2i applyGravity(moveInfo& infoForMove, sf::Vector2i position);
-    void enterInCollide(moveInfo& infoForMove, direction dir);
-    bool startJump(moveInfo& infoForMove);
+    sf::Vector2i moveCharacterTo(moveInfos& infoForMove, direction dir, sf::Vector2i position);
+    sf::Vector2i applyGravity(moveInfos& infoForMove, sf::Vector2i position);
+    void enterInCollide(moveInfos& infoForMove, direction dir);
+    bool startJump(moveInfos& infoForMove);
 
 private:
     void resetAllInternalFuncs();
 
 private:
-    std::function<sf::Vector2i(moveInfo&, direction, sf::Vector2i)> moveCharacterToFunc;
-    std::function<sf::Vector2i(moveInfo&, sf::Vector2i)> applyGravityFunc;
-    std::function<void(moveInfo&, direction)> enterInCollideFunc;
-    std::function<bool(moveInfo&)> startJumpFunc;
+    std::function<sf::Vector2i(moveInfos&, direction, sf::Vector2i)> moveCharacterToFunc;
+    std::function<sf::Vector2i(moveInfos&, sf::Vector2i)> applyGravityFunc;
+    std::function<void(moveInfos&, direction)> enterInCollideFunc;
+    std::function<bool(moveInfos&)> startJumpFunc;
 };
 
 #endif

@@ -31,6 +31,7 @@ struct blockProperties
     bool isTriggeredContinuously = true;
     bool isDeadlyToPlayer = false;
     bool isInForeground = false;
+    bool doStopPlayerFromMoving = false;
 };
 
 struct blockSprite
@@ -52,8 +53,8 @@ public:
     blockClass(const blockProperties& newProperties, const blockSprite& newSpriteInfos);
     void update();
     void draw(sf::RenderWindow& window);
-    bool isCollideWith(sf::FloatRect collideBox);
-    sf::Vector2i getNewPosOf(sf::FloatRect collideBox, direction dir);
+    bool isCollidingWith(sf::FloatRect collideBox);
+    sf::Vector2i getPosAfterCollide(sf::FloatRect collideBox, direction dir);
     const blockProperties getBlockInfo();
     bool getWasInCollideLastFrame();
     void setPosition(sf::Vector2i newPosition);

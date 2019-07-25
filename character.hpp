@@ -12,13 +12,14 @@ enum class direction
     NONE
 };
 
-struct moveInfo
+struct moveInfos
 {
     int speed = 0;
     int jumpPower = 0;
     double currentVerticalVelocity = 0;
     bool canJump = false;
     bool isInJump = false;
+    bool canMoveIntentionally = false;
 };
 
 class characterClass
@@ -38,7 +39,7 @@ public:
 protected:
     sf::Vector2i position;
     sf::Vector2i sizeOfCollideBox;
-    moveInfo infoForMove;
+    moveInfos infoForMove;
     bool isDead = false;
 };
 

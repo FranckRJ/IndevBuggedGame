@@ -26,7 +26,7 @@ void blockClass::draw(sf::RenderWindow& window)
     window.draw(sprite);
 }
 
-bool blockClass::isCollideWith(sf::FloatRect collideBox)
+bool blockClass::isCollidingWith(sf::FloatRect collideBox)
 {
     hasCheckedCollideLastFrame = true;
 
@@ -37,7 +37,7 @@ bool blockClass::isCollideWith(sf::FloatRect collideBox)
     return wasInCollideLastFrame;
 }
 
-sf::Vector2i blockClass::getNewPosOf(sf::FloatRect collideBox, direction dir)
+sf::Vector2i blockClass::getPosAfterCollide(sf::FloatRect collideBox, direction dir)
 {
     return collision.getNewPosAfterCollide(collideBox,
                                            sf::FloatRect(position.x + spriteInfos.margin.x,

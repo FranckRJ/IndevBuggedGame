@@ -158,20 +158,20 @@ bool gamePlayedClass::checkCharacterCollideWithBlock(characterClass& character, 
                 if (!(block->second->getBlockInfo().isTriggeredContinuously) &&
                     block->second->getWasInCollideLastFrame())
                 {
-                    block->second->isCollideWith(character.getCollideBox());
+                    block->second->isCollidingWith(character.getCollideBox());
                 }
                 else
                 {
                     if (onlySolid)
                     {
                         if (block->second->getBlockInfo().isSolid &&
-                            block->second->isCollideWith(character.getCollideBox()))
+                            block->second->isCollidingWith(character.getCollideBox()))
                         {
                             character.hasEnterInCollide(dir);
-                            character.setPosition(block->second->getNewPosOf(character.getCollideBox(), dir));
+                            character.setPosition(block->second->getPosAfterCollide(character.getCollideBox(), dir));
                         }
                     }
-                    else if (block->second->isCollideWith(character.getCollideBox()))
+                    else if (block->second->isCollidingWith(character.getCollideBox()))
                     {
                         if (block->second->getBlockInfo().isDeadlyToPlayer)
                         {

@@ -8,6 +8,7 @@ playerPlayClass::playerPlayClass()
     infoForMove.jumpPower = -20;
     infoForMove.currentVerticalVelocity = 0;
     infoForMove.canJump = true;
+    infoForMove.canMoveIntentionally = true;
     infoForMove.isInJump = false;
     spriteSizeDeformation = sf::Vector2i(0, 0);
     baseSpriteSize = sf::Vector2i(40, 80);
@@ -55,7 +56,7 @@ void playerPlayClass::updateSpriteShape()
 
 bool playerPlayClass::applyMove()
 {
-    if (currentDir != direction::NONE)
+    if (infoForMove.canMoveIntentionally && currentDir != direction::NONE)
     {
         position = movement.moveCharacterTo(infoForMove, currentDir, position);
 

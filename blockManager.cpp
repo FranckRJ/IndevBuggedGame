@@ -54,6 +54,8 @@ void blockManagerClass::initialize()
         blockProperties properties;
         blockSprite spriteInfos;
 
+        properties.doStopPlayerFromMoving = true;
+
         spriteInfos.color = sf::Color(138, 43, 226);
 
         getBlockInfos(blockId::PUSH_RIGHT_BLOCK) = {properties, spriteInfos};
