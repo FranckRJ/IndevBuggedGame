@@ -3,29 +3,29 @@
 
 blockClass::blockClass()
 {
-    oldCollide = false;
-    collideCheckLastFrame = false;
+    wasInCollideLastFrame = false;
+    hasCheckedCollideLastFrame = false;
 }
 
-blockClass::blockClass(blockInfo newInfoForBlock, blockType newTypeOfBlock) : blockClass()
+blockClass::blockClass(blockProperties newProperties, blockSprite newSpriteInfos) : blockClass()
 {
-    infoForBlock = newInfoForBlock;
-    typeOfBlock = newTypeOfBlock;
+    properties = newProperties;
+    spriteInfos = newSpriteInfos;
 
-    sprite.setSize(sf::Vector2f(typeOfBlock.sizeOfBlock.x, typeOfBlock.sizeOfBlock.y));
-    sprite.setFillColor(typeOfBlock.colorOfBlock);
+    sprite.setSize(sf::Vector2f(spriteInfos.size.x, spriteInfos.size.y));
+    sprite.setFillColor(spriteInfos.color);
     setCollisionForVersion();
 }
 
 void blockClass::update()
 {
-    if (collideCheckLastFrame)
+    if (hasCheckedCollideLastFrame)
     {
-        collideCheckLastFrame = false;
+        hasCheckedCollideLastFrame = false;
     }
     else
     {
-        oldCollide = false;
+        wasInCollideLastFrame = false;
     }
 }
 
@@ -36,44 +36,44 @@ void blockClass::draw(sf::RenderWindow& window)
 
 bool blockClass::isCollideWith(sf::FloatRect collideBox)
 {
-    collideCheckLastFrame = true;
+    hasCheckedCollideLastFrame = true;
 
-    oldCollide = collision.hasCollided(collideBox, sf::FloatRect(position.x + typeOfBlock.spaceOfBlock.x,
-                                                                 position.y + typeOfBlock.spaceOfBlock.y,
-                                                                 typeOfBlock.sizeOfBlock.x, typeOfBlock.sizeOfBlock.y));
+    wasInCollideLastFrame = collision.hasCollided(collideBox, sf::FloatRect(position.x + spriteInfos.margin.x,
+                                                                            position.y + spriteInfos.margin.y,
+                                                                            spriteInfos.size.x, spriteInfos.size.y));
 
-    return oldCollide;
+    return wasInCollideLastFrame;
 }
 
 sf::Vector2i blockClass::getNewPosOf(sf::FloatRect collideBox, direction dir)
 {
     return collision.getNewPosAfterCollide(collideBox,
-                                           sf::FloatRect(position.x + typeOfBlock.spaceOfBlock.x,
-                                                         position.y + typeOfBlock.spaceOfBlock.y,
-                                                         typeOfBlock.sizeOfBlock.x, typeOfBlock.sizeOfBlock.y),
+                                           sf::FloatRect(position.x + spriteInfos.margin.x,
+                                                         position.y + spriteInfos.margin.y, spriteInfos.size.x,
+                                                         spriteInfos.size.y),
                                            dir);
 }
 
-const blockInfo blockClass::getBlockInfo()
+const blockProperties blockClass::getBlockInfo()
 {
-    return infoForBlock;
+    return properties;
 }
 
-bool blockClass::getOldCollide()
+bool blockClass::getWasInCollideLastFrame()
 {
-    return oldCollide;
+    return wasInCollideLastFrame;
 }
 
 void blockClass::setPosition(sf::Vector2i newPosition)
 {
     position = newPosition;
-    sprite.setPosition(position.x + typeOfBlock.spaceOfBlock.x, position.y + typeOfBlock.spaceOfBlock.y);
+    sprite.setPosition(position.x + spriteInfos.margin.x, position.y + spriteInfos.margin.y);
 }
 
 void blockClass::setPosition(int newX, int newY)
 {
     position = sf::Vector2i(newX, newY);
-    sprite.setPosition(newX + typeOfBlock.spaceOfBlock.x, newY + typeOfBlock.spaceOfBlock.y);
+    sprite.setPosition(newX + spriteInfos.margin.x, newY + spriteInfos.margin.y);
 }
 
 void blockClass::setCollisionForVersion()

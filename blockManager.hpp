@@ -13,7 +13,7 @@ public:
     static basicBlock getBasicBlockForBlockNumber(int number);
     static int getNumberOfBlock();
 private:
-    static std::unordered_map<std::string, std::pair<blockInfo, blockType>> listOfBlock;
+    static std::unordered_map<std::string, std::pair<blockProperties, blockSprite>> listOfBlock;
 };
 
 #endif

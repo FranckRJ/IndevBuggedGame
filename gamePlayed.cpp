@@ -61,7 +61,7 @@ void gamePlayedClass::update()
             if (block != infoForLevel.mapOfGame.end())
             {
                 block->second->update();
-                if (block->second->getBlockInfo().isForegroundBlock)
+                if (block->second->getBlockInfo().isInForeground)
                 {
                     listOfForegroundBlock.push_back(block->second.get());
                 }
@@ -155,7 +155,8 @@ bool gamePlayedClass::checkCharacterCollideWithBlock(characterClass& character, 
 
             if (block != infoForLevel.mapOfGame.end())
             {
-                if (block->second->getBlockInfo().isOnlyOneBlock && block->second->getOldCollide())
+                if (!(block->second->getBlockInfo().isTriggeredContinuously) &&
+                    block->second->getWasInCollideLastFrame())
                 {
                     block->second->isCollideWith(character.getCollideBox());
                 }
@@ -163,7 +164,7 @@ bool gamePlayedClass::checkCharacterCollideWithBlock(characterClass& character, 
                 {
                     if (onlySolid)
                     {
-                        if (block->second->getBlockInfo().isSolidBlock &&
+                        if (block->second->getBlockInfo().isSolid &&
                             block->second->isCollideWith(character.getCollideBox()))
                         {
                             character.hasEnterInCollide(dir);
@@ -172,11 +173,11 @@ bool gamePlayedClass::checkCharacterCollideWithBlock(characterClass& character, 
                     }
                     else if (block->second->isCollideWith(character.getCollideBox()))
                     {
-                        if (block->second->getBlockInfo().isKillPlayerBlock)
+                        if (block->second->getBlockInfo().isDeadlyToPlayer)
                         {
                             character.setIsDead(true);
                         }
-                        if (block->second->getBlockInfo().isFinishBlock)
+                        if (block->second->getBlockInfo().isFinishTrigger)
                         {
                             if (infoForLevel.nextLevelName.empty())
                             {

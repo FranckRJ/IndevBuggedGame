@@ -1,57 +1,57 @@
 #include "blockManager.hpp"
 #include "global.hpp"
 
-std::unordered_map<std::string, std::pair<blockInfo, blockType>> blockManagerClass::listOfBlock;
+std::unordered_map<std::string, std::pair<blockProperties, blockSprite>> blockManagerClass::listOfBlock;
 
 void blockManagerClass::initialize()
 {
-    blockInfo baseInfo;
-    blockType baseType;
+    blockProperties baseInfo;
+    blockSprite baseType;
 
-    baseInfo.isFinishBlock = false;
-    baseInfo.isSolidBlock = false;
-    baseInfo.isOnlyOneBlock = false;
-    baseInfo.isKillPlayerBlock = false;
-    baseInfo.isForegroundBlock = false;
+    baseInfo.isFinishTrigger = false;
+    baseInfo.isSolid = false;
+    baseInfo.isTriggeredContinuously = true;
+    baseInfo.isDeadlyToPlayer = false;
+    baseInfo.isInForeground = false;
 
-    baseType.colorOfBlock = sf::Color::Black;
-    baseType.sizeOfBlock = sf::Vector2i(SIZE_BLOCK, SIZE_BLOCK);
-    baseType.spaceOfBlock = sf::Vector2i(0, 0);
+    baseType.color = sf::Color::Black;
+    baseType.size = sf::Vector2i(SIZE_BLOCK, SIZE_BLOCK);
+    baseType.margin = sf::Vector2i(0, 0);
 
     {
-        blockInfo info = baseInfo;
-        blockType type = baseType;
+        blockProperties info = baseInfo;
+        blockSprite type = baseType;
 
-        info.isFinishBlock = true;
-        info.isOnlyOneBlock = true;
-        info.isForegroundBlock = true;
+        info.isFinishTrigger = true;
+        info.isTriggeredContinuously = false;
+        info.isInForeground = true;
 
-        type.colorOfBlock = sf::Color::Red;
+        type.color = sf::Color::Red;
 
-        listOfBlock["FINISH_BLOCK"] = std::pair<blockInfo, blockType>(info, type);
+        listOfBlock["FINISH_BLOCK"] = std::pair<blockProperties, blockSprite>(info, type);
     }
 
     {
-        blockInfo info = baseInfo;
-        blockType type = baseType;
+        blockProperties info = baseInfo;
+        blockSprite type = baseType;
 
-        info.isSolidBlock = true;
+        info.isSolid = true;
 
-        type.colorOfBlock = sf::Color::Green;
+        type.color = sf::Color::Green;
 
-        listOfBlock["COLLIDE_BLOCK"] = std::pair<blockInfo, blockType>(info, type);
+        listOfBlock["COLLIDE_BLOCK"] = std::pair<blockProperties, blockSprite>(info, type);
     }
 
     {
-        blockInfo info = baseInfo;
-        blockType type = baseType;
+        blockProperties info = baseInfo;
+        blockSprite type = baseType;
 
-        info.isKillPlayerBlock = true;
-        info.isForegroundBlock = true;
+        info.isDeadlyToPlayer = true;
+        info.isInForeground = true;
 
-        type.colorOfBlock = sf::Color(255, 140, 0);
+        type.color = sf::Color(255, 140, 0);
 
-        listOfBlock["LAVA_BLOCK"] = std::pair<blockInfo, blockType>(info, type);
+        listOfBlock["LAVA_BLOCK"] = std::pair<blockProperties, blockSprite>(info, type);
     }
 }
 
@@ -79,7 +79,7 @@ basicBlock blockManagerClass::createBasicBlock(std::string blockName)
 
         newBlock.name = infos->first;
         newBlock.sprite.setSize(sf::Vector2f(SIZE_BLOCK, SIZE_BLOCK));
-        newBlock.sprite.setFillColor(infos->second.second.colorOfBlock);
+        newBlock.sprite.setFillColor(infos->second.second.color);
 
         return newBlock;
     }
@@ -95,7 +95,7 @@ sf::Color blockManagerClass::getColorOfBlock(std::string blockName)
 
     if (infos != listOfBlock.end())
     {
-        return infos->second.second.colorOfBlock;
+        return infos->second.second.color;
     }
     else
     {

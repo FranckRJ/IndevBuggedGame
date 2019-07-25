@@ -13,45 +13,45 @@ struct basicBlock
     std::string name;
 };
 
-struct blockInfo
+struct blockProperties
 {
-    bool isFinishBlock;
-    bool isSolidBlock;
-    bool isOnlyOneBlock;
-    bool isKillPlayerBlock;
-    bool isForegroundBlock;
+    bool isFinishTrigger;
+    bool isSolid;
+    bool isTriggeredContinuously;
+    bool isDeadlyToPlayer;
+    bool isInForeground;
 };
 
-struct blockType
+struct blockSprite
 {
-    sf::Vector2i spaceOfBlock;
-    sf::Vector2i sizeOfBlock;
-    sf::Color colorOfBlock;
+    sf::Vector2i margin;
+    sf::Vector2i size;
+    sf::Color color;
 };
 
 class blockClass
 {
 public:
     blockClass();
-    blockClass(blockInfo newInfoForBlock, blockType newTypeOfBlock);
+    blockClass(blockProperties newProperties, blockSprite newSpriteInfos);
     void update();
     void draw(sf::RenderWindow& window);
     bool isCollideWith(sf::FloatRect collideBox);
     sf::Vector2i getNewPosOf(sf::FloatRect collideBox, direction dir);
-    const blockInfo getBlockInfo();
-    bool getOldCollide();
+    const blockProperties getBlockInfo();
+    bool getWasInCollideLastFrame();
     void setPosition(sf::Vector2i newPosition);
     void setPosition(int newX, int newY);
     void setCollisionForVersion();
 
 private:
-    bool oldCollide;
-    bool collideCheckLastFrame;
+    bool wasInCollideLastFrame;
+    bool hasCheckedCollideLastFrame;
     sf::RectangleShape sprite;
     sf::Vector2i position;
     collisionClass collision;
-    blockInfo infoForBlock;
-    blockType typeOfBlock;
+    blockProperties properties;
+    blockSprite spriteInfos;
 };
 
 #endif
