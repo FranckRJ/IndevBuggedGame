@@ -1,17 +1,9 @@
 #include "block.hpp"
 #include "global.hpp"
 
-blockClass::blockClass()
+blockClass::blockClass(const blockProperties& newProperties, const blockSprite& newSpriteInfos)
+    : properties(newProperties), spriteInfos(newSpriteInfos)
 {
-    wasInCollideLastFrame = false;
-    hasCheckedCollideLastFrame = false;
-}
-
-blockClass::blockClass(blockProperties newProperties, blockSprite newSpriteInfos) : blockClass()
-{
-    properties = newProperties;
-    spriteInfos = newSpriteInfos;
-
     sprite.setSize(sf::Vector2f(spriteInfos.size.x, spriteInfos.size.y));
     sprite.setFillColor(spriteInfos.color);
     setCollisionForVersion();

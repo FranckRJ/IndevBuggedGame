@@ -6,6 +6,7 @@
 
 #include "character.hpp"
 #include "collision.hpp"
+#include "global.hpp"
 
 struct basicBlock
 {
@@ -15,25 +16,24 @@ struct basicBlock
 
 struct blockProperties
 {
-    bool isFinishTrigger;
-    bool isSolid;
-    bool isTriggeredContinuously;
-    bool isDeadlyToPlayer;
-    bool isInForeground;
+    bool isFinishTrigger = false;
+    bool isSolid = false;
+    bool isTriggeredContinuously = true;
+    bool isDeadlyToPlayer = false;
+    bool isInForeground = false;
 };
 
 struct blockSprite
 {
-    sf::Vector2i margin;
-    sf::Vector2i size;
-    sf::Color color;
+    sf::Vector2i margin = sf::Vector2i(0, 0);
+    sf::Vector2i size = sf::Vector2i(SIZE_BLOCK, SIZE_BLOCK);
+    sf::Color color = sf::Color::Black;
 };
 
 class blockClass
 {
 public:
-    blockClass();
-    blockClass(blockProperties newProperties, blockSprite newSpriteInfos);
+    blockClass(const blockProperties& newProperties, const blockSprite& newSpriteInfos);
     void update();
     void draw(sf::RenderWindow& window);
     bool isCollideWith(sf::FloatRect collideBox);
@@ -45,13 +45,13 @@ public:
     void setCollisionForVersion();
 
 private:
-    bool wasInCollideLastFrame;
-    bool hasCheckedCollideLastFrame;
+    bool wasInCollideLastFrame = false;
+    bool hasCheckedCollideLastFrame = false;
     sf::RectangleShape sprite;
     sf::Vector2i position;
     collisionClass collision;
-    blockProperties properties;
-    blockSprite spriteInfos;
+    const blockProperties& properties;
+    const blockSprite& spriteInfos;
 };
 
 #endif

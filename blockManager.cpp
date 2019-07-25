@@ -1,3 +1,5 @@
+#include <stdexcept>
+
 #include "blockManager.hpp"
 #include "global.hpp"
 
@@ -7,16 +9,6 @@ void blockManagerClass::initialize()
 {
     blockProperties baseInfo;
     blockSprite baseType;
-
-    baseInfo.isFinishTrigger = false;
-    baseInfo.isSolid = false;
-    baseInfo.isTriggeredContinuously = true;
-    baseInfo.isDeadlyToPlayer = false;
-    baseInfo.isInForeground = false;
-
-    baseType.color = sf::Color::Black;
-    baseType.size = sf::Vector2i(SIZE_BLOCK, SIZE_BLOCK);
-    baseType.margin = sf::Vector2i(0, 0);
 
     {
         blockProperties info = baseInfo;
@@ -65,7 +57,7 @@ blockClass* blockManagerClass::createBlock(std::string blockName)
     }
     else
     {
-        return new blockClass;
+        throw std::invalid_argument("invalid block name");
     }
 }
 
@@ -85,7 +77,7 @@ basicBlock blockManagerClass::createBasicBlock(std::string blockName)
     }
     else
     {
-        return basicBlock();
+        throw std::invalid_argument("invalid block name");
     }
 }
 
@@ -99,7 +91,7 @@ sf::Color blockManagerClass::getColorOfBlock(std::string blockName)
     }
     else
     {
-        return sf::Color::Black;
+        throw std::invalid_argument("invalid block name");
     }
 }
 
@@ -116,7 +108,7 @@ basicBlock blockManagerClass::getBasicBlockForBlockNumber(int number)
         ++counter;
     }
 
-    return basicBlock();
+    throw std::invalid_argument("invalid block number");
 }
 
 int blockManagerClass::getNumberOfBlock()
