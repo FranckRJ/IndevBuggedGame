@@ -32,8 +32,8 @@ struct basicLevelInfo
 class levelManagerClass
 {
 public:
-    static void setBlockHere(std::map<point, std::unique_ptr<blockClass>>& currentMap, std::string nameOfBlock,
-                             int xBlock, int yBlock);
+    static void setBlockHere(std::map<point, std::unique_ptr<blockClass>>& currentMap, blockId idOfBlock, int xBlock,
+                             int yBlock);
     static void loadLevelFromFile(levelInfo& currentLevel, std::string filePath);
     static void loadBasicLevelFromFile(basicLevelInfo& currentLevel, std::string filePath);
     static void saveBasicLevel(basicLevelInfo& currentLevel, std::string levelName);

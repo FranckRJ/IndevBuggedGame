@@ -1,115 +1,173 @@
+#include <map>
 #include <stdexcept>
 
 #include "blockManager.hpp"
 #include "global.hpp"
 
+namespace
+{
+    std::map<blockId, std::string> blockIdToStringConvList = {{blockId::COLLIDE_BLOCK, "COLLIDE_BLOCK"},
+                                                              {blockId::FINISH_BLOCK, "FINISH_BLOCK"},
+                                                              {blockId::LAVA_BLOCK, "LAVA_BLOCK"},
+                                                              {blockId::PUSH_RIGHT_BLOCK, "PUSH_RIGHT_BLOCK"}};
+}
+
 void blockManagerClass::initialize()
 {
-    blockProperties baseInfo;
-    blockSprite baseType;
-
     {
-        blockProperties info = baseInfo;
-        blockSprite type = baseType;
+        blockProperties properties;
+        blockSprite spriteInfos;
 
-        info.isFinishTrigger = true;
-        info.isTriggeredContinuously = false;
-        info.isInForeground = true;
+        properties.isFinishTrigger = true;
+        properties.isTriggeredContinuously = false;
+        properties.isInForeground = true;
 
-        type.color = sf::Color::Red;
+        spriteInfos.color = sf::Color::Red;
 
-        listOfBlock["FINISH_BLOCK"] = std::pair<blockProperties, blockSprite>(info, type);
+        getBlockInfos(blockId::FINISH_BLOCK) = {properties, spriteInfos};
     }
 
     {
-        blockProperties info = baseInfo;
-        blockSprite type = baseType;
+        blockProperties properties;
+        blockSprite spriteInfos;
 
-        info.isSolid = true;
+        properties.isSolid = true;
 
-        type.color = sf::Color::Green;
+        spriteInfos.color = sf::Color::Green;
 
-        listOfBlock["COLLIDE_BLOCK"] = std::pair<blockProperties, blockSprite>(info, type);
+        getBlockInfos(blockId::COLLIDE_BLOCK) = {properties, spriteInfos};
     }
 
     {
-        blockProperties info = baseInfo;
-        blockSprite type = baseType;
+        blockProperties properties;
+        blockSprite spriteInfos;
 
-        info.isDeadlyToPlayer = true;
-        info.isInForeground = true;
+        properties.isDeadlyToPlayer = true;
+        properties.isInForeground = true;
 
-        type.color = sf::Color(255, 140, 0);
+        spriteInfos.color = sf::Color(255, 140, 0);
 
-        listOfBlock["LAVA_BLOCK"] = std::pair<blockProperties, blockSprite>(info, type);
+        getBlockInfos(blockId::LAVA_BLOCK) = {properties, spriteInfos};
+    }
+
+    {
+        blockProperties properties;
+        blockSprite spriteInfos;
+
+        spriteInfos.color = sf::Color(138, 43, 226);
+
+        getBlockInfos(blockId::PUSH_RIGHT_BLOCK) = {properties, spriteInfos};
     }
 }
 
-blockClass* blockManagerClass::createBlock(std::string blockName)
+blockClass* blockManagerClass::createBlock(blockId id)
 {
-    auto infos = listOfBlock.find(blockName);
+    blockInfos& infos = getBlockInfos(id);
 
-    if (infos != listOfBlock.end())
+    return new blockClass(infos.properties, infos.spriteInfos);
+}
+
+basicBlock blockManagerClass::createBasicBlock(blockId id)
+{
+    blockInfos& infos = getBlockInfos(id);
+    basicBlock newBlock;
+
+    newBlock.id = id;
+    newBlock.sprite.setSize(sf::Vector2f(SIZE_BLOCK, SIZE_BLOCK));
+    newBlock.sprite.setFillColor(infos.spriteInfos.color);
+
+    return newBlock;
+}
+
+basicBlock blockManagerClass::createNextBasicBlock(const basicBlock& block)
+{
+    std::size_t newBlockNumber = blockIdToNumber(block.id) + 1;
+
+    if (newBlockNumber >= blockIdToNumber(blockId::NUMBER_OF_BLOCKS))
     {
-        return new blockClass(infos->second.first, infos->second.second);
+        newBlockNumber = 0;
+    }
+
+    return createBasicBlock(numberToBlockId(newBlockNumber));
+}
+
+basicBlock blockManagerClass::createPreviousBasicBlock(const basicBlock& block)
+{
+    std::size_t newBlockNumber = blockIdToNumber(block.id);
+
+    if (newBlockNumber == 0)
+    {
+        newBlockNumber = blockIdToNumber(blockId::NUMBER_OF_BLOCKS) - 1;
     }
     else
     {
-        throw std::invalid_argument("invalid block name");
+        --newBlockNumber;
     }
+
+    return createBasicBlock(numberToBlockId(newBlockNumber));
 }
 
-basicBlock blockManagerClass::createBasicBlock(std::string blockName)
+sf::Color blockManagerClass::getColorOfBlock(blockId id)
 {
-    auto infos = listOfBlock.find(blockName);
+    blockInfos& infos = getBlockInfos(id);
 
-    if (infos != listOfBlock.end())
+    return infos.spriteInfos.color;
+}
+
+blockInfos& blockManagerClass::getBlockInfos(blockId id)
+{
+    std::size_t blockIdx = blockIdToNumber(id);
+
+    if (blockIdx < listOfBlocks.size())
     {
-        basicBlock newBlock;
-
-        newBlock.name = infos->first;
-        newBlock.sprite.setSize(sf::Vector2f(SIZE_BLOCK, SIZE_BLOCK));
-        newBlock.sprite.setFillColor(infos->second.second.color);
-
-        return newBlock;
+        return listOfBlocks[blockIdx];
     }
     else
     {
-        throw std::invalid_argument("invalid block name");
+        throw std::invalid_argument("invalid block id");
     }
 }
 
-sf::Color blockManagerClass::getColorOfBlock(std::string blockName)
+constexpr std::size_t blockManagerClass::blockIdToNumber(blockId id)
 {
-    auto infos = listOfBlock.find(blockName);
+    return static_cast<std::size_t>(id);
+}
 
-    if (infos != listOfBlock.end())
+constexpr blockId blockManagerClass::numberToBlockId(std::size_t number)
+{
+    if (number < blockIdToNumber(blockId::NUMBER_OF_BLOCKS))
     {
-        return infos->second.second.color;
+        return static_cast<blockId>(number);
     }
     else
     {
-        throw std::invalid_argument("invalid block name");
+        throw std::range_error("invalid block number");
     }
 }
 
-basicBlock blockManagerClass::getBasicBlockForBlockNumber(int number)
+std::string blockManagerClass::blockIdToString(blockId id)
 {
-    int counter = 0;
-    for (auto& listOfBlockIte : listOfBlock)
+    const auto blockConv = blockIdToStringConvList.find(id);
+
+    if (blockConv != blockIdToStringConvList.end())
     {
-        if (counter >= number)
+        return blockConv->second;
+    }
+    else
+    {
+        throw std::invalid_argument("invalid block id");
+    }
+}
+
+blockId blockManagerClass::stringBlockId(std::string str)
+{
+    for (auto [idOfBlock, strOfBlock] : blockIdToStringConvList)
+    {
+        if (strOfBlock == str)
         {
-            return createBasicBlock(listOfBlockIte.first);
+            return idOfBlock;
         }
-
-        ++counter;
     }
 
-    throw std::invalid_argument("invalid block number");
-}
-
-int blockManagerClass::getNumberOfBlock()
-{
-    return listOfBlock.size();
+    throw std::invalid_argument("invalid block name");
 }

@@ -13,8 +13,7 @@ editLevelStateClass::editLevelStateClass(std::string levelName)
     playerSprite.setFillColor(sf::Color::Blue);
     playerSprite.setPosition(infoForLevel.playerStartPosition.x, infoForLevel.playerStartPosition.y);
 
-    idCurrentBlock = 0;
-    newIdForCurrentBlock();
+    currentBlock = blockManagerClass::createBasicBlock(blockId::COLLIDE_BLOCK);
     currentBlock.sprite.setPosition(-SIZE_BLOCK * 2, -SIZE_BLOCK * 2);
 }
 
@@ -22,29 +21,27 @@ void editLevelStateClass::update(sf::RenderWindow& window)
 {
     sf::Event event;
 
-    while(window.pollEvent(event))
+    while (window.pollEvent(event))
     {
-        if(event.type == sf::Event::Closed)
+        if (event.type == sf::Event::Closed)
         {
             window.close();
         }
-        else if(event.type == sf::Event::KeyPressed)
+        else if (event.type == sf::Event::KeyPressed)
         {
-            if(event.key.code == sf::Keyboard::Subtract)
+            if (event.key.code == sf::Keyboard::Subtract)
             {
-                ++idCurrentBlock;
-                newIdForCurrentBlock();
+                currentBlock = blockManagerClass::createNextBasicBlock(currentBlock);
             }
-            else if(event.key.code == sf::Keyboard::Add)
+            else if (event.key.code == sf::Keyboard::Add)
             {
-                --idCurrentBlock;
-                newIdForCurrentBlock();
+                currentBlock = blockManagerClass::createPreviousBasicBlock(currentBlock);
             }
-            else if(event.key.code == sf::Keyboard::S)
+            else if (event.key.code == sf::Keyboard::S)
             {
                 levelManagerClass::saveBasicLevel(infoForLevel, currentLevelName);
             }
-            else if(event.key.code == sf::Keyboard::L)
+            else if (event.key.code == sf::Keyboard::L)
             {
                 infoForLevel.mapOfGame.clear();
                 levelManagerClass::loadBasicLevelFromFile(infoForLevel, currentLevelName);
@@ -55,28 +52,28 @@ void editLevelStateClass::update(sf::RenderWindow& window)
 
     mouseMoveHere(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
 
-    if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
     {
         leftClickHere(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
     }
-    else if(sf::Mouse::isButtonPressed(sf::Mouse::Right))
+    else if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
     {
         rightClickHere(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
     }
 
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
         moveView(-10, 0);
     }
-    else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
         moveView(10, 0);
     }
-    else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
     {
         moveView(0, -10);
     }
-    else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
     {
         moveView(0, 10);
     }
@@ -88,12 +85,14 @@ void editLevelStateClass::draw(sf::RenderWindow& window)
     window.setView(view);
     window.draw(playerSprite);
 
-    for(int x = (view.getCenter().x - (WIDTH_SCREEN / 2)) / SIZE_BLOCK; x < (view.getCenter().x + (WIDTH_SCREEN / 2)) / SIZE_BLOCK; ++x)
+    for (int x = (view.getCenter().x - (WIDTH_SCREEN / 2)) / SIZE_BLOCK;
+         x < (view.getCenter().x + (WIDTH_SCREEN / 2)) / SIZE_BLOCK; ++x)
     {
-        for(int y = (view.getCenter().y - (HEIGHT_SCREEN / 2)) / SIZE_BLOCK; y < (view.getCenter().y + (HEIGHT_SCREEN / 2)) / SIZE_BLOCK; ++y)
+        for (int y = (view.getCenter().y - (HEIGHT_SCREEN / 2)) / SIZE_BLOCK;
+             y < (view.getCenter().y + (HEIGHT_SCREEN / 2)) / SIZE_BLOCK; ++y)
         {
             auto block = infoForLevel.mapOfGame.find(point(x, y));
-            if(block != infoForLevel.mapOfGame.end())
+            if (block != infoForLevel.mapOfGame.end())
             {
                 window.draw(block->second.sprite);
             }
@@ -105,7 +104,7 @@ void editLevelStateClass::draw(sf::RenderWindow& window)
 
 void editLevelStateClass::leftClickHere(int x, int y)
 {
-    if(x >= 0 && y >= 0 && x < WIDTH_SCREEN && y < HEIGHT_SCREEN)
+    if (x >= 0 && y >= 0 && x < WIDTH_SCREEN && y < HEIGHT_SCREEN)
     {
         x = (currentBlock.sprite.getPosition().x / SIZE_BLOCK);
         y = (currentBlock.sprite.getPosition().y / SIZE_BLOCK);
@@ -116,7 +115,7 @@ void editLevelStateClass::leftClickHere(int x, int y)
 
 void editLevelStateClass::rightClickHere(int x, int y)
 {
-    if(x >= 0 && y >= 0 && x < WIDTH_SCREEN && y < HEIGHT_SCREEN)
+    if (x >= 0 && y >= 0 && x < WIDTH_SCREEN && y < HEIGHT_SCREEN)
     {
         x += view.getCenter().x - (WIDTH_SCREEN / 2);
         y += view.getCenter().y - (HEIGHT_SCREEN / 2);
@@ -134,39 +133,27 @@ void editLevelStateClass::mouseMoveHere(int x, int y)
     currentBlock.sprite.setPosition(SIZE_BLOCK * x, SIZE_BLOCK * y);
 }
 
-void editLevelStateClass::newIdForCurrentBlock()
-{
-    if(idCurrentBlock < 0)
-    {
-        idCurrentBlock = blockManagerClass::getNumberOfBlock() - 1;
-    }
-    else if(idCurrentBlock >= blockManagerClass::getNumberOfBlock())
-    {
-        idCurrentBlock = 0;
-    }
-
-    currentBlock = blockManagerClass::getBasicBlockForBlockNumber(idCurrentBlock);
-}
-
 void editLevelStateClass::moveView(int x, int y)
 {
     view.move(x, y);
 
-    if(view.getCenter().x < infoForLevel.limitOfGame.left + (WIDTH_SCREEN / 2))
+    if (view.getCenter().x < infoForLevel.limitOfGame.left + (WIDTH_SCREEN / 2))
     {
         view.setCenter(infoForLevel.limitOfGame.left + (WIDTH_SCREEN / 2), view.getCenter().y);
     }
-    else if(view.getCenter().x > infoForLevel.limitOfGame.left + infoForLevel.limitOfGame.width - (WIDTH_SCREEN / 2))
+    else if (view.getCenter().x > infoForLevel.limitOfGame.left + infoForLevel.limitOfGame.width - (WIDTH_SCREEN / 2))
     {
-        view.setCenter(infoForLevel.limitOfGame.left + infoForLevel.limitOfGame.width - (WIDTH_SCREEN / 2), view.getCenter().y);
+        view.setCenter(infoForLevel.limitOfGame.left + infoForLevel.limitOfGame.width - (WIDTH_SCREEN / 2),
+                       view.getCenter().y);
     }
 
-    if(view.getCenter().y < infoForLevel.limitOfGame.top + (HEIGHT_SCREEN / 2))
+    if (view.getCenter().y < infoForLevel.limitOfGame.top + (HEIGHT_SCREEN / 2))
     {
         view.setCenter(view.getCenter().x, infoForLevel.limitOfGame.top + (HEIGHT_SCREEN / 2));
     }
-    else if(view.getCenter().y > infoForLevel.limitOfGame.top + infoForLevel.limitOfGame.height - (HEIGHT_SCREEN / 2))
+    else if (view.getCenter().y > infoForLevel.limitOfGame.top + infoForLevel.limitOfGame.height - (HEIGHT_SCREEN / 2))
     {
-        view.setCenter(view.getCenter().x, infoForLevel.limitOfGame.top + infoForLevel.limitOfGame.height - (HEIGHT_SCREEN / 2));
+        view.setCenter(view.getCenter().x,
+                       infoForLevel.limitOfGame.top + infoForLevel.limitOfGame.height - (HEIGHT_SCREEN / 2));
     }
 }

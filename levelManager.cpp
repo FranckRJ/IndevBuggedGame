@@ -6,10 +6,10 @@
 #include "levelManager.hpp"
 #include "utilities.hpp"
 
-void levelManagerClass::setBlockHere(std::map<point, std::unique_ptr<blockClass>>& currentMap, std::string nameOfBlock,
+void levelManagerClass::setBlockHere(std::map<point, std::unique_ptr<blockClass>>& currentMap, blockId idOfBlock,
                                      int xBlock, int yBlock)
 {
-    blockClass* block = blockManagerClass::createBlock(nameOfBlock);
+    blockClass* block = blockManagerClass::createBlock(idOfBlock);
     block->setPosition(xBlock * SIZE_BLOCK, yBlock * SIZE_BLOCK);
     currentMap[point(xBlock, yBlock)] = std::unique_ptr<blockClass>(block);
 }
@@ -61,11 +61,11 @@ void levelManagerClass::loadLevelFromFile(levelInfo& currentLevel, std::string f
         }
         else if (firstWordOfLine == "NEW_BLOCK")
         {
-            std::string nameOfBlock = utilitiesClass::readFirstString(currentLine);
+            blockId idOfBlock = blockManagerClass::stringBlockId(utilitiesClass::readFirstString(currentLine));
             int posX = utilitiesClass::stringToInt(utilitiesClass::readFirstString(currentLine));
             int posY = utilitiesClass::stringToInt(utilitiesClass::readFirstString(currentLine));
 
-            setBlockHere(currentLevel.mapOfGame, nameOfBlock, posX, posY);
+            setBlockHere(currentLevel.mapOfGame, idOfBlock, posX, posY);
         }
         else if (firstWordOfLine == "NEW_EVENT")
         {
@@ -123,13 +123,13 @@ void levelManagerClass::loadBasicLevelFromFile(basicLevelInfo& currentLevel, std
         else if (firstWordOfLine == "NEW_BLOCK")
         {
             basicBlock newBlock;
-            newBlock.name = utilitiesClass::readFirstString(currentLine);
+            newBlock.id = blockManagerClass::stringBlockId(utilitiesClass::readFirstString(currentLine));
             int posX = utilitiesClass::stringToInt(utilitiesClass::readFirstString(currentLine));
             int posY = utilitiesClass::stringToInt(utilitiesClass::readFirstString(currentLine));
 
             newBlock.sprite.setSize(sf::Vector2f(SIZE_BLOCK, SIZE_BLOCK));
             newBlock.sprite.setPosition(SIZE_BLOCK * posX, SIZE_BLOCK * posY);
-            newBlock.sprite.setFillColor(blockManagerClass::getColorOfBlock(newBlock.name));
+            newBlock.sprite.setFillColor(blockManagerClass::getColorOfBlock(newBlock.id));
 
             currentLevel.mapOfGame[point(posX, posY)] = std::move(newBlock);
         }
@@ -160,8 +160,8 @@ void levelManagerClass::saveBasicLevel(basicLevelInfo& currentLevel, std::string
 
     for (auto& currentLevelIte : currentLevel.mapOfGame)
     {
-        file << "NEW_BLOCK " << currentLevelIte.second.name << " " << currentLevelIte.first.first << " "
-             << currentLevelIte.first.second << std::endl;
+        file << "NEW_BLOCK " << blockManagerClass::blockIdToString(currentLevelIte.second.id) << " "
+             << currentLevelIte.first.first << " " << currentLevelIte.first.second << std::endl;
     }
 
     for (std::string& line : currentLevel.otherLines)

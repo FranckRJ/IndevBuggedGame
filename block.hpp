@@ -2,16 +2,26 @@
 #define BLOCK_HPP
 
 #include <SFML/Graphics.hpp>
-#include <unordered_map>
+#include <string>
+#include <utility>
 
 #include "character.hpp"
 #include "collision.hpp"
 #include "global.hpp"
 
+enum class blockId
+{
+    COLLIDE_BLOCK = 0,
+    FINISH_BLOCK,
+    LAVA_BLOCK,
+    PUSH_RIGHT_BLOCK,
+    NUMBER_OF_BLOCKS
+};
+
 struct basicBlock
 {
     sf::RectangleShape sprite;
-    std::string name;
+    blockId id;
 };
 
 struct blockProperties
@@ -28,6 +38,12 @@ struct blockSprite
     sf::Vector2i margin = sf::Vector2i(0, 0);
     sf::Vector2i size = sf::Vector2i(SIZE_BLOCK, SIZE_BLOCK);
     sf::Color color = sf::Color::Black;
+};
+
+struct blockInfos
+{
+    blockProperties properties;
+    blockSprite spriteInfos;
 };
 
 class blockClass

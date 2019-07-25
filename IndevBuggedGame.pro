@@ -23,6 +23,7 @@ SOURCES += \
         eventManager.cpp \
         game.cpp \
         gamePlayed.cpp \
+        gameState.cpp \
         gameStateStack.cpp \
         levelManager.cpp \
         main.cpp \

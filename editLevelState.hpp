@@ -15,15 +15,14 @@ public:
     void leftClickHere(int x, int y);
     void rightClickHere(int x, int y);
     void mouseMoveHere(int x, int y);
-    void newIdForCurrentBlock();
     void moveView(int x, int y);
+
 private:
     sf::View view;
     basicLevelInfo infoForLevel;
     basicBlock currentBlock;
     std::string currentLevelName;
     sf::RectangleShape playerSprite;
-    int idCurrentBlock;
 };
 
 #endif
