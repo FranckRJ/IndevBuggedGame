@@ -140,25 +140,25 @@ bool playerPlayClass::moveSpriteWidthDeformation(int amount)
     bool hasMovedFully = true;
 
     spriteSizeDeformation.x += amount;
-    if (spriteSizeDeformation.x > 8)
+    if (spriteSizeDeformation.x > 10)
     {
-        spriteSizeDeformation.x = 8;
+        spriteSizeDeformation.x = 10;
         hasMovedFully = false;
     }
-    else if (spriteSizeDeformation.x < -8)
+    else if (spriteSizeDeformation.x < -10)
     {
-        spriteSizeDeformation.x = -8;
+        spriteSizeDeformation.x = -10;
         hasMovedFully = false;
     }
     spriteSizeDeformation.y -= amount;
-    if (spriteSizeDeformation.y > 8)
+    if (spriteSizeDeformation.y > 10)
     {
-        spriteSizeDeformation.y = 8;
+        spriteSizeDeformation.y = 10;
         hasMovedFully = false;
     }
-    else if (spriteSizeDeformation.y < -8)
+    else if (spriteSizeDeformation.y < -10)
     {
-        spriteSizeDeformation.y = -8;
+        spriteSizeDeformation.y = -10;
         hasMovedFully = false;
     }
     return hasMovedFully;
@@ -188,6 +188,10 @@ void playerPlayClass::hasEnterInCollide(direction dir)
         {
             spriteWidthDeformationNeeded += 1;
         }
+    }
+    else if (dir == direction::UP)
+    {
+        spriteWidthDeformationNeeded = 0;
     }
     movement.enterInCollide(infoForMove, dir);
 }
