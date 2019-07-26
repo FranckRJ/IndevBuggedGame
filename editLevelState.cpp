@@ -31,11 +31,11 @@ void editLevelStateClass::update(sf::RenderWindow& window)
         {
             if (event.key.code == sf::Keyboard::Subtract)
             {
-                currentBlock = blockManagerClass::createNextBasicBlock(currentBlock);
+                currentBlock = blockManagerClass::createPreviousBasicBlock(currentBlock);
             }
             else if (event.key.code == sf::Keyboard::Add)
             {
-                currentBlock = blockManagerClass::createPreviousBasicBlock(currentBlock);
+                currentBlock = blockManagerClass::createNextBasicBlock(currentBlock);
             }
             else if (event.key.code == sf::Keyboard::S)
             {

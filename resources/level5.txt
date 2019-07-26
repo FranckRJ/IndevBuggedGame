@@ -168,5 +168,5 @@ NEW_BLOCK COLLIDE_BLOCK 77 24
 NEW_BLOCK COLLIDE_BLOCK 77 25
 NEW_BLOCK COLLIDE_BLOCK 77 26
 GAME_VERSION 1.4
-NEXT_LEVEL level2.txt
+NEXT_LEVEL level6.txt
 NEW_EVENT MESSAGE_EVENT 0 0 960 540 Mise a jour 1.4 :\n\n\n- correction d'un bug qui permettait de sauter\n  infiniment (encore).
