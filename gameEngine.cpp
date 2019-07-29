@@ -19,28 +19,19 @@ GameEngine::GameEngine(std::string nameOfLevel)
 
 void GameEngine::update()
 {
-    bool continueMove = false;
     bool playerIsAtFinishBlock = false;
 
-    do
-    {
-        continueMove = player.applyMove();
-        checkCharacterInBorder(player);
-        checkCharacterCollideWithBlock(player, player.getDirection(), true);
-        setCameraToCharacter(player);
-    } while (continueMove);
+    player.applyHorizontalMove();
+    checkCharacterInBorder(player);
+    checkCharacterCollideWithBlock(player, player.getCurrentDirection(), true);
 
-    do
-    {
-        continueMove = player.applyVerticalMove();
-        checkCharacterInBorder(player);
-        checkCharacterCollideWithBlock(player, player.getVerticalDirection(), true);
-        setCameraToCharacter(player);
-    } while (continueMove);
+    player.applyVerticalMove();
+    checkCharacterInBorder(player);
+    checkCharacterCollideWithBlock(player, player.getVerticalDirection(), true);
 
     player.setCanMoveIntentionally(true);
     checkCharacterInBorder(player);
-    if (checkCharacterCollideWithBlock(player, player.getDirection()))
+    if (checkCharacterCollideWithBlock(player, player.getCurrentDirection()))
     {
         setCameraToCharacter(player);
         playerIsAtFinishBlock = true;
@@ -48,7 +39,7 @@ void GameEngine::update()
     setCameraToCharacter(player);
     checkCharacterCollideWithEvent(player);
 
-    player.attractTo(sf::Vector2i(0, GRAVITY));
+    player.applyGravity(GRAVITY);
     player.update();
 
     listOfForegroundBlock.clear();
@@ -103,9 +94,9 @@ void GameEngine::draw(sf::RenderWindow& window)
     }
 }
 
-void GameEngine::movePlayerTo(Direction dir)
+void GameEngine::setPlayerDirection(Direction dir)
 {
-    player.setMoveTo(dir);
+    player.setCurrentDirection(dir);
 }
 
 void GameEngine::jumpPlayer()

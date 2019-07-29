@@ -1,111 +1,126 @@
 #include "movement.hpp"
+#include "utilities.hpp"
 
 namespace
 {
-    sf::Vector2i moveCharacterToV1_0(MoveInfos& infoForMove, Direction dir, sf::Vector2i position)
+    bool applyBaseCharacterMoveV1_0(Character& character)
     {
-        if (dir == Direction::RIGHT)
+        if (character.getCanMoveIntentionally() && character.getCurrentDirection() != Direction::NONE)
         {
-            position.x += infoForMove.speed;
-        }
-
-        return position;
-    }
-
-    sf::Vector2i moveCharacterToV1_1(MoveInfos& infoForMove, Direction dir, sf::Vector2i position)
-    {
-        if (dir == Direction::RIGHT)
-        {
-            position.x += infoForMove.speed;
-        }
-        else if (dir == Direction::LEFT)
-        {
-            position.x -= infoForMove.speed;
-        }
-
-        return position;
-    }
-
-    sf::Vector2i applyGravityV1_0(MoveInfos& infoForMove, sf::Vector2i position)
-    {
-        position.y += static_cast<int>(infoForMove.currentVerticalVelocity);
-        return position;
-    }
-
-    void enterInCollideV1_0(MoveInfos& infoForMove, Direction dir)
-    {
-        if (dir == Direction::UP || dir == Direction::DOWN)
-        {
-            if (infoForMove.currentVerticalVelocity > 100)
+            if (character.getCurrentDirection() == Direction::RIGHT)
             {
-                infoForMove.currentVerticalVelocity = 99;
-            }
-            else
-            {
-                infoForMove.currentVerticalVelocity = 0;
-            }
-
-            if (dir == Direction::DOWN)
-            {
-                infoForMove.isInJump = false;
+                character.changePosition(character.getSpeed(), 0);
+                return true;
             }
         }
-        if (dir != Direction::NONE)
-        {
-            infoForMove.canJump = true;
-        }
-    }
 
-    void enterInCollideV1_4(MoveInfos& infoForMove, Direction dir)
-    {
-        if (dir == Direction::UP || dir == Direction::DOWN)
-        {
-            infoForMove.currentVerticalVelocity = 0;
-
-            if (dir == Direction::DOWN)
-            {
-                infoForMove.isInJump = false;
-            }
-
-            infoForMove.canJump = true;
-        }
-    }
-
-    void enterInCollideV1_5(MoveInfos& infoForMove, Direction dir)
-    {
-        if (dir == Direction::UP || dir == Direction::DOWN)
-        {
-            infoForMove.currentVerticalVelocity = 0;
-
-            if (dir == Direction::DOWN)
-            {
-                infoForMove.canJump = true;
-                infoForMove.isInJump = false;
-            }
-        }
-    }
-
-    bool startJumpV1_0(MoveInfos& infoForMove)
-    {
-        (void)infoForMove;
         return false;
     }
 
-    bool startJumpV1_2(MoveInfos& infoForMove)
+    bool applyBaseCharacterMoveV1_1(Character& character)
     {
-        infoForMove.currentVerticalVelocity = infoForMove.jumpPower;
-        infoForMove.canJump = false;
-        infoForMove.isInJump = true;
+        if (character.getCanMoveIntentionally() && character.getCurrentDirection() != Direction::NONE)
+        {
+            if (character.getCurrentDirection() == Direction::RIGHT)
+            {
+                character.changePosition(character.getSpeed(), 0);
+                return true;
+            }
+            else if (character.getCurrentDirection() == Direction::LEFT)
+            {
+                character.changePosition(-character.getSpeed(), 0);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    bool applyVerticalMoveV1_0(Character& character)
+    {
+        if (!Utilities::doubleIsNear(character.getCurrentVerticalVelocity(), 0.0))
+        {
+            character.changePosition(0, static_cast<int>(character.getCurrentVerticalVelocity()));
+            return true;
+        }
+
+        return false;
+    }
+
+    void applyCollideV1_0(Character& character, Direction collideDir)
+    {
+        if (collideDir == Direction::UP || collideDir == Direction::DOWN)
+        {
+            if (character.getCurrentVerticalVelocity() > 100)
+            {
+                character.setCurrentVerticalVelocity(99);
+            }
+            else
+            {
+                character.setCurrentVerticalVelocity(0);
+            }
+
+            if (collideDir == Direction::DOWN)
+            {
+                character.setIsInJump(false);
+            }
+        }
+        if (collideDir != Direction::NONE)
+        {
+            character.setCanJump(true);
+        }
+    }
+
+    void applyCollideV1_4(Character& character, Direction collideDir)
+    {
+        if (collideDir == Direction::UP || collideDir == Direction::DOWN)
+        {
+            character.setCurrentVerticalVelocity(0);
+
+            if (collideDir == Direction::DOWN)
+            {
+                character.setIsInJump(false);
+            }
+
+            character.setCanJump(true);
+        }
+    }
+
+    void applyCollideV1_5(Character& character, Direction collideDir)
+    {
+        if (collideDir == Direction::UP || collideDir == Direction::DOWN)
+        {
+            character.setCurrentVerticalVelocity(0);
+
+            if (collideDir == Direction::DOWN)
+            {
+                character.setCanJump(true);
+                character.setIsInJump(false);
+            }
+        }
+    }
+
+    bool startJumpV1_0(Character& character)
+    {
+        (void)character;
+        return false;
+    }
+
+    bool startJumpV1_2(Character& character)
+    {
+        character.setCurrentVerticalVelocity(character.getJumpPower());
+        character.setCanJump(false);
+        character.setIsInJump(true);
         return true;
     }
 
-    bool startJumpV1_3(MoveInfos& infoForMove)
+    bool startJumpV1_3(Character& character)
     {
-        if (infoForMove.canJump)
+        if (character.getCanJump())
         {
-            infoForMove.currentVerticalVelocity = infoForMove.jumpPower;
-            infoForMove.canJump = false;
-            infoForMove.isInJump = true;
+            character.setCurrentVerticalVelocity(character.getJumpPower());
+            character.setCanJump(false);
+            character.setIsInJump(true);
             return true;
         }
 
@@ -117,14 +132,14 @@ void MovementClass::setFuncsForGameVersion(const VersionNumber& gameVersion)
 {
     /* TODO: changer la maniere dont est gere gameVersion. */
     resetAllInternalFuncs();
-    moveCharacterToFunc = moveCharacterToV1_0;
-    applyGravityFunc = applyGravityV1_0;
-    enterInCollideFunc = enterInCollideV1_0;
+    applyBaseCharacterMoveFunc = applyBaseCharacterMoveV1_0;
+    applyVerticalMoveFunc = applyVerticalMoveV1_0;
+    applyCollideFunc = applyCollideV1_0;
     startJumpFunc = startJumpV1_0;
 
     if (gameVersion >= "1.1"_vn)
     {
-        moveCharacterToFunc = moveCharacterToV1_1;
+        applyBaseCharacterMoveFunc = applyBaseCharacterMoveV1_1;
     }
     if (gameVersion >= "1.2"_vn)
     {
@@ -136,52 +151,51 @@ void MovementClass::setFuncsForGameVersion(const VersionNumber& gameVersion)
     }
     if (gameVersion >= "1.4"_vn)
     {
-        enterInCollideFunc = enterInCollideV1_4;
+        applyCollideFunc = applyCollideV1_4;
     }
     if (gameVersion >= "1.5"_vn)
     {
-        enterInCollideFunc = enterInCollideV1_5;
+        applyCollideFunc = applyCollideV1_5;
     }
 }
 
-sf::Vector2i MovementClass::moveCharacterTo(MoveInfos& infoForMove, Direction dir, sf::Vector2i position)
+bool MovementClass::applyBaseCharacterMove(Character& character)
 {
-    if (moveCharacterToFunc)
+    if (applyBaseCharacterMoveFunc)
     {
-        return moveCharacterToFunc(infoForMove, dir, position);
+        return applyBaseCharacterMoveFunc(character);
     }
     else
     {
-        return position;
+        return false;
     }
 }
 
-sf::Vector2i MovementClass::applyGravity(MoveInfos& infoForMove, sf::Vector2i position)
+bool MovementClass::applyVerticalMove(Character& character)
 {
-
-    if (applyGravityFunc)
+    if (applyVerticalMoveFunc)
     {
-        return applyGravityFunc(infoForMove, position);
+        return applyVerticalMoveFunc(character);
     }
     else
     {
-        return position;
+        return false;
     }
 }
 
-void MovementClass::enterInCollide(MoveInfos& infoForMove, Direction dir)
+void MovementClass::applyCollide(Character& character, Direction collideDir)
 {
-    if (enterInCollideFunc)
+    if (applyCollideFunc)
     {
-        return enterInCollideFunc(infoForMove, dir);
+        return applyCollideFunc(character, collideDir);
     }
 }
 
-bool MovementClass::startJump(MoveInfos& infoForMove)
+bool MovementClass::startJump(Character& character)
 {
     if (startJumpFunc)
     {
-        return startJumpFunc(infoForMove);
+        return startJumpFunc(character);
     }
     else
     {
@@ -191,8 +205,8 @@ bool MovementClass::startJump(MoveInfos& infoForMove)
 
 void MovementClass::resetAllInternalFuncs()
 {
-    moveCharacterToFunc = nullptr;
-    applyGravityFunc = nullptr;
-    enterInCollideFunc = nullptr;
+    applyBaseCharacterMoveFunc = nullptr;
+    applyVerticalMoveFunc = nullptr;
+    applyCollideFunc = nullptr;
     startJumpFunc = nullptr;
 }

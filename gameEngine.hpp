@@ -12,7 +12,7 @@ public:
     GameEngine(std::string nameOfLevel);
     void update();
     void draw(sf::RenderWindow& window);
-    void movePlayerTo(Direction dir);
+    void setPlayerDirection(Direction dir);
     void jumpPlayer();
     void checkCharacterInBorder(Character& character);
     bool checkCharacterCollideWithBlock(Character& character, Direction dir, bool onlySolid = false);

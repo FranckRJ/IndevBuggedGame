@@ -14,17 +14,15 @@ public:
     void update();
     void draw(sf::RenderWindow& window);
     void updateSpriteShape();
-    bool applyMove();
-    bool applyVerticalMove();
+    void applyHorizontalMove();
+    void applyVerticalMove();
     void applySpriteDeformation();
     bool moveSpriteWidthDeformation(int amount);
     void hasEnterInCollide(Direction dir);
     void startJump();
-    void attractTo(sf::Vector2i thisDirection);
+    void applyGravity(int gravityStrength);
     sf::FloatRect getSpriteBox();
-    Direction getDirection();
     Direction getVerticalDirection();
-    void setMoveTo(Direction dir);
     void setMovementForVersion();
     void setVisorForSprite();
 
@@ -37,8 +35,7 @@ private:
     int spriteWidthDeformationNeeded = 0;
     ParticleMotor particleMotor;
     MovementClass movement;
-    Direction currentDir = Direction::NONE;
-    Direction lastDir = Direction::RIGHT;
+    Direction lastDirection = Direction::RIGHT;
 };
 
 #endif

@@ -5,29 +5,9 @@ Character::~Character()
     // vide
 }
 
-bool Character::getIsDead()
-{
-    return isDead;
-}
-
-sf::FloatRect Character::getCollideBox()
-{
-    return sf::FloatRect(position.x, position.y, sizeOfCollideBox.x, sizeOfCollideBox.y);
-}
-
 sf::Vector2i Character::getPosition()
 {
     return position;
-}
-
-void Character::setCanMoveIntentionally(bool newVal)
-{
-    infoForMove.canMoveIntentionally = newVal;
-}
-
-void Character::setIsDead(bool newVal)
-{
-    isDead = newVal;
 }
 
 void Character::setPosition(sf::Vector2i newPosition)
@@ -38,4 +18,84 @@ void Character::setPosition(sf::Vector2i newPosition)
 void Character::setPosition(int newX, int newY)
 {
     setPosition(sf::Vector2i(newX, newY));
+}
+
+void Character::changePosition(int addX, int addY)
+{
+    setPosition(sf::Vector2i(position.x + addX, position.y + addY));
+}
+
+Direction Character::getCurrentDirection() const
+{
+    return currentDirection;
+}
+
+void Character::setCurrentDirection(const Direction& value)
+{
+    currentDirection = value;
+}
+
+sf::FloatRect Character::getCollideBox()
+{
+    return sf::FloatRect(position.x, position.y, sizeOfCollideBox.x, sizeOfCollideBox.y);
+}
+
+int Character::getSpeed() const
+{
+    return speed;
+}
+
+int Character::getJumpPower() const
+{
+    return jumpPower;
+}
+
+double Character::getCurrentVerticalVelocity() const
+{
+    return currentVerticalVelocity;
+}
+
+void Character::setCurrentVerticalVelocity(double value)
+{
+    currentVerticalVelocity = value;
+}
+
+bool Character::getCanJump() const
+{
+    return canJump;
+}
+
+void Character::setCanJump(bool value)
+{
+    canJump = value;
+}
+
+bool Character::getIsInJump() const
+{
+    return isInJump;
+}
+
+void Character::setIsInJump(bool value)
+{
+    isInJump = value;
+}
+
+bool Character::getCanMoveIntentionally() const
+{
+    return canMoveIntentionally;
+}
+
+void Character::setCanMoveIntentionally(bool newVal)
+{
+    canMoveIntentionally = newVal;
+}
+
+bool Character::getIsDead() const
+{
+    return isDead;
+}
+
+void Character::setIsDead(bool newVal)
+{
+    isDead = newVal;
 }

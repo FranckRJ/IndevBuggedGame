@@ -22,11 +22,11 @@ void PlayState::update(sf::RenderWindow& window)
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
-        gamePlayed.movePlayerTo(Direction::LEFT);
+        gamePlayed.setPlayerDirection(Direction::LEFT);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
-        gamePlayed.movePlayerTo(Direction::RIGHT);
+        gamePlayed.setPlayerDirection(Direction::RIGHT);
     }
 
     gamePlayed.update();
