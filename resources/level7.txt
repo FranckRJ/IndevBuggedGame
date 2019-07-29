@@ -158,3 +158,4 @@ NEW_BLOCK PUSH_RIGHT_BLOCK 56 25
 NEW_BLOCK PUSH_RIGHT_BLOCK 56 26
 GAME_VERSION 1.6
 NEXT_LEVEL level2.txt
+NEW_EVENT MESSAGE_EVENT 0 0 1280 540 Mise a jour 1.6 :\n\n\n- payement d'un freelance pour corriger tous les bugs de saut.
