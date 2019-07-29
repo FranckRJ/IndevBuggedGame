@@ -68,14 +68,14 @@ void MainMenuState::update(sf::RenderWindow& window)
                 --currentId;
                 if (currentId < 0)
                 {
-                    currentId = listOfButton.size();
+                    currentId = listOfButton.size() - 1;
                 }
                 cursorText.setPositionToReach(listOfButton[currentId].getCentralVerticalPos());
             }
             else if (event.key.code == sf::Keyboard::Down)
             {
                 ++currentId;
-                if (currentId > listOfButton.size())
+                if (currentId >= listOfButton.size())
                 {
                     currentId = 0;
                 }
