@@ -14,7 +14,7 @@ public:
     bool applyBaseCharacterMove(Character& character);
     bool applyVerticalMove(Character& character);
     void applyCollide(Character& character, Direction collideDIr);
-    bool startJump(Character& character);
+    bool startJump(Character& character, bool spaceWasPressedLastFrame);
 
 private:
     void resetAllInternalFuncs();
@@ -23,7 +23,7 @@ private:
     std::function<bool(Character&)> applyBaseCharacterMoveFunc;
     std::function<bool(Character&)> applyVerticalMoveFunc;
     std::function<void(Character&, Direction)> applyCollideFunc;
-    std::function<bool(Character&)> startJumpFunc;
+    std::function<bool(Character&, bool)> startJumpFunc;
 };
 
 #endif

@@ -1,6 +1,6 @@
 #include "playState.hpp"
 
-PlayState::PlayState(std::string nameOfLevel) : gamePlayed(nameOfLevel)
+PlayState::PlayState(std::string nameOfLevel) : gameEngine(nameOfLevel)
 {
 }
 
@@ -18,22 +18,27 @@ void PlayState::update(sf::RenderWindow& window)
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
     {
-        gamePlayed.jumpPlayer();
+        gameEngine.jumpPlayer(spaceWasPressedLastFrame);
+        spaceWasPressedLastFrame = true;
+    }
+    else
+    {
+        spaceWasPressedLastFrame = false;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
-        gamePlayed.setPlayerDirection(Direction::LEFT);
+        gameEngine.setPlayerDirection(Direction::LEFT);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
-        gamePlayed.setPlayerDirection(Direction::RIGHT);
+        gameEngine.setPlayerDirection(Direction::RIGHT);
     }
 
-    gamePlayed.update();
+    gameEngine.update();
 }
 
 void PlayState::draw(sf::RenderWindow& window)
 {
     window.clear(sf::Color(200, 200, 200));
-    gamePlayed.draw(window);
+    gameEngine.draw(window);
 }

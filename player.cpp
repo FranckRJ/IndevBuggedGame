@@ -187,9 +187,9 @@ void Player::hasEnterInCollide(Direction dir)
     movement.applyCollide(*this, dir);
 }
 
-void Player::startJump()
+void Player::startJump(bool spaceWasPressedLastFrame)
 {
-    if (movement.startJump(*this))
+    if (movement.startJump(*this, spaceWasPressedLastFrame))
     {
         spriteWidthDeformationNeeded -= 4;
     }

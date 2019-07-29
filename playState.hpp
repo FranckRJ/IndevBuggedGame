@@ -12,7 +12,8 @@ public:
     void draw(sf::RenderWindow& window);
 
 private:
-    GameEngine gamePlayed;
+    GameEngine gameEngine;
+    bool spaceWasPressedLastFrame = false;
 };
 
 #endif

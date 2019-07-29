@@ -99,9 +99,9 @@ void GameEngine::setPlayerDirection(Direction dir)
     player.setCurrentDirection(dir);
 }
 
-void GameEngine::jumpPlayer()
+void GameEngine::jumpPlayer(bool spaceWasPressedLastFrame)
 {
-    player.startJump();
+    player.startJump(spaceWasPressedLastFrame);
 }
 
 void GameEngine::checkCharacterInBorder(Character& character)

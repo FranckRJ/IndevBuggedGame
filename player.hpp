@@ -19,7 +19,7 @@ public:
     void applySpriteDeformation();
     bool moveSpriteWidthDeformation(int amount);
     void hasEnterInCollide(Direction dir);
-    void startJump();
+    void startJump(bool spaceWasPressedLastFrame);
     void applyGravity(int gravityStrength);
     sf::FloatRect getSpriteBox();
     Direction getVerticalDirection();

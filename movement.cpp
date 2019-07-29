@@ -100,21 +100,39 @@ namespace
         }
     }
 
-    bool startJumpV1_0(Character& character)
+    bool startJumpV1_0(Character& character, bool spaceWasPressedLastFrame)
     {
         (void)character;
+        (void)spaceWasPressedLastFrame;
         return false;
     }
 
-    bool startJumpV1_2(Character& character)
+    bool startJumpV1_2(Character& character, bool spaceWasPressedLastFrame)
     {
+        (void)spaceWasPressedLastFrame;
+
         character.setCurrentVerticalVelocity(character.getJumpPower());
         character.setCanJump(false);
         character.setIsInJump(true);
         return true;
     }
 
-    bool startJumpV1_3(Character& character)
+    bool startJumpV1_3(Character& character, bool spaceWasPressedLastFrame)
+    {
+        (void)spaceWasPressedLastFrame;
+
+        if (character.getCanJump())
+        {
+            character.setCurrentVerticalVelocity(character.getJumpPower());
+            character.setCanJump(false);
+            character.setIsInJump(true);
+            return true;
+        }
+
+        return false;
+    }
+
+    bool startJumpV1_5(Character& character, bool spaceWasPressedLastFrame)
     {
         if (character.getCanJump())
         {
@@ -122,6 +140,10 @@ namespace
             character.setCanJump(false);
             character.setIsInJump(true);
             return true;
+        }
+        else if (!spaceWasPressedLastFrame)
+        {
+            character.setCurrentVerticalVelocity(0);
         }
 
         return false;
@@ -156,6 +178,7 @@ void MovementClass::setFuncsForGameVersion(const VersionNumber& gameVersion)
     if (gameVersion >= "1.5"_vn)
     {
         applyCollideFunc = applyCollideV1_5;
+        startJumpFunc = startJumpV1_5;
     }
 }
 
@@ -191,11 +214,11 @@ void MovementClass::applyCollide(Character& character, Direction collideDir)
     }
 }
 
-bool MovementClass::startJump(Character& character)
+bool MovementClass::startJump(Character& character, bool spaceWasPressedLastFrame)
 {
     if (startJumpFunc)
     {
-        return startJumpFunc(character);
+        return startJumpFunc(character, spaceWasPressedLastFrame);
     }
     else
     {
