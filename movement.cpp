@@ -1,4 +1,5 @@
 #include "movement.hpp"
+#include "blockManager.hpp"
 #include "utilities.hpp"
 
 namespace
@@ -31,6 +32,24 @@ namespace
                 character.changePosition(-character.getSpeed(), 0);
                 return true;
             }
+        }
+
+        return false;
+    }
+
+    bool applySecondaryHorizontalMoveV1_0(Character& character)
+    {
+        int changeToXPosition = 0;
+
+        for (const BlockId& id : character.getSetOfBlocksAffectingMove())
+        {
+            changeToXPosition += BlockManager::getBlockInfos(id).properties.affectCharacterMove.x;
+        }
+
+        if (changeToXPosition != 0)
+        {
+            character.changePosition(changeToXPosition, 0);
+            return true;
         }
 
         return false;
@@ -156,6 +175,24 @@ namespace
 
         return false;
     }
+
+    bool startJumpV1_6(Character& character, bool spaceWasPressedLastFrame)
+    {
+        (void)spaceWasPressedLastFrame;
+
+        if (character.getCanJumpIntentionally())
+        {
+            if (character.getCanJump())
+            {
+                character.setCurrentVerticalVelocity(character.getJumpPower());
+                character.setCanJump(false);
+                character.setIsInJump(true);
+                return true;
+            }
+        }
+
+        return false;
+    }
 } // namespace
 
 void MovementClass::setFuncsForGameVersion(const VersionNumber& gameVersion)
@@ -163,6 +200,7 @@ void MovementClass::setFuncsForGameVersion(const VersionNumber& gameVersion)
     /* TODO: changer la maniere dont est gere gameVersion. */
     resetAllInternalFuncs();
     applyBaseCharacterMoveFunc = applyBaseCharacterMoveV1_0;
+    applySecondaryHorizontalMoveFunc = applySecondaryHorizontalMoveV1_0;
     applyVerticalMoveFunc = applyVerticalMoveV1_0;
     applyCollideFunc = applyCollideV1_0;
     startJumpFunc = startJumpV1_0;
@@ -188,6 +226,10 @@ void MovementClass::setFuncsForGameVersion(const VersionNumber& gameVersion)
         applyCollideFunc = applyCollideV1_5;
         startJumpFunc = startJumpV1_5;
     }
+    if (gameVersion >= "1.6"_vn)
+    {
+        startJumpFunc = startJumpV1_6;
+    }
 }
 
 bool MovementClass::applyBaseCharacterMove(Character& character)
@@ -195,6 +237,18 @@ bool MovementClass::applyBaseCharacterMove(Character& character)
     if (applyBaseCharacterMoveFunc)
     {
         return applyBaseCharacterMoveFunc(character);
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool MovementClass::applySecondaryHorizontalMove(Character& character)
+{
+    if (applySecondaryHorizontalMoveFunc)
+    {
+        return applySecondaryHorizontalMoveFunc(character);
     }
     else
     {

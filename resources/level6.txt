@@ -536,5 +536,5 @@ NEW_BLOCK COLLIDE_BLOCK 48 33
 NEW_BLOCK COLLIDE_BLOCK 48 34
 NEW_BLOCK COLLIDE_BLOCK 48 35
 GAME_VERSION 1.5
-NEXT_LEVEL level2.txt
+NEXT_LEVEL level7.txt
 NEW_EVENT MESSAGE_EVENT 0 0 980 720 Mise a jour 1.5 :\n\n\n- correction de tous les bugs de saut (supposement).

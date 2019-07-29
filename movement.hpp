@@ -12,6 +12,7 @@ class MovementClass
 public:
     void setFuncsForGameVersion(const VersionNumber& gameVersion);
     bool applyBaseCharacterMove(Character& character);
+    bool applySecondaryHorizontalMove(Character& character);
     bool applyVerticalMove(Character& character);
     void applyCollide(Character& character, Direction collideDIr);
     bool startJump(Character& character, bool spaceWasPressedLastFrame);
@@ -21,6 +22,7 @@ private:
 
 private:
     std::function<bool(Character&)> applyBaseCharacterMoveFunc;
+    std::function<bool(Character&)> applySecondaryHorizontalMoveFunc;
     std::function<bool(Character&)> applyVerticalMoveFunc;
     std::function<void(Character&, Direction)> applyCollideFunc;
     std::function<bool(Character&, bool)> startJumpFunc;

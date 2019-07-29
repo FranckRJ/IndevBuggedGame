@@ -106,7 +106,7 @@ void MainMenuState::update(sf::RenderWindow& window)
         else if (currentId == 1)
         {
             Global::activeGameStateStack->add(std::make_unique<ScreenTransitionState>(
-                std::make_unique<EditLevelState>("level6.txt"), sf::Color::Black, 25));
+                std::make_unique<EditLevelState>("level7.txt"), sf::Color::Black, 25));
         }
         else if (currentId == 2)
         {

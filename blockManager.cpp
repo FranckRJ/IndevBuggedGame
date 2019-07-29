@@ -55,6 +55,7 @@ void BlockManager::initialize()
         BlockSprite spriteInfos;
 
         properties.doStopPlayerFromMoving = true;
+        properties.affectCharacterMove = sf::Vector2i(5, 0);
 
         spriteInfos.color = sf::Color(138, 43, 226);
 
@@ -66,7 +67,7 @@ Block* BlockManager::createBlock(BlockId id)
 {
     BlockInfos& infos = getBlockInfos(id);
 
-    return new Block(infos.properties, infos.spriteInfos);
+    return new Block(infos.properties, infos.spriteInfos, id);
 }
 
 BasicBlock BlockManager::createBasicBlock(BlockId id)

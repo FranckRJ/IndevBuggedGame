@@ -30,6 +30,16 @@ Direction Character::getCurrentDirection() const
     return currentDirection;
 }
 
+Direction Character::getMovedHorizontalDirection() const
+{
+    return movedHorizontalDirection;
+}
+
+Direction Character::getMovedVerticalDirection() const
+{
+    return movedVerticalDirection;
+}
+
 void Character::setCurrentDirection(const Direction& value)
 {
     currentDirection = value;
@@ -118,4 +128,19 @@ bool Character::getHasTriggeredFinishBlock() const
 void Character::setHasTriggeredFinishBlock(bool value)
 {
     hasTriggeredFinishBlock = value;
+}
+
+const std::set<BlockId> Character::getSetOfBlocksAffectingMove() const
+{
+    return setOfBlocksAffectingMove;
+}
+
+void Character::addToSetOfBlocksAffectingMove(BlockId newBlock)
+{
+    setOfBlocksAffectingMove.emplace(newBlock);
+}
+
+void Character::resetSetOfBlocksAffectingMove()
+{
+    setOfBlocksAffectingMove.clear();
 }

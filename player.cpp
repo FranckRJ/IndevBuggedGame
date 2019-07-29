@@ -56,6 +56,8 @@ void Player::updateSpriteShape()
 
 void Player::applyHorizontalMove()
 {
+    int oldXPosition = position.x;
+
     if (movement.applyBaseCharacterMove(*this))
     {
         if (currentFrame % 8 == 0 && !(isInJump) && currentVerticalVelocity < (GRAVITY * 2))
@@ -76,11 +78,33 @@ void Player::applyHorizontalMove()
             lastDirection = currentDirection;
         }
     }
+
+    movement.applySecondaryHorizontalMove(*this);
+
+    if (position.x != oldXPosition)
+    {
+        movedHorizontalDirection = ((position.x - oldXPosition) > 0 ? Direction::RIGHT : Direction::LEFT);
+    }
+    else
+    {
+        movedHorizontalDirection = Direction::NONE;
+    }
 }
 
 void Player::applyVerticalMove()
 {
+    int oldYPosition = position.y;
+
     movement.applyVerticalMove(*this);
+
+    if (position.y != oldYPosition)
+    {
+        movedVerticalDirection = ((position.y - oldYPosition) > 0 ? Direction::DOWN : Direction::UP);
+    }
+    else
+    {
+        movedVerticalDirection = Direction::NONE;
+    }
 }
 
 void Player::applySpriteDeformation()
@@ -203,22 +227,6 @@ void Player::applyGravity(int gravityStrength)
 sf::FloatRect Player::getSpriteBox()
 {
     return sprite.getGlobalBounds();
-}
-
-Direction Player::getVerticalDirection()
-{
-    if (currentVerticalVelocity < 0)
-    {
-        return Direction::UP;
-    }
-    else if (currentVerticalVelocity > 0)
-    {
-        return Direction::DOWN;
-    }
-    else
-    {
-        return Direction::NONE;
-    }
 }
 
 void Player::setMovementForVersion()

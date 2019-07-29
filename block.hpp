@@ -5,20 +5,12 @@
 #include <string>
 #include <utility>
 
+#include "blockId.hpp"
 #include "collision.hpp"
 #include "direction.hpp"
 #include "global.hpp"
 
 class Character;
-
-enum class BlockId
-{
-    COLLIDE_BLOCK = 0,
-    FINISH_BLOCK,
-    LAVA_BLOCK,
-    PUSH_RIGHT_BLOCK,
-    NUMBER_OF_BLOCKS
-};
 
 struct BasicBlock
 {
@@ -34,6 +26,7 @@ struct BlockProperties
     bool isDeadlyToPlayer = false;
     bool isInForeground = false;
     bool doStopPlayerFromMoving = false;
+    sf::Vector2i affectCharacterMove = sf::Vector2i(0, 0);
 };
 
 struct BlockSprite
@@ -52,7 +45,7 @@ struct BlockInfos
 class Block
 {
 public:
-    Block(const BlockProperties& newProperties, const BlockSprite& newSpriteInfos);
+    Block(const BlockProperties& newProperties, const BlockSprite& newSpriteInfos, BlockId newId);
     void update();
     void draw(sf::RenderWindow& window);
     bool applyCollision(Character& character, Direction movementDir, bool onlyPositionCheck);
@@ -71,6 +64,7 @@ private:
     Collision collision;
     const BlockProperties& properties;
     const BlockSprite& spriteInfos;
+    const BlockId id;
 };
 
 #endif

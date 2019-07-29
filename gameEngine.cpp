@@ -25,16 +25,17 @@ void GameEngine::update()
 {
     player.applyHorizontalMove();
     checkCharacterInBorder(player);
-    checkCharacterCollideWithBlock(player, player.getCurrentDirection(), true);
+    checkCharacterCollideWithBlock(player, player.getMovedHorizontalDirection(), true);
 
     player.applyVerticalMove();
     checkCharacterInBorder(player);
-    checkCharacterCollideWithBlock(player, player.getVerticalDirection(), true);
+    checkCharacterCollideWithBlock(player, player.getMovedVerticalDirection(), true);
 
     player.setCanMoveIntentionally(true);
     player.setCanJumpIntentionally(true);
+    player.resetSetOfBlocksAffectingMove();
     checkCharacterInBorder(player);
-    checkCharacterCollideWithBlock(player, player.getCurrentDirection());
+    checkCharacterCollideWithBlock(player, player.getMovedHorizontalDirection());
     setCameraToCharacter(player);
     checkCharacterCollideWithEvent(player);
 

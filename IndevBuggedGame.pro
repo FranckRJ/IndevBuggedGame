@@ -45,6 +45,7 @@ SOURCES += \
 
 HEADERS += \
     block.hpp \
+    blockId.hpp \
     blockManager.hpp \
     character.hpp \
     collision.hpp \

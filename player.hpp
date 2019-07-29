@@ -22,7 +22,6 @@ public:
     void startJump(bool spaceWasPressedLastFrame);
     void applyGravity(int gravityStrength);
     sf::FloatRect getSpriteBox();
-    Direction getVerticalDirection();
     void setMovementForVersion();
     void setVisorForSprite();
 

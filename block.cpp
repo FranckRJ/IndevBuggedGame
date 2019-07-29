@@ -1,8 +1,8 @@
 #include "block.hpp"
 #include "global.hpp"
 
-Block::Block(const BlockProperties& newProperties, const BlockSprite& newSpriteInfos)
-    : properties(newProperties), spriteInfos(newSpriteInfos)
+Block::Block(const BlockProperties& newProperties, const BlockSprite& newSpriteInfos, BlockId newId)
+    : properties(newProperties), spriteInfos(newSpriteInfos), id(newId)
 {
     sprite.setSize(sf::Vector2f(spriteInfos.size.x, spriteInfos.size.y));
     sprite.setFillColor(spriteInfos.color);
@@ -49,6 +49,10 @@ bool Block::applyCollision(Character& character, Direction movementDir, bool onl
             if (properties.doStopPlayerFromMoving)
             {
                 character.setCanMoveIntentionally(false);
+            }
+            if (properties.affectCharacterMove != sf::Vector2i(0, 0))
+            {
+                character.addToSetOfBlocksAffectingMove(id);
             }
             if (properties.isFinishTrigger)
             {
