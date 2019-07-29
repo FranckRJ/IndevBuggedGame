@@ -74,7 +74,7 @@ void LevelManager::loadLevelFromFile(LevelInfo& currentLevel, std::string filePa
             int sizeY = Utilities::stringToInt(Utilities::readFirstString(currentLine));
 
             currentLevel.listOfEvent.push_back(std::unique_ptr<EventClass>(
-                EventManager::createEvent(nameOfEvent, sf::FloatRect(posX, posY, sizeX, sizeY), currentLine)));
+                EventManager::createEvent(nameOfEvent, sf::IntRect(posX, posY, sizeX, sizeY), currentLine)));
         }
     }
 

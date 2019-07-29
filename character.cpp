@@ -35,9 +35,9 @@ void Character::setCurrentDirection(const Direction& value)
     currentDirection = value;
 }
 
-sf::FloatRect Character::getCollideBox()
+sf::IntRect Character::getCollideBox()
 {
-    return sf::FloatRect(position.x, position.y, sizeOfCollideBox.x, sizeOfCollideBox.y);
+    return sf::IntRect(position.x, position.y, sizeOfCollideBox.x, sizeOfCollideBox.y);
 }
 
 int Character::getSpeed() const
@@ -108,4 +108,14 @@ bool Character::getIsDead() const
 void Character::setIsDead(bool newVal)
 {
     isDead = newVal;
+}
+
+bool Character::getHasTriggeredFinishBlock() const
+{
+    return hasTriggeredFinishBlock;
+}
+
+void Character::setHasTriggeredFinishBlock(bool value)
+{
+    hasTriggeredFinishBlock = value;
 }

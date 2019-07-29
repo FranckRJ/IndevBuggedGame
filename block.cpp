@@ -26,24 +26,45 @@ void Block::draw(sf::RenderWindow& window)
     window.draw(sprite);
 }
 
-bool Block::isCollidingWith(sf::FloatRect collideBox)
+bool Block::applyCollision(Character& character, Direction movementDir, bool onlyPositionCheck)
 {
-    hasCheckedCollideLastFrame = true;
+    bool isColliding = collision.isCollidingBlock(character, *this, movementDir);
 
-    wasInCollideLastFrame = collision.hasCollided(collideBox, sf::FloatRect(position.x + spriteInfos.margin.x,
-                                                                            position.y + spriteInfos.margin.y,
-                                                                            spriteInfos.size.x, spriteInfos.size.y));
+    if (onlyPositionCheck)
+    {
+        if (isColliding && properties.isSolid)
+        {
+            collision.replaceCharacterNearBlock(character, *this, movementDir);
+            character.hasEnterInCollide(movementDir);
+        }
+    }
+    else
+    {
+        if (isColliding && (properties.isTriggeredContinuously || !wasInCollideLastFrame))
+        {
+            if (properties.isDeadlyToPlayer)
+            {
+                character.setIsDead(true);
+            }
+            if (properties.doStopPlayerFromMoving)
+            {
+                character.setCanMoveIntentionally(false);
+            }
+            if (properties.isFinishTrigger)
+            {
+                character.setHasTriggeredFinishBlock(true);
+            }
+        }
+        wasInCollideLastFrame = isColliding;
+    }
 
-    return wasInCollideLastFrame;
+    return isColliding;
 }
 
-sf::Vector2i Block::getPosAfterCollide(sf::FloatRect collideBox, Direction dir)
+sf::IntRect Block::getCollideBox() const
 {
-    return collision.getNewPosAfterCollide(collideBox,
-                                           sf::FloatRect(position.x + spriteInfos.margin.x,
-                                                         position.y + spriteInfos.margin.y, spriteInfos.size.x,
-                                                         spriteInfos.size.y),
-                                           dir);
+    return sf::IntRect(position.x + spriteInfos.margin.x, position.y + spriteInfos.margin.y, spriteInfos.size.x,
+                       spriteInfos.size.y);
 }
 
 const BlockProperties Block::getBlockInfo()

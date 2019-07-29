@@ -3,14 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 
-enum class Direction
-{
-    LEFT,
-    UP,
-    RIGHT,
-    DOWN,
-    NONE
-};
+#include "direction.hpp"
 
 class Character
 {
@@ -25,7 +18,7 @@ public:
     virtual Direction getCurrentDirection() const;
     virtual void setCurrentDirection(const Direction& value);
     virtual sf::FloatRect getSpriteBox() = 0;
-    virtual sf::FloatRect getCollideBox();
+    virtual sf::IntRect getCollideBox();
     virtual int getSpeed() const;
     virtual int getJumpPower() const;
     virtual double getCurrentVerticalVelocity() const;
@@ -40,6 +33,8 @@ public:
     virtual void setCanJumpIntentionally(bool value);
     virtual bool getIsDead() const;
     virtual void setIsDead(bool newVal);
+    virtual bool getHasTriggeredFinishBlock() const;
+    virtual void setHasTriggeredFinishBlock(bool value);
 
 protected:
     sf::Vector2i position;
@@ -53,6 +48,7 @@ protected:
     bool canMoveIntentionally = false;
     bool canJumpIntentionally = false;
     bool isDead = false;
+    bool hasTriggeredFinishBlock = false;
 };
 
 #endif

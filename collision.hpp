@@ -6,13 +6,14 @@
 #include "character.hpp"
 #include "versionNumber.hpp"
 
+class Block;
+
 class Collision
 {
 public:
     void setFuncsForGameVersion(VersionNumber gameVersion);
-    bool hasCollided(sf::FloatRect collideBox, sf::FloatRect toThisCollideBox);
-    sf::Vector2i getNewPosAfterCollide(sf::FloatRect collideBox, sf::FloatRect toThisCollideBox,
-                                       Direction dirOfMovement);
+    bool isCollidingBlock(Character& character, const Block& block, Direction movementDir);
+    void replaceCharacterNearBlock(Character& character, const Block& block, Direction movementDir);
 };
 
 #endif

@@ -5,9 +5,11 @@
 #include <string>
 #include <utility>
 
-#include "character.hpp"
 #include "collision.hpp"
+#include "direction.hpp"
 #include "global.hpp"
+
+class Character;
 
 enum class BlockId
 {
@@ -53,8 +55,8 @@ public:
     Block(const BlockProperties& newProperties, const BlockSprite& newSpriteInfos);
     void update();
     void draw(sf::RenderWindow& window);
-    bool isCollidingWith(sf::FloatRect collideBox);
-    sf::Vector2i getPosAfterCollide(sf::FloatRect collideBox, Direction dir);
+    bool applyCollision(Character& character, Direction movementDir, bool onlyPositionCheck);
+    sf::IntRect getCollideBox() const;
     const BlockProperties getBlockInfo();
     bool getWasInCollideLastFrame();
     void setPosition(sf::Vector2i newPosition);

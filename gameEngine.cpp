@@ -23,8 +23,6 @@ GameEngine::GameEngine(std::string nameOfLevel)
 
 void GameEngine::update()
 {
-    bool playerIsAtFinishBlock = false;
-
     player.applyHorizontalMove();
     checkCharacterInBorder(player);
     checkCharacterCollideWithBlock(player, player.getCurrentDirection(), true);
@@ -36,11 +34,7 @@ void GameEngine::update()
     player.setCanMoveIntentionally(true);
     player.setCanJumpIntentionally(true);
     checkCharacterInBorder(player);
-    if (checkCharacterCollideWithBlock(player, player.getCurrentDirection()))
-    {
-        setCameraToCharacter(player);
-        playerIsAtFinishBlock = true;
-    }
+    checkCharacterCollideWithBlock(player, player.getCurrentDirection());
     setCameraToCharacter(player);
     checkCharacterCollideWithEvent(player);
 
@@ -66,7 +60,16 @@ void GameEngine::update()
         }
     }
 
-    if (player.getIsDead() && !playerIsAtFinishBlock)
+    if (player.getHasTriggeredFinishBlock())
+    {
+        if (infoForLevel.nextLevelName.empty())
+        {
+            infoForLevel.nextLevelName = currentLevelName;
+        }
+        Global::activeGameStateStack->add(std::make_unique<ScreenTransitionState>(
+            std::make_unique<PlayState>(infoForLevel.nextLevelName), sf::Color::Black, 25));
+    }
+    else if (player.getIsDead())
     {
         Global::activeGameStateStack->add(std::make_unique<ScreenTransitionState>(
             std::make_unique<PlayState>(currentLevelName), sf::Color::Black, 25));
@@ -140,61 +143,22 @@ void GameEngine::checkCharacterInBorder(Character& character)
     }
 }
 
-bool GameEngine::checkCharacterCollideWithBlock(Character& character, Direction dir, bool onlySolid)
+void GameEngine::checkCharacterCollideWithBlock(Character& character, Direction dir, bool onlySolid)
 {
     for (int x = character.getCollideBox().left / SIZE_BLOCK;
-         x < (character.getCollideBox().left + character.getCollideBox().width) / SIZE_BLOCK; ++x)
+         x <= (character.getCollideBox().left + character.getCollideBox().width) / SIZE_BLOCK; ++x)
     {
         for (int y = character.getCollideBox().top / SIZE_BLOCK;
-             y < (character.getCollideBox().top + character.getCollideBox().height) / SIZE_BLOCK; ++y)
+             y <= (character.getCollideBox().top + character.getCollideBox().height) / SIZE_BLOCK; ++y)
         {
             auto block = infoForLevel.mapOfGame.find(Point(x, y));
 
             if (block != infoForLevel.mapOfGame.end())
             {
-                if (!(block->second->getBlockInfo().isTriggeredContinuously) &&
-                    block->second->getWasInCollideLastFrame())
-                {
-                    block->second->isCollidingWith(character.getCollideBox());
-                }
-                else
-                {
-                    if (onlySolid)
-                    {
-                        if (block->second->getBlockInfo().isSolid &&
-                            block->second->isCollidingWith(character.getCollideBox()))
-                        {
-                            character.hasEnterInCollide(dir);
-                            character.setPosition(block->second->getPosAfterCollide(character.getCollideBox(), dir));
-                        }
-                    }
-                    else if (block->second->isCollidingWith(character.getCollideBox()))
-                    {
-                        if (block->second->getBlockInfo().isDeadlyToPlayer)
-                        {
-                            character.setIsDead(true);
-                        }
-                        if (block->second->getBlockInfo().doStopPlayerFromMoving)
-                        {
-                            character.setCanMoveIntentionally(false);
-                        }
-                        if (block->second->getBlockInfo().isFinishTrigger)
-                        {
-                            if (infoForLevel.nextLevelName.empty())
-                            {
-                                infoForLevel.nextLevelName = currentLevelName;
-                            }
-                            Global::activeGameStateStack->add(std::make_unique<ScreenTransitionState>(
-                                std::make_unique<PlayState>(infoForLevel.nextLevelName), sf::Color::Black, 25));
-                            return true;
-                        }
-                    }
-                }
+                block->second->applyCollision(character, dir, onlySolid);
             }
         }
     }
-
-    return false;
 }
 
 void GameEngine::checkCharacterCollideWithEvent(Character& character)

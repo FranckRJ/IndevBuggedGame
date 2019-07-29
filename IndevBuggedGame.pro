@@ -48,6 +48,7 @@ HEADERS += \
     blockManager.hpp \
     character.hpp \
     collision.hpp \
+    direction.hpp \
     editLevelState.hpp \
     event.hpp \
     eventManager.hpp \

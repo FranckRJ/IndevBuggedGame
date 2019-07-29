@@ -1,42 +1,55 @@
 #include "collision.hpp"
+#include "block.hpp"
 
 void Collision::setFuncsForGameVersion(VersionNumber gameVersion)
 {
     // TODO
+    (void)gameVersion;
 }
 
-bool Collision::hasCollided(sf::FloatRect collideBox, sf::FloatRect toThisCollideBox)
+bool Collision::isCollidingBlock(Character& character, const Block& block, Direction movementDir)
 {
-    return (toThisCollideBox.left < (collideBox.left + collideBox.width) &&
-            (toThisCollideBox.left + toThisCollideBox.width) > collideBox.left &&
-            toThisCollideBox.top < (collideBox.top + collideBox.height) &&
-            (toThisCollideBox.top + toThisCollideBox.height) > collideBox.top);
+    sf::IntRect characterCollideBox = character.getCollideBox();
+    sf::IntRect blockCollideBox = block.getCollideBox();
+
+    (void)movementDir;
+    return (blockCollideBox.left < (characterCollideBox.left + characterCollideBox.width) &&
+            (blockCollideBox.left + blockCollideBox.width) > characterCollideBox.left &&
+            blockCollideBox.top < (characterCollideBox.top + characterCollideBox.height) &&
+            (blockCollideBox.top + blockCollideBox.height) > characterCollideBox.top);
 }
 
-sf::Vector2i Collision::getNewPosAfterCollide(sf::FloatRect collideBox, sf::FloatRect toThisCollideBox,
-                                              Direction dirOfMovement)
+void Collision::replaceCharacterNearBlock(Character& character, const Block& block, Direction movementDir)
 {
-    switch (dirOfMovement)
+    sf::IntRect characterCollideBox = character.getCollideBox();
+    sf::IntRect blockCollideBox = block.getCollideBox();
+
+    switch (movementDir)
     {
         case Direction::LEFT:
         {
-            return sf::Vector2i(toThisCollideBox.left + toThisCollideBox.width, collideBox.top);
+            character.setPosition(blockCollideBox.left + blockCollideBox.width, characterCollideBox.top);
+            break;
         }
         case Direction::UP:
         {
-            return sf::Vector2i(collideBox.left, toThisCollideBox.top + toThisCollideBox.height);
+            character.setPosition(characterCollideBox.left, blockCollideBox.top + blockCollideBox.height);
+            break;
         }
         case Direction::RIGHT:
         {
-            return sf::Vector2i(toThisCollideBox.left - collideBox.width, collideBox.top);
+            character.setPosition(blockCollideBox.left - characterCollideBox.width, characterCollideBox.top);
+            break;
         }
         case Direction::DOWN:
         {
-            return sf::Vector2i(collideBox.left, toThisCollideBox.top - collideBox.height);
+            character.setPosition(characterCollideBox.left, blockCollideBox.top - characterCollideBox.height);
+            break;
         }
         default:
         {
-            return sf::Vector2i(collideBox.left, collideBox.top);
+            character.setPosition(characterCollideBox.left, characterCollideBox.top);
+            break;
         }
     }
 }

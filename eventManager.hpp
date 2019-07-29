@@ -8,7 +8,7 @@
 class EventManager
 {
 public:
-    static EventClass* createEvent(std::string eventName, sf::FloatRect newSurface, std::string additionnalInfo);
+    static EventClass* createEvent(std::string eventName, sf::IntRect newSurface, std::string additionnalInfo);
     static EventInfo getEventInfoFor(std::string eventName, std::string additionnalInfo);
 };
 

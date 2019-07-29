@@ -16,12 +16,12 @@ struct EventInfo
 class EventClass
 {
 public:
-    EventClass(EventInfo newInfoForEvent, sf::FloatRect newSurfaceOfEvent);
-    bool isCollideWith(sf::FloatRect collideBox);
+    EventClass(EventInfo newInfoForEvent, sf::IntRect newSurfaceOfEvent);
+    bool isCollideWith(sf::IntRect collideBox);
     const EventInfo getEventInfo();
 
 private:
-    sf::FloatRect surfaceOfEvent;
+    sf::IntRect surfaceOfEvent;
     EventInfo infoForEvent;
 };
 

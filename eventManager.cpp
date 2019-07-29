@@ -1,7 +1,7 @@
 #include "eventManager.hpp"
 #include "utilities.hpp"
 
-EventClass* EventManager::createEvent(std::string eventName, sf::FloatRect newSurface, std::string additionnalInfo)
+EventClass* EventManager::createEvent(std::string eventName, sf::IntRect newSurface, std::string additionnalInfo)
 {
     return (new EventClass(getEventInfoFor(eventName, additionnalInfo), newSurface));
 }

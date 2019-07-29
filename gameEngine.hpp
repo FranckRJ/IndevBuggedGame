@@ -15,7 +15,7 @@ public:
     void setPlayerDirection(Direction dir);
     void jumpPlayer(bool spaceWasPressedLastFrame);
     void checkCharacterInBorder(Character& character);
-    bool checkCharacterCollideWithBlock(Character& character, Direction dir, bool onlySolid = false);
+    void checkCharacterCollideWithBlock(Character& character, Direction dir, bool onlySolid = false);
     void checkCharacterCollideWithEvent(Character& character);
     void setCameraToCharacter(Character& character);
     void updateGameVersion();
