@@ -2,19 +2,19 @@
 
 #include "gameStateStack.hpp"
 
-void gameStateStackClass::set(std::unique_ptr<gameStateClass>&& state)
+void GameStateStack::set(std::unique_ptr<GameState>&& state)
 {
     listOfStates.clear();
     add(std::move(state));
 }
 
-void gameStateStackClass::add(std::unique_ptr<gameStateClass>&& state)
+void GameStateStack::add(std::unique_ptr<GameState>&& state)
 {
     stackHasChanged = true;
     listOfStates.emplace_back(std::move(state));
 }
 
-void gameStateStackClass::addBefore(std::unique_ptr<gameStateClass>&& state)
+void GameStateStack::addBefore(std::unique_ptr<GameState>&& state)
 {
     if (listOfStates.size() > 0)
     {
@@ -25,13 +25,13 @@ void gameStateStackClass::addBefore(std::unique_ptr<gameStateClass>&& state)
     }
 }
 
-void gameStateStackClass::pop()
+void GameStateStack::pop()
 {
     stackHasChanged = true;
     listOfStates.pop_back();
 }
 
-void gameStateStackClass::popBefore()
+void GameStateStack::popBefore()
 {
     if (listOfStates.size() >= 2)
     {
@@ -42,7 +42,7 @@ void gameStateStackClass::popBefore()
     }
 }
 
-void gameStateStackClass::update(sf::RenderWindow& window)
+void GameStateStack::update(sf::RenderWindow& window)
 {
     if (!listOfStates.empty())
     {
@@ -50,7 +50,7 @@ void gameStateStackClass::update(sf::RenderWindow& window)
     }
 }
 
-void gameStateStackClass::oldUpdate(sf::RenderWindow& window)
+void GameStateStack::oldUpdate(sf::RenderWindow& window)
 {
     if (listOfStates.size() >= 2)
     {
@@ -60,7 +60,7 @@ void gameStateStackClass::oldUpdate(sf::RenderWindow& window)
     }
 }
 
-void gameStateStackClass::draw(sf::RenderWindow& window)
+void GameStateStack::draw(sf::RenderWindow& window)
 {
     if (!listOfStates.empty())
     {
@@ -68,7 +68,7 @@ void gameStateStackClass::draw(sf::RenderWindow& window)
     }
 }
 
-void gameStateStackClass::oldDraw(sf::RenderWindow& window)
+void GameStateStack::oldDraw(sf::RenderWindow& window)
 {
     if (listOfStates.size() >= 2)
     {
@@ -78,12 +78,12 @@ void gameStateStackClass::oldDraw(sf::RenderWindow& window)
     }
 }
 
-bool gameStateStackClass::getStackHasChanged()
+bool GameStateStack::getStackHasChanged()
 {
     return stackHasChanged;
 }
 
-void gameStateStackClass::resetStackHasChanged()
+void GameStateStack::resetStackHasChanged()
 {
     stackHasChanged = false;
 }

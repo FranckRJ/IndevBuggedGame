@@ -1,20 +1,21 @@
 #ifndef PARTICLEMOTOR_HPP
 #define PARTICLEMOTOR_HPP
 
-#include <memory>
-#include <list>
 #include <SFML/Graphics.hpp>
+#include <list>
+#include <memory>
 
 #include "particle.hpp"
 
-class particleMotorClass
+class ParticleMotor
 {
 public:
     void update();
     void draw(sf::RenderWindow& window);
     void addParticle(sf::Vector2f atThisPosition, int particleSpeed);
+
 private:
-    std::list<std::unique_ptr<particleClass>> listOfParticle;
+    std::list<std::unique_ptr<Particle>> listOfParticle;
 };
 
 #endif

@@ -1,17 +1,18 @@
 #ifndef PLAYSTATE_HPP
 #define PLAYSTATE_HPP
 
+#include "gameEngine.hpp"
 #include "gameState.hpp"
-#include "gamePlayed.hpp"
 
-class playStateClass : public gameStateClass
+class PlayState : public GameState
 {
 public:
-    playStateClass(std::string nameOfLevel);
+    PlayState(std::string nameOfLevel);
     void update(sf::RenderWindow& window);
     void draw(sf::RenderWindow& window);
+
 private:
-    gamePlayedClass gamePlayed;
+    GameEngine gamePlayed;
 };
 
 #endif

@@ -1,8 +1,8 @@
 #include "particleManager.hpp"
 
-void particleManagerClass::initialize()
+void ParticleManager::initialize()
 {
-    particleInfo baseInfo;
+    ParticleInfo baseInfo;
 
     baseInfo.attractedByGravity = true;
     baseInfo.horizontalVelocity = 0;
@@ -11,7 +11,7 @@ void particleManagerClass::initialize()
     baseInfo.lostAlphaSpeed = 255;
 
     {
-        particleInfo info = baseInfo;
+        ParticleInfo info = baseInfo;
 
         info.verticalVelocity = -4;
         info.lostAlphaSpeed = 20;
@@ -20,18 +20,17 @@ void particleManagerClass::initialize()
     }
 }
 
-particleClass* particleManagerClass::createParticle(std::string particleName, sf::Color particleColor,
-                                                    sf::Vector2f particleSize, sf::Vector2i velocity,
-                                                    sf::Vector2f basePosition)
+Particle* ParticleManager::createParticle(std::string particleName, sf::Color particleColor, sf::Vector2f particleSize,
+                                          sf::Vector2i velocity, sf::Vector2f basePosition)
 {
     auto infos = listOfParticle.find(particleName);
 
     if (infos != listOfParticle.end())
     {
-        return new particleClass(infos->second, particleColor, particleSize, velocity, basePosition);
+        return new Particle(infos->second, particleColor, particleSize, velocity, basePosition);
     }
     else
     {
-        return new particleClass;
+        return new Particle;
     }
 }

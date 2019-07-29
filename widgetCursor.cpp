@@ -1,6 +1,6 @@
 #include "widgetCursor.hpp"
 
-widgetCursorClass::widgetCursorClass() : widgetTextClass()
+WidgetCursor::WidgetCursor() : WidgetText()
 {
     maxSpeed = 20;
     currentSpeed = 0;
@@ -9,19 +9,18 @@ widgetCursorClass::widgetCursorClass() : widgetTextClass()
     textIsBugged = false;
 }
 
-widgetCursorClass::widgetCursorClass(std::string newMessage, sf::Color newColor, int newSize, int newPosX, int newPosY) :
-    widgetTextClass(newMessage, newColor, newSize, newPosX, newPosY)
+WidgetCursor::WidgetCursor(std::string newMessage, sf::Color newColor, int newSize, int newPosX, int newPosY)
+    : WidgetText(newMessage, newColor, newSize, newPosX, newPosY)
 {
-
 }
 
-void widgetCursorClass::update()
+void WidgetCursor::update()
 {
-    if(currentSpeed == 0)
+    if (currentSpeed == 0)
     {
-        if(getCentralVerticalPos() != positionToReach)
+        if (getCentralVerticalPos() != positionToReach)
         {
-            if(positionToReach > getCentralVerticalPos())
+            if (positionToReach > getCentralVerticalPos())
             {
                 currentSpeed += acceleration;
             }
@@ -34,9 +33,9 @@ void widgetCursorClass::update()
 
     setPosition(messageToShow.getPosition().x, messageToShow.getGlobalBounds().top + currentSpeed);
 
-    if(currentSpeed > 0)
+    if (currentSpeed > 0)
     {
-        if(getCentralVerticalPos() >= positionToReach)
+        if (getCentralVerticalPos() >= positionToReach)
         {
             setCentralVerticalPos(positionToReach);
             currentSpeed = 0;
@@ -44,15 +43,15 @@ void widgetCursorClass::update()
         else
         {
             currentSpeed += acceleration;
-            if(currentSpeed > maxSpeed)
+            if (currentSpeed > maxSpeed)
             {
                 currentSpeed = maxSpeed;
             }
         }
     }
-    else if(currentSpeed < 0)
+    else if (currentSpeed < 0)
     {
-        if(getCentralVerticalPos() <= positionToReach)
+        if (getCentralVerticalPos() <= positionToReach)
         {
             setCentralVerticalPos(positionToReach);
             currentSpeed = 0;
@@ -60,7 +59,7 @@ void widgetCursorClass::update()
         else
         {
             currentSpeed -= acceleration;
-            if(currentSpeed < -maxSpeed)
+            if (currentSpeed < -maxSpeed)
             {
                 currentSpeed = -maxSpeed;
             }
@@ -68,27 +67,27 @@ void widgetCursorClass::update()
     }
 }
 
-void widgetCursorClass::setCentralVerticalPos(int newPosY)
+void WidgetCursor::setCentralVerticalPos(int newPosY)
 {
-    widgetTextClass::setCentralVerticalPos(newPosY);
+    WidgetText::setCentralVerticalPos(newPosY);
 
-    if(currentSpeed == 0)
+    if (currentSpeed == 0)
     {
         positionToReach = getCentralVerticalPos();
     }
 }
 
-void widgetCursorClass::setPosition(int newPosX, int newPosY)
+void WidgetCursor::setPosition(int newPosX, int newPosY)
 {
-    widgetTextClass::setPosition(newPosX, newPosY);
+    WidgetText::setPosition(newPosX, newPosY);
 
-    if(currentSpeed == 0)
+    if (currentSpeed == 0)
     {
         positionToReach = getCentralVerticalPos();
     }
 }
 
-void widgetCursorClass::setPositionToReach(int newPosY)
+void WidgetCursor::setPositionToReach(int newPosY)
 {
     positionToReach = newPosY;
 }

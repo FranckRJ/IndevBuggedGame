@@ -1,11 +1,11 @@
 #include "collision.hpp"
 
-void collisionClass::setFuncsForGameVersion(versionNumberClass gameVersion)
+void Collision::setFuncsForGameVersion(VersionNumber gameVersion)
 {
     // TODO
 }
 
-bool collisionClass::hasCollided(sf::FloatRect collideBox, sf::FloatRect toThisCollideBox)
+bool Collision::hasCollided(sf::FloatRect collideBox, sf::FloatRect toThisCollideBox)
 {
     return (toThisCollideBox.left < (collideBox.left + collideBox.width) &&
             (toThisCollideBox.left + toThisCollideBox.width) > collideBox.left &&
@@ -13,24 +13,24 @@ bool collisionClass::hasCollided(sf::FloatRect collideBox, sf::FloatRect toThisC
             (toThisCollideBox.top + toThisCollideBox.height) > collideBox.top);
 }
 
-sf::Vector2i collisionClass::getNewPosAfterCollide(sf::FloatRect collideBox, sf::FloatRect toThisCollideBox,
-                                                   direction dirOfMovement)
+sf::Vector2i Collision::getNewPosAfterCollide(sf::FloatRect collideBox, sf::FloatRect toThisCollideBox,
+                                              Direction dirOfMovement)
 {
     switch (dirOfMovement)
     {
-        case direction::LEFT:
+        case Direction::LEFT:
         {
             return sf::Vector2i(toThisCollideBox.left + toThisCollideBox.width, collideBox.top);
         }
-        case direction::UP:
+        case Direction::UP:
         {
             return sf::Vector2i(collideBox.left, toThisCollideBox.top + toThisCollideBox.height);
         }
-        case direction::RIGHT:
+        case Direction::RIGHT:
         {
             return sf::Vector2i(toThisCollideBox.left - collideBox.width, collideBox.top);
         }
-        case direction::DOWN:
+        case Direction::DOWN:
         {
             return sf::Vector2i(collideBox.left, toThisCollideBox.top - collideBox.height);
         }

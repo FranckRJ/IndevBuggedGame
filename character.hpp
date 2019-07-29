@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 
-enum class direction
+enum class Direction
 {
     LEFT,
     UP,
@@ -12,7 +12,7 @@ enum class direction
     NONE
 };
 
-struct moveInfos
+struct MoveInfos
 {
     int speed = 0;
     int jumpPower = 0;
@@ -20,14 +20,15 @@ struct moveInfos
     bool canJump = false;
     bool isInJump = false;
     bool canMoveIntentionally = false;
+    // map des blocks qui forcent un deplacement avec la valeur des deplacements
 };
 
-class characterClass
+class Character
 {
 public:
-    virtual ~characterClass();
+    virtual ~Character();
     virtual void draw(sf::RenderWindow& window) = 0;
-    virtual void hasEnterInCollide(direction dir) = 0;
+    virtual void hasEnterInCollide(Direction dir) = 0;
     virtual bool getIsDead();
     virtual sf::FloatRect getSpriteBox() = 0;
     virtual sf::FloatRect getCollideBox();
@@ -40,7 +41,7 @@ public:
 protected:
     sf::Vector2i position;
     sf::Vector2i sizeOfCollideBox;
-    moveInfos infoForMove;
+    MoveInfos infoForMove;
     bool isDead = false;
 };
 

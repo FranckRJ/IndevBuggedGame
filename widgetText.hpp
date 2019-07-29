@@ -3,11 +3,11 @@
 
 #include <SFML/Graphics.hpp>
 
-class widgetTextClass
+class WidgetText
 {
 public:
-    widgetTextClass();
-    widgetTextClass(std::string newMessage, sf::Color newColor, int newSize, int newPosX = 0, int newPosY = 0);
+    WidgetText();
+    WidgetText(std::string newMessage, sf::Color newColor, int newSize, int newPosX = 0, int newPosY = 0);
     void update();
     void draw(sf::RenderWindow& window);
     int getNumberOfBlinkNeeded();
@@ -20,6 +20,7 @@ public:
     void setFillColor(sf::Color newColor);
     void setSize(int newSize);
     void setPosition(int newPosX, int newPosY);
+
 protected:
     sf::Text messageToShow;
     std::string originalMessage;

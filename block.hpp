@@ -9,7 +9,7 @@
 #include "collision.hpp"
 #include "global.hpp"
 
-enum class blockId
+enum class BlockId
 {
     COLLIDE_BLOCK = 0,
     FINISH_BLOCK,
@@ -18,13 +18,13 @@ enum class blockId
     NUMBER_OF_BLOCKS
 };
 
-struct basicBlock
+struct BasicBlock
 {
     sf::RectangleShape sprite;
-    blockId id;
+    BlockId id;
 };
 
-struct blockProperties
+struct BlockProperties
 {
     bool isFinishTrigger = false;
     bool isSolid = false;
@@ -34,28 +34,28 @@ struct blockProperties
     bool doStopPlayerFromMoving = false;
 };
 
-struct blockSprite
+struct BlockSprite
 {
     sf::Vector2i margin = sf::Vector2i(0, 0);
     sf::Vector2i size = sf::Vector2i(SIZE_BLOCK, SIZE_BLOCK);
     sf::Color color = sf::Color::Black;
 };
 
-struct blockInfos
+struct BlockInfos
 {
-    blockProperties properties;
-    blockSprite spriteInfos;
+    BlockProperties properties;
+    BlockSprite spriteInfos;
 };
 
-class blockClass
+class Block
 {
 public:
-    blockClass(const blockProperties& newProperties, const blockSprite& newSpriteInfos);
+    Block(const BlockProperties& newProperties, const BlockSprite& newSpriteInfos);
     void update();
     void draw(sf::RenderWindow& window);
     bool isCollidingWith(sf::FloatRect collideBox);
-    sf::Vector2i getPosAfterCollide(sf::FloatRect collideBox, direction dir);
-    const blockProperties getBlockInfo();
+    sf::Vector2i getPosAfterCollide(sf::FloatRect collideBox, Direction dir);
+    const BlockProperties getBlockInfo();
     bool getWasInCollideLastFrame();
     void setPosition(sf::Vector2i newPosition);
     void setPosition(int newX, int newY);
@@ -66,9 +66,9 @@ private:
     bool hasCheckedCollideLastFrame = false;
     sf::RectangleShape sprite;
     sf::Vector2i position;
-    collisionClass collision;
-    const blockProperties& properties;
-    const blockSprite& spriteInfos;
+    Collision collision;
+    const BlockProperties& properties;
+    const BlockSprite& spriteInfos;
 };
 
 #endif

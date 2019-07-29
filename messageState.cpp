@@ -1,7 +1,7 @@
 #include "messageState.hpp"
 #include "global.hpp"
 
-messageStateClass::messageStateClass(std::vector<rectForMessage>& newListOfRect, sf::Text newMessageToShow)
+MessageState::MessageState(std::vector<RectForMessage>& newListOfRect, sf::Text newMessageToShow)
 {
     listOfRect = newListOfRect;
     messageToShow = newMessageToShow;
@@ -11,30 +11,30 @@ messageStateClass::messageStateClass(std::vector<rectForMessage>& newListOfRect,
     time.restart();
 }
 
-void messageStateClass::update(sf::RenderWindow& window)
+void MessageState::update(sf::RenderWindow& window)
 {
     sf::Event event;
 
-    while(window.pollEvent(event))
+    while (window.pollEvent(event))
     {
-        if(event.type == sf::Event::Closed)
+        if (event.type == sf::Event::Closed)
         {
             window.close();
         }
-        else if(event.type == sf::Event::KeyPressed)
+        else if (event.type == sf::Event::KeyPressed)
         {
-            if(event.key.code == sf::Keyboard::Escape)
+            if (event.key.code == sf::Keyboard::Escape)
             {
-                global::activeGameStateStack->pop();
+                Global::activeGameStateStack->pop();
                 return;
             }
-            else if(event.key.code == sf::Keyboard::Space || event.key.code == sf::Keyboard::Return)
+            else if (event.key.code == sf::Keyboard::Space || event.key.code == sf::Keyboard::Return)
             {
-                if(!timeToLeave)
+                if (!timeToLeave)
                 {
-                    if(!showMessage)
+                    if (!showMessage)
                     {
-                        for(rectForMessage& rect : listOfRect)
+                        for (RectForMessage& rect : listOfRect)
                         {
                             rect.rect.setSize(sf::Vector2f(rect.trueSize.x, rect.trueSize.y));
                             rect.rect.setOrigin((rect.rect.getSize().x - 1) / 2, (rect.rect.getSize().y - 1) / 2);
@@ -54,20 +54,20 @@ void messageStateClass::update(sf::RenderWindow& window)
         }
     }
 
-    for(auto it = listOfRect.begin(); it != listOfRect.end(); )
+    for (auto it = listOfRect.begin(); it != listOfRect.end();)
     {
-        if(!timeToLeave)
+        if (!timeToLeave)
         {
-            if(!(it->endOfIncrease))
+            if (!(it->endOfIncrease))
             {
-                if(time.getElapsedTime().asSeconds() > it->timeUntilStart)
+                if (time.getElapsedTime().asSeconds() > it->timeUntilStart)
                 {
-                    if(changeSizeOfRect(*it, it->speedIncrease, it->trueSize))
+                    if (changeSizeOfRect(*it, it->speedIncrease, it->trueSize))
                     {
                         it->endOfIncrease = true;
                         ++numberOfEndOfIncrease;
 
-                        if(numberOfEndOfIncrease == listOfRect.size())
+                        if (numberOfEndOfIncrease == listOfRect.size())
                         {
                             showMessage = true;
                         }
@@ -77,9 +77,10 @@ void messageStateClass::update(sf::RenderWindow& window)
         }
         else
         {
-            if(time.getElapsedTime().asSeconds() > it->timeUntilHide)
+            if (time.getElapsedTime().asSeconds() > it->timeUntilHide)
             {
-                if(changeSizeOfRect(*it, sf::Vector2i(-it->speedIncrease.x, -it->speedIncrease.y), sf::Vector2i(1, 1), -1))
+                if (changeSizeOfRect(*it, sf::Vector2i(-it->speedIncrease.x, -it->speedIncrease.y), sf::Vector2i(1, 1),
+                                     -1))
                 {
                     it = listOfRect.erase(it);
                     continue;
@@ -90,39 +91,39 @@ void messageStateClass::update(sf::RenderWindow& window)
         ++it;
     }
 
-    if(listOfRect.empty())
+    if (listOfRect.empty())
     {
-        global::activeGameStateStack->pop();
+        Global::activeGameStateStack->pop();
         return;
     }
 }
 
-void messageStateClass::draw(sf::RenderWindow& window)
+void MessageState::draw(sf::RenderWindow& window)
 {
-    global::activeGameStateStack->oldDraw(window);
+    Global::activeGameStateStack->oldDraw(window);
 
     window.setView(window.getDefaultView());
 
-    for(rectForMessage& rect : listOfRect)
+    for (RectForMessage& rect : listOfRect)
     {
         window.draw(rect.rect);
     }
 
-    if(showMessage)
+    if (showMessage)
     {
         window.draw(messageToShow);
     }
 }
 
-bool messageStateClass::changeSizeOfRect(rectForMessage& rect, sf::Vector2i speed, sf::Vector2i endSize, int factor)
+bool MessageState::changeSizeOfRect(RectForMessage& rect, sf::Vector2i speed, sf::Vector2i endSize, int factor)
 {
     rect.rect.setSize(sf::Vector2f(rect.rect.getSize().x + speed.x, rect.rect.getSize().y + speed.y));
 
-    if(rect.rect.getSize().x * factor > endSize.x * factor)
+    if (rect.rect.getSize().x * factor > endSize.x * factor)
     {
         rect.rect.setSize(sf::Vector2f(endSize.x, rect.rect.getSize().y));
     }
-    if(rect.rect.getSize().y * factor > endSize.y * factor)
+    if (rect.rect.getSize().y * factor > endSize.y * factor)
     {
         rect.rect.setSize(sf::Vector2f(rect.rect.getSize().x, endSize.y));
     }
@@ -130,7 +131,7 @@ bool messageStateClass::changeSizeOfRect(rectForMessage& rect, sf::Vector2i spee
     rect.rect.setOrigin((rect.rect.getSize().x - 1) / 2, (rect.rect.getSize().y - 1) / 2);
     rect.rect.setPosition(rect.origin.x, rect.origin.y);
 
-    if(rect.rect.getSize().x == endSize.x && rect.rect.getSize().y == endSize.y)
+    if (rect.rect.getSize().x == endSize.x && rect.rect.getSize().y == endSize.y)
     {
         return true;
     }

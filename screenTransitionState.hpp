@@ -6,15 +6,15 @@
 
 #include "gameState.hpp"
 
-class screenTransitionStateClass : public gameStateClass
+class ScreenTransitionState : public GameState
 {
 public:
-    screenTransitionStateClass(std::unique_ptr<gameStateClass>&& newState, sf::Color color, int newSpeed);
+    ScreenTransitionState(std::unique_ptr<GameState>&& newState, sf::Color color, int newSpeed);
     void update(sf::RenderWindow& window);
     void draw(sf::RenderWindow& window);
 
 private:
-    std::unique_ptr<gameStateClass> stateToSet;
+    std::unique_ptr<GameState> stateToSet;
     sf::RectangleShape fadeEffect;
     int speedOfFade;
 };

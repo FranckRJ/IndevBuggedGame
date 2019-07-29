@@ -1,17 +1,17 @@
 #include "event.hpp"
 
-eventClass::eventClass(eventInfo newInfoForEvent, sf::FloatRect newSurfaceOfEvent)
+EventClass::EventClass(EventInfo newInfoForEvent, sf::FloatRect newSurfaceOfEvent)
 {
     infoForEvent = newInfoForEvent;
     surfaceOfEvent = newSurfaceOfEvent;
 }
 
-bool eventClass::isCollideWith(sf::FloatRect collideBox)
+bool EventClass::isCollideWith(sf::FloatRect collideBox)
 {
     return surfaceOfEvent.intersects(collideBox);
 }
 
-const eventInfo eventClass::getEventInfo()
+const EventInfo EventClass::getEventInfo()
 {
     return infoForEvent;
 }

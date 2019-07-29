@@ -3,10 +3,10 @@
 
 #include <SFML/Graphics.hpp>
 
-class gameStateClass
+class GameState
 {
 public:
-    virtual ~gameStateClass();
+    virtual ~GameState();
     virtual void update(sf::RenderWindow& window) = 0;
     virtual void draw(sf::RenderWindow& window) = 0;
 };

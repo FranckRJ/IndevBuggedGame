@@ -5,15 +5,16 @@
 
 #include "widgetText.hpp"
 
-class widgetCursorClass : public widgetTextClass
+class WidgetCursor : public WidgetText
 {
 public:
-    widgetCursorClass();
-    widgetCursorClass(std::string newMessage, sf::Color newColor, int newSize, int newPosX = 0, int newPosY = 0);
+    WidgetCursor();
+    WidgetCursor(std::string newMessage, sf::Color newColor, int newSize, int newPosX = 0, int newPosY = 0);
     void update();
     void setCentralVerticalPos(int newPosY);
     void setPosition(int newPosX, int newPosY);
     void setPositionToReach(int newPosY);
+
 private:
     int maxSpeed;
     int currentSpeed;

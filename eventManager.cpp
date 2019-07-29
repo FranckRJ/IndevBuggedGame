@@ -1,20 +1,20 @@
 #include "eventManager.hpp"
 #include "utilities.hpp"
 
-eventClass* eventManagerClass::createEvent(std::string eventName, sf::FloatRect newSurface, std::string additionnalInfo)
+EventClass* EventManager::createEvent(std::string eventName, sf::FloatRect newSurface, std::string additionnalInfo)
 {
-    return (new eventClass(getEventInfoFor(eventName, additionnalInfo), newSurface));
+    return (new EventClass(getEventInfoFor(eventName, additionnalInfo), newSurface));
 }
 
-eventInfo eventManagerClass::getEventInfoFor(std::string eventName, std::string additionnalInfo)
+EventInfo EventManager::getEventInfoFor(std::string eventName, std::string additionnalInfo)
 {
-    eventInfo infoForEvent;
+    EventInfo infoForEvent;
 
     if (eventName == "UPDATE_EVENT")
     {
         infoForEvent.isUpdateEvent = true;
-        infoForEvent.newVersion = utilitiesClass::readFirstString(additionnalInfo);
-        infoForEvent.messageToShow = utilitiesClass::addNewLine(additionnalInfo);
+        infoForEvent.newVersion = Utilities::readFirstString(additionnalInfo);
+        infoForEvent.messageToShow = Utilities::addNewLine(additionnalInfo);
 
         if (!infoForEvent.messageToShow.empty())
         {
@@ -24,7 +24,7 @@ eventInfo eventManagerClass::getEventInfoFor(std::string eventName, std::string 
     else if (eventName == "MESSAGE_EVENT")
     {
         infoForEvent.isShowMessageEvent = true;
-        infoForEvent.messageToShow = utilitiesClass::addNewLine(additionnalInfo);
+        infoForEvent.messageToShow = Utilities::addNewLine(additionnalInfo);
     }
 
     return infoForEvent;

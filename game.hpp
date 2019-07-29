@@ -3,13 +3,14 @@
 
 #include "gameStateStack.hpp"
 
-class gameClass
+class Game
 {
 public:
-    gameClass();
+    Game();
     void run();
+
 private:
-    gameStateStackClass gameStateStack;
+    GameStateStack gameStateStack;
     sf::RenderWindow window;
 };
 

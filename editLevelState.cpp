@@ -2,22 +2,22 @@
 #include "blockManager.hpp"
 #include "global.hpp"
 
-editLevelStateClass::editLevelStateClass(std::string levelName)
+EditLevelState::EditLevelState(std::string levelName)
 {
     view.setSize(WIDTH_SCREEN, HEIGHT_SCREEN);
     view.setCenter(WIDTH_SCREEN / 2, HEIGHT_SCREEN / 2);
 
     currentLevelName = levelName;
-    levelManagerClass::loadBasicLevelFromFile(infoForLevel, levelName);
+    LevelManager::loadBasicLevelFromFile(infoForLevel, levelName);
     playerSprite.setSize(sf::Vector2f(40, 80));
     playerSprite.setFillColor(sf::Color::Blue);
     playerSprite.setPosition(infoForLevel.playerStartPosition.x, infoForLevel.playerStartPosition.y);
 
-    currentBlock = blockManagerClass::createBasicBlock(blockId::COLLIDE_BLOCK);
+    currentBlock = BlockManager::createBasicBlock(BlockId::COLLIDE_BLOCK);
     currentBlock.sprite.setPosition(-SIZE_BLOCK * 2, -SIZE_BLOCK * 2);
 }
 
-void editLevelStateClass::update(sf::RenderWindow& window)
+void EditLevelState::update(sf::RenderWindow& window)
 {
     sf::Event event;
 
@@ -31,20 +31,20 @@ void editLevelStateClass::update(sf::RenderWindow& window)
         {
             if (event.key.code == sf::Keyboard::Subtract)
             {
-                currentBlock = blockManagerClass::createPreviousBasicBlock(currentBlock);
+                currentBlock = BlockManager::createPreviousBasicBlock(currentBlock);
             }
             else if (event.key.code == sf::Keyboard::Add)
             {
-                currentBlock = blockManagerClass::createNextBasicBlock(currentBlock);
+                currentBlock = BlockManager::createNextBasicBlock(currentBlock);
             }
             else if (event.key.code == sf::Keyboard::S)
             {
-                levelManagerClass::saveBasicLevel(infoForLevel, currentLevelName);
+                LevelManager::saveBasicLevel(infoForLevel, currentLevelName);
             }
             else if (event.key.code == sf::Keyboard::L)
             {
                 infoForLevel.mapOfGame.clear();
-                levelManagerClass::loadBasicLevelFromFile(infoForLevel, currentLevelName);
+                LevelManager::loadBasicLevelFromFile(infoForLevel, currentLevelName);
                 playerSprite.setPosition(infoForLevel.playerStartPosition.x, infoForLevel.playerStartPosition.y);
             }
         }
@@ -79,7 +79,7 @@ void editLevelStateClass::update(sf::RenderWindow& window)
     }
 }
 
-void editLevelStateClass::draw(sf::RenderWindow& window)
+void EditLevelState::draw(sf::RenderWindow& window)
 {
     window.clear(sf::Color(200, 200, 200));
     window.setView(view);
@@ -91,7 +91,7 @@ void editLevelStateClass::draw(sf::RenderWindow& window)
         for (int y = (view.getCenter().y - (HEIGHT_SCREEN / 2)) / SIZE_BLOCK;
              y < (view.getCenter().y + (HEIGHT_SCREEN / 2)) / SIZE_BLOCK; ++y)
         {
-            auto block = infoForLevel.mapOfGame.find(point(x, y));
+            auto block = infoForLevel.mapOfGame.find(Point(x, y));
             if (block != infoForLevel.mapOfGame.end())
             {
                 window.draw(block->second.sprite);
@@ -102,28 +102,28 @@ void editLevelStateClass::draw(sf::RenderWindow& window)
     window.draw(currentBlock.sprite);
 }
 
-void editLevelStateClass::leftClickHere(int x, int y)
+void EditLevelState::leftClickHere(int x, int y)
 {
     if (x >= 0 && y >= 0 && x < WIDTH_SCREEN && y < HEIGHT_SCREEN)
     {
         x = (currentBlock.sprite.getPosition().x / SIZE_BLOCK);
         y = (currentBlock.sprite.getPosition().y / SIZE_BLOCK);
 
-        infoForLevel.mapOfGame[point(x, y)] = currentBlock;
+        infoForLevel.mapOfGame[Point(x, y)] = currentBlock;
     }
 }
 
-void editLevelStateClass::rightClickHere(int x, int y)
+void EditLevelState::rightClickHere(int x, int y)
 {
     if (x >= 0 && y >= 0 && x < WIDTH_SCREEN && y < HEIGHT_SCREEN)
     {
         x += view.getCenter().x - (WIDTH_SCREEN / 2);
         y += view.getCenter().y - (HEIGHT_SCREEN / 2);
-        infoForLevel.mapOfGame.erase(point(x / SIZE_BLOCK, y / SIZE_BLOCK));
+        infoForLevel.mapOfGame.erase(Point(x / SIZE_BLOCK, y / SIZE_BLOCK));
     }
 }
 
-void editLevelStateClass::mouseMoveHere(int x, int y)
+void EditLevelState::mouseMoveHere(int x, int y)
 {
     x += view.getCenter().x - (WIDTH_SCREEN / 2);
     y += view.getCenter().y - (HEIGHT_SCREEN / 2);
@@ -133,7 +133,7 @@ void editLevelStateClass::mouseMoveHere(int x, int y)
     currentBlock.sprite.setPosition(SIZE_BLOCK * x, SIZE_BLOCK * y);
 }
 
-void editLevelStateClass::moveView(int x, int y)
+void EditLevelState::moveView(int x, int y)
 {
     view.move(x, y);
 

@@ -4,12 +4,12 @@
 #include "playState.hpp"
 #include "screenTransitionState.hpp"
 
-mainMenuStateClass::mainMenuStateClass()
+MainMenuState::MainMenuState()
 {
-    widgetTextClass playText;
-    widgetTextClass editorText;
-    widgetTextClass nothingText;
-    widgetTextClass leaveText;
+    WidgetText playText;
+    WidgetText editorText;
+    WidgetText nothingText;
+    WidgetText leaveText;
 
     currentId = 0;
     choiceIsSelected = false;
@@ -51,7 +51,7 @@ mainMenuStateClass::mainMenuStateClass()
     cursorText.setPositionToReach(listOfButton[currentId].getCentralVerticalPos());
 }
 
-void mainMenuStateClass::update(sf::RenderWindow& window)
+void MainMenuState::update(sf::RenderWindow& window)
 {
     sf::Event event;
 
@@ -100,24 +100,24 @@ void mainMenuStateClass::update(sf::RenderWindow& window)
     {
         if (currentId == 0)
         {
-            global::activeGameStateStack->add(std::make_unique<screenTransitionStateClass>(
-                std::make_unique<playStateClass>("level1.txt"), sf::Color::Black, 25));
+            Global::activeGameStateStack->add(std::make_unique<ScreenTransitionState>(
+                std::make_unique<PlayState>("level1.txt"), sf::Color::Black, 25));
         }
         else if (currentId == 1)
         {
-            global::activeGameStateStack->add(std::make_unique<screenTransitionStateClass>(
-                std::make_unique<editLevelStateClass>("level6.txt"), sf::Color::Black, 25));
+            Global::activeGameStateStack->add(std::make_unique<ScreenTransitionState>(
+                std::make_unique<EditLevelState>("level6.txt"), sf::Color::Black, 25));
         }
         else if (currentId == 2)
         {
-            global::activeGameStateStack->add(std::make_unique<screenTransitionStateClass>(
-                std::make_unique<playStateClass>("level6.txt"), sf::Color::Black, 25));
+            Global::activeGameStateStack->add(std::make_unique<ScreenTransitionState>(
+                std::make_unique<PlayState>("level6.txt"), sf::Color::Black, 25));
         }
 
         choiceIsSelected = false;
     }
 
-    for (widgetTextClass& thisWidget : listOfButton)
+    for (WidgetText& thisWidget : listOfButton)
     {
         thisWidget.update();
     }
@@ -125,26 +125,26 @@ void mainMenuStateClass::update(sf::RenderWindow& window)
     cursorText.update();
 }
 
-void mainMenuStateClass::draw(sf::RenderWindow& window)
+void MainMenuState::draw(sf::RenderWindow& window)
 {
     window.setView(window.getDefaultView());
     window.clear(sf::Color::Black);
     nameOfGameText.draw(window);
     cursorText.draw(window);
 
-    for (widgetTextClass& thisWidget : listOfButton)
+    for (WidgetText& thisWidget : listOfButton)
     {
         thisWidget.draw(window);
     }
 }
 
-void mainMenuStateClass::centerWidgetInList()
+void MainMenuState::centerWidgetInList()
 {
     int sizeOfAllWidgets = 0;
     int currentPositionForWidget = 0;
     int widthestWidgetSize = 0;
 
-    for (widgetTextClass& thisWidget : listOfButton)
+    for (WidgetText& thisWidget : listOfButton)
     {
         sizeOfAllWidgets += thisWidget.getHitbox().height + 20;
 
@@ -157,7 +157,7 @@ void mainMenuStateClass::centerWidgetInList()
 
     currentPositionForWidget = (HEIGHT_SCREEN / 2) - (sizeOfAllWidgets / 2) + 50;
 
-    for (widgetTextClass& thisWidget : listOfButton)
+    for (WidgetText& thisWidget : listOfButton)
     {
         thisWidget.setPosition((WIDTH_SCREEN / 2) - (widthestWidgetSize / 2), currentPositionForWidget);
         currentPositionForWidget += thisWidget.getHitbox().height + 20;

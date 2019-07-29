@@ -1,8 +1,8 @@
-#include "playerPlay.hpp"
+#include "player.hpp"
 #include "global.hpp"
 #include "utilities.hpp"
 
-playerPlayClass::playerPlayClass()
+Player::Player()
 {
     infoForMove.speed = 5;
     infoForMove.jumpPower = -20;
@@ -18,10 +18,10 @@ playerPlayClass::playerPlayClass()
     setMovementForVersion();
 }
 
-void playerPlayClass::update()
+void Player::update()
 {
     currentFrame = ((currentFrame + 1) % 64);
-    currentDir = direction::NONE;
+    currentDir = Direction::NONE;
 
     if (currentFrame % 2 == 0)
     {
@@ -32,14 +32,14 @@ void playerPlayClass::update()
     particleMotor.update();
 }
 
-void playerPlayClass::draw(sf::RenderWindow& window)
+void Player::draw(sf::RenderWindow& window)
 {
     particleMotor.draw(window);
     window.draw(sprite);
     window.draw(spriteVisor);
 }
 
-void playerPlayClass::updateSpriteShape()
+void Player::updateSpriteShape()
 {
     if (spriteSizeDeformation.y < 0)
     {
@@ -54,27 +54,27 @@ void playerPlayClass::updateSpriteShape()
     setVisorForSprite();
 }
 
-bool playerPlayClass::applyMove()
+bool Player::applyMove()
 {
-    if (infoForMove.canMoveIntentionally && currentDir != direction::NONE)
+    if (infoForMove.canMoveIntentionally && currentDir != Direction::NONE)
     {
         position = movement.moveCharacterTo(infoForMove, currentDir, position);
 
         if (currentFrame % 8 == 0 && !(infoForMove.isInJump) && infoForMove.currentVerticalVelocity < (GRAVITY * 2))
         {
-            if (currentDir == direction::RIGHT)
+            if (currentDir == Direction::RIGHT)
             {
                 particleMotor.addParticle(sf::Vector2f(position.x, position.y + sizeOfCollideBox.y),
                                           -infoForMove.speed);
             }
-            else if (currentDir == direction::LEFT)
+            else if (currentDir == Direction::LEFT)
             {
                 particleMotor.addParticle(
                     sf::Vector2f(position.x + sizeOfCollideBox.x, position.y + sizeOfCollideBox.y), infoForMove.speed);
             }
         }
 
-        if (currentDir != direction::NONE)
+        if (currentDir != Direction::NONE)
         {
             lastDir = currentDir;
         }
@@ -83,9 +83,9 @@ bool playerPlayClass::applyMove()
     return false;
 }
 
-bool playerPlayClass::applyVerticalMove()
+bool Player::applyVerticalMove()
 {
-    if (!utilitiesClass::doubleIsNear(infoForMove.currentVerticalVelocity, 0.0))
+    if (!Utilities::doubleIsNear(infoForMove.currentVerticalVelocity, 0.0))
     {
         position = movement.applyGravity(infoForMove, position);
     }
@@ -93,7 +93,7 @@ bool playerPlayClass::applyVerticalMove()
     return false;
 }
 
-void playerPlayClass::applySpriteDeformation()
+void Player::applySpriteDeformation()
 {
     if (spriteWidthDeformationNeeded != 0)
     {
@@ -136,7 +136,7 @@ void playerPlayClass::applySpriteDeformation()
     }
 }
 
-bool playerPlayClass::moveSpriteWidthDeformation(int amount)
+bool Player::moveSpriteWidthDeformation(int amount)
 {
     bool hasMovedFully = true;
 
@@ -165,9 +165,9 @@ bool playerPlayClass::moveSpriteWidthDeformation(int amount)
     return hasMovedFully;
 }
 
-void playerPlayClass::hasEnterInCollide(direction dir)
+void Player::hasEnterInCollide(Direction dir)
 {
-    if (dir == direction::DOWN)
+    if (dir == Direction::DOWN)
     {
         if (infoForMove.currentVerticalVelocity > 64)
         {
@@ -190,14 +190,14 @@ void playerPlayClass::hasEnterInCollide(direction dir)
             spriteWidthDeformationNeeded += 1;
         }
     }
-    else if (dir == direction::UP)
+    else if (dir == Direction::UP)
     {
         spriteWidthDeformationNeeded = 0;
     }
     movement.enterInCollide(infoForMove, dir);
 }
 
-void playerPlayClass::startJump()
+void Player::startJump()
 {
     if (movement.startJump(infoForMove))
     {
@@ -205,56 +205,56 @@ void playerPlayClass::startJump()
     }
 }
 
-void playerPlayClass::attractTo(sf::Vector2i thisDirection)
+void Player::attractTo(sf::Vector2i thisDirection)
 {
     infoForMove.currentVerticalVelocity += thisDirection.y;
 }
 
-sf::FloatRect playerPlayClass::getSpriteBox()
+sf::FloatRect Player::getSpriteBox()
 {
     return sprite.getGlobalBounds();
 }
 
-direction playerPlayClass::getDirection()
+Direction Player::getDirection()
 {
     return currentDir;
 }
 
-direction playerPlayClass::getVerticalDirection()
+Direction Player::getVerticalDirection()
 {
     if (infoForMove.currentVerticalVelocity < 0)
     {
-        return direction::UP;
+        return Direction::UP;
     }
     else if (infoForMove.currentVerticalVelocity > 0)
     {
-        return direction::DOWN;
+        return Direction::DOWN;
     }
     else
     {
-        return direction::NONE;
+        return Direction::NONE;
     }
 }
 
-void playerPlayClass::setMoveTo(direction dir)
+void Player::setMoveTo(Direction dir)
 {
     currentDir = dir;
 }
 
-void playerPlayClass::setMovementForVersion()
+void Player::setMovementForVersion()
 {
-    movement.setFuncsForGameVersion(global::versionOfGame);
+    movement.setFuncsForGameVersion(Global::versionOfGame);
 }
 
-void playerPlayClass::setVisorForSprite()
+void Player::setVisorForSprite()
 {
     spriteVisor.setSize(sf::Vector2f(sprite.getSize().x / 2, 10));
 
-    if (lastDir == direction::RIGHT)
+    if (lastDir == Direction::RIGHT)
     {
         spriteVisor.setPosition(sprite.getPosition().x + (sprite.getSize().x / 2), sprite.getPosition().y + 10);
     }
-    else if (lastDir == direction::LEFT)
+    else if (lastDir == Direction::LEFT)
     {
         spriteVisor.setPosition(sprite.getPosition().x, sprite.getPosition().y + 10);
     }

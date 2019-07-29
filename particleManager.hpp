@@ -5,15 +5,15 @@
 
 #include "particle.hpp"
 
-class particleManagerClass
+class ParticleManager
 {
 public:
     static void initialize();
-    static particleClass* createParticle(std::string particleName, sf::Color particleColor, sf::Vector2f particleSize,
-                                         sf::Vector2i velocity, sf::Vector2f basePosition);
+    static Particle* createParticle(std::string particleName, sf::Color particleColor, sf::Vector2f particleSize,
+                                    sf::Vector2i velocity, sf::Vector2f basePosition);
 
 private:
-    static inline std::unordered_map<std::string, particleInfo> listOfParticle;
+    static inline std::unordered_map<std::string, ParticleInfo> listOfParticle;
 };
 
 #endif

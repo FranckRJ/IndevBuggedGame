@@ -1,41 +1,41 @@
 #include "character.hpp"
 
-characterClass::~characterClass()
+Character::~Character()
 {
     // vide
 }
 
-bool characterClass::getIsDead()
+bool Character::getIsDead()
 {
     return isDead;
 }
 
-sf::FloatRect characterClass::getCollideBox()
+sf::FloatRect Character::getCollideBox()
 {
     return sf::FloatRect(position.x, position.y, sizeOfCollideBox.x, sizeOfCollideBox.y);
 }
 
-sf::Vector2i characterClass::getPosition()
+sf::Vector2i Character::getPosition()
 {
     return position;
 }
 
-void characterClass::setCanMoveIntentionally(bool newVal)
+void Character::setCanMoveIntentionally(bool newVal)
 {
     infoForMove.canMoveIntentionally = newVal;
 }
 
-void characterClass::setIsDead(bool newVal)
+void Character::setIsDead(bool newVal)
 {
     isDead = newVal;
 }
 
-void characterClass::setPosition(sf::Vector2i newPosition)
+void Character::setPosition(sf::Vector2i newPosition)
 {
     position = newPosition;
 }
 
-void characterClass::setPosition(int newX, int newY)
+void Character::setPosition(int newX, int newY)
 {
     setPosition(sf::Vector2i(newX, newY));
 }

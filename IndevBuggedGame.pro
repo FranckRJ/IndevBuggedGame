@@ -22,7 +22,7 @@ SOURCES += \
         event.cpp \
         eventManager.cpp \
         game.cpp \
-        gamePlayed.cpp \
+        gameEngine.cpp \
         gameState.cpp \
         gameStateStack.cpp \
         levelManager.cpp \
@@ -35,7 +35,7 @@ SOURCES += \
         particleManager.cpp \
         particleMotor.cpp \
         playState.cpp \
-        playerPlay.cpp \
+        player.cpp \
         screenTransitionState.cpp \
         startScreenState.cpp \
         utilities.cpp \
@@ -52,7 +52,7 @@ HEADERS += \
     event.hpp \
     eventManager.hpp \
     game.hpp \
-    gamePlayed.hpp \
+    gameEngine.hpp \
     gameState.hpp \
     gameStateStack.hpp \
     global.hpp \
@@ -65,7 +65,7 @@ HEADERS += \
     particleManager.hpp \
     particleMotor.hpp \
     playState.hpp \
-    playerPlay.hpp \
+    player.hpp \
     screenTransitionState.hpp \
     startScreenState.hpp \
     utilities.hpp \

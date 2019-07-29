@@ -6,12 +6,12 @@
 
 #include "gameState.hpp"
 
-class gameStateStackClass
+class GameStateStack
 {
 public:
-    void set(std::unique_ptr<gameStateClass>&& state);
-    void add(std::unique_ptr<gameStateClass>&& state);
-    void addBefore(std::unique_ptr<gameStateClass>&& state);
+    void set(std::unique_ptr<GameState>&& state);
+    void add(std::unique_ptr<GameState>&& state);
+    void addBefore(std::unique_ptr<GameState>&& state);
     void pop();
     void popBefore();
     void update(sf::RenderWindow& window);
@@ -22,7 +22,7 @@ public:
     void resetStackHasChanged();
 
 private:
-    std::list<std::unique_ptr<gameStateClass>> listOfStates;
+    std::list<std::unique_ptr<GameState>> listOfStates;
     bool stackHasChanged = false;
 };
 

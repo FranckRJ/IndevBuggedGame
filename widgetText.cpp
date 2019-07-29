@@ -1,17 +1,16 @@
 #include "widgetText.hpp"
 #include "global.hpp"
 
-widgetTextClass::widgetTextClass()
+WidgetText::WidgetText()
 {
-    messageToShow.setFont(global::font);
+    messageToShow.setFont(Global::font);
     messageToShow.setOrigin(0, static_cast<int>(messageToShow.getLocalBounds().top));
     numberOfTimeBlinkNeeded = 0;
     textIsBugged = true;
     isInBug = false;
 }
 
-widgetTextClass::widgetTextClass(std::string newMessage, sf::Color newColor, int newSize, int newPosX, int newPosY) :
-    widgetTextClass()
+WidgetText::WidgetText(std::string newMessage, sf::Color newColor, int newSize, int newPosX, int newPosY) : WidgetText()
 {
     setMessage(newMessage);
     setFillColor(newColor);
@@ -19,9 +18,10 @@ widgetTextClass::widgetTextClass(std::string newMessage, sf::Color newColor, int
     setPosition(newPosX, newPosY);
 }
 
-void widgetTextClass::update()
+void WidgetText::update()
 {
-    if(numberOfTimeBlinkNeeded > 0 && messageToShow.getFillColor().a == 255 && timerForBlink.getElapsedTime().asSeconds() > 0.1)
+    if (numberOfTimeBlinkNeeded > 0 && messageToShow.getFillColor().a == 255 &&
+        timerForBlink.getElapsedTime().asSeconds() > 0.1)
     {
         sf::Color tmpColor = messageToShow.getFillColor();
         tmpColor.a = 127;
@@ -30,7 +30,7 @@ void widgetTextClass::update()
         timerForBlink.restart();
     }
 
-    if(messageToShow.getFillColor().a == 127 && timerForBlink.getElapsedTime().asSeconds() > 0.1)
+    if (messageToShow.getFillColor().a == 127 && timerForBlink.getElapsedTime().asSeconds() > 0.1)
     {
         sf::Color tmpColor = messageToShow.getFillColor();
         tmpColor.a = 255;
@@ -38,13 +38,13 @@ void widgetTextClass::update()
         timerForBlink.restart();
     }
 
-    if(textIsBugged)
+    if (textIsBugged)
     {
-        if(!isInBug)
+        if (!isInBug)
         {
-            if(timerForBug.getElapsedTime().asSeconds() > 0.5)
+            if (timerForBug.getElapsedTime().asSeconds() > 0.5)
             {
-                if(rand() % 100 < 15)
+                if (rand() % 100 < 15)
                 {
                     int indexOfLetter = (rand() % (originalMessage.size() - 1)) + 1;
                     char newLetter = (rand() % (126 - 33)) + 33;
@@ -58,7 +58,7 @@ void widgetTextClass::update()
                 timerForBug.restart();
             }
         }
-        else if(timerForBug.getElapsedTime().asSeconds() > 0.1)
+        else if (timerForBug.getElapsedTime().asSeconds() > 0.1)
         {
             setMessage(originalMessage);
             isInBug = false;
@@ -67,62 +67,62 @@ void widgetTextClass::update()
     }
 }
 
-void widgetTextClass::draw(sf::RenderWindow& window)
+void WidgetText::draw(sf::RenderWindow& window)
 {
     window.draw(messageToShow);
 }
 
-int widgetTextClass::getNumberOfBlinkNeeded()
+int WidgetText::getNumberOfBlinkNeeded()
 {
     return numberOfTimeBlinkNeeded;
 }
 
-sf::FloatRect widgetTextClass::getHitbox()
+sf::FloatRect WidgetText::getHitbox()
 {
     return messageToShow.getGlobalBounds();
 }
 
-sf::Vector2f widgetTextClass::getPosition()
+sf::Vector2f WidgetText::getPosition()
 {
     return messageToShow.getPosition();
 }
 
-int widgetTextClass::getCentralVerticalPos()
+int WidgetText::getCentralVerticalPos()
 {
     return (messageToShow.getPosition().y + (messageToShow.getGlobalBounds().height / 2));
 }
 
-void widgetTextClass::setNumberOfBlinkNeeded(int newNumber)
+void WidgetText::setNumberOfBlinkNeeded(int newNumber)
 {
     numberOfTimeBlinkNeeded = newNumber;
 }
 
-void widgetTextClass::setCentralVerticalPos(int newPosY)
+void WidgetText::setCentralVerticalPos(int newPosY)
 {
     setPosition(messageToShow.getPosition().x, newPosY - (messageToShow.getGlobalBounds().height / 2));
 }
 
-void widgetTextClass::setMessage(std::string newMessage, bool isOriginalMessage)
+void WidgetText::setMessage(std::string newMessage, bool isOriginalMessage)
 {
     messageToShow.setString(newMessage);
-    if(isOriginalMessage)
+    if (isOriginalMessage)
     {
         originalMessage = newMessage;
         messageToShow.setOrigin(0, static_cast<int>(messageToShow.getLocalBounds().top));
     }
 }
 
-void widgetTextClass::setFillColor(sf::Color newColor)
+void WidgetText::setFillColor(sf::Color newColor)
 {
     messageToShow.setFillColor(newColor);
 }
 
-void widgetTextClass::setSize(int newSize)
+void WidgetText::setSize(int newSize)
 {
     messageToShow.setCharacterSize(newSize);
 }
 
-void widgetTextClass::setPosition(int newPosX, int newPosY)
+void WidgetText::setPosition(int newPosX, int newPosY)
 {
     messageToShow.setPosition(newPosX, newPosY);
 }

@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-class utilitiesClass
+class Utilities
 {
 public:
     static std::string readFirstString(std::string& thisString);

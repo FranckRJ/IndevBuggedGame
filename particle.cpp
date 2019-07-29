@@ -1,13 +1,15 @@
 #include "particle.hpp"
 #include "global.hpp"
 
-particleClass::particleClass()
+Particle::Particle()
 {
     isDead = false;
     timer.restart();
 }
 
-particleClass::particleClass(particleInfo newParticleInfo, sf::Color particleColor, sf::Vector2f particleSize, sf::Vector2i velocity, sf::Vector2f basePosition) : particleClass()
+Particle::Particle(ParticleInfo newParticleInfo, sf::Color particleColor, sf::Vector2f particleSize,
+                   sf::Vector2i velocity, sf::Vector2f basePosition)
+    : Particle()
 {
     infoForParticle = newParticleInfo;
     infoForParticle.horizontalVelocity += velocity.x;
@@ -17,13 +19,13 @@ particleClass::particleClass(particleInfo newParticleInfo, sf::Color particleCol
     sprite.setPosition(basePosition);
 }
 
-void particleClass::update()
+void Particle::update()
 {
-    if(timer.getElapsedTime().asSeconds() > infoForParticle.lifeTime)
+    if (timer.getElapsedTime().asSeconds() > infoForParticle.lifeTime)
     {
         sf::Color newColor = sprite.getFillColor();
 
-        if(newColor.a <= infoForParticle.lostAlphaSpeed)
+        if (newColor.a <= infoForParticle.lostAlphaSpeed)
         {
             isDead = true;
         }
@@ -36,18 +38,18 @@ void particleClass::update()
 
     sprite.move(infoForParticle.horizontalVelocity, infoForParticle.verticalVelocity);
 
-    if(infoForParticle.attractedByGravity)
+    if (infoForParticle.attractedByGravity)
     {
         infoForParticle.verticalVelocity += GRAVITY;
     }
 }
 
-void particleClass::draw(sf::RenderWindow& window)
+void Particle::draw(sf::RenderWindow& window)
 {
     window.draw(sprite);
 }
 
-bool particleClass::getIsDead()
+bool Particle::getIsDead()
 {
     return isDead;
 }

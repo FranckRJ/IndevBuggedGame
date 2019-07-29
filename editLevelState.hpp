@@ -6,10 +6,10 @@
 #include "gameState.hpp"
 #include "levelManager.hpp"
 
-class editLevelStateClass : public gameStateClass
+class EditLevelState : public GameState
 {
 public:
-    editLevelStateClass(std::string levelName);
+    EditLevelState(std::string levelName);
     void update(sf::RenderWindow& window);
     void draw(sf::RenderWindow& window);
     void leftClickHere(int x, int y);
@@ -19,8 +19,8 @@ public:
 
 private:
     sf::View view;
-    basicLevelInfo infoForLevel;
-    basicBlock currentBlock;
+    BasicLevelInfo infoForLevel;
+    BasicBlock currentBlock;
     std::string currentLevelName;
     sf::RectangleShape playerSprite;
 };

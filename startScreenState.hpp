@@ -6,25 +6,25 @@
 
 #include "gameState.hpp"
 
-struct instructionStruct
+struct InstructionInfos
 {
     std::string typeOfInstruction;
     std::string infosForInstruction;
-    instructionStruct(std::string baseType, std::string baseInfo)
+    InstructionInfos(std::string baseType, std::string baseInfo)
         : typeOfInstruction(baseType), infosForInstruction(baseInfo)
     {
     }
 };
 
-class startScreenStateClass : public gameStateClass
+class StartScreenState : public GameState
 {
 public:
-    startScreenStateClass();
+    StartScreenState();
     void update(sf::RenderWindow& window);
     void draw(sf::RenderWindow& window);
 
 private:
-    std::list<instructionStruct> listOfInstructions;
+    std::list<InstructionInfos> listOfInstructions;
     sf::Text currentMessage;
     sf::Clock timer;
     bool isWaiting = false;

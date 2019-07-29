@@ -2,7 +2,7 @@
 
 #include "utilities.hpp"
 
-std::string utilitiesClass::readFirstString(std::string& thisString)
+std::string Utilities::readFirstString(std::string& thisString)
 {
     size_t spacePos = thisString.find(' ');
     std::string tmpStr = thisString.substr(0, spacePos);
@@ -19,7 +19,7 @@ std::string utilitiesClass::readFirstString(std::string& thisString)
     return tmpStr;
 }
 
-std::vector<int> utilitiesClass::readNumber(std::string& thisString, int numberOfNumber)
+std::vector<int> Utilities::readNumber(std::string& thisString, int numberOfNumber)
 {
     std::vector<int> listOfNumber;
 
@@ -31,7 +31,7 @@ std::vector<int> utilitiesClass::readNumber(std::string& thisString, int numberO
     return listOfNumber;
 }
 
-std::vector<std::string> utilitiesClass::readString(std::string& thisString, int numberOfString)
+std::vector<std::string> Utilities::readString(std::string& thisString, int numberOfString)
 {
     std::vector<std::string> listOfString;
 
@@ -43,7 +43,7 @@ std::vector<std::string> utilitiesClass::readString(std::string& thisString, int
     return listOfString;
 }
 
-std::string utilitiesClass::intToString(int thisInt)
+std::string Utilities::intToString(int thisInt)
 {
     std::stringstream ss;
 
@@ -52,7 +52,7 @@ std::string utilitiesClass::intToString(int thisInt)
     return ss.str();
 }
 
-int utilitiesClass::stringToInt(std::string thisString)
+int Utilities::stringToInt(std::string thisString)
 {
     std::istringstream iss(thisString);
     int tmpInt;
@@ -62,7 +62,7 @@ int utilitiesClass::stringToInt(std::string thisString)
     return tmpInt;
 }
 
-double utilitiesClass::stringToDouble(std::string thisString)
+double Utilities::stringToDouble(std::string thisString)
 {
     std::istringstream iss(thisString);
     double tmpDouble;
@@ -72,7 +72,7 @@ double utilitiesClass::stringToDouble(std::string thisString)
     return tmpDouble;
 }
 
-std::string& utilitiesClass::addNewLine(std::string& thisString)
+std::string& Utilities::addNewLine(std::string& thisString)
 {
     size_t pos = 0;
     while ((pos = thisString.find("\\n", pos)) != std::string::npos)
@@ -84,7 +84,7 @@ std::string& utilitiesClass::addNewLine(std::string& thisString)
     return thisString;
 }
 
-bool utilitiesClass::doubleIsNear(double baseVal, double compareVal)
+bool Utilities::doubleIsNear(double baseVal, double compareVal)
 {
     return ((baseVal - minDoublePrec) < compareVal && (baseVal + minDoublePrec) > compareVal);
 }

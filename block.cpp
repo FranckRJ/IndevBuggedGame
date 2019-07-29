@@ -1,7 +1,7 @@
 #include "block.hpp"
 #include "global.hpp"
 
-blockClass::blockClass(const blockProperties& newProperties, const blockSprite& newSpriteInfos)
+Block::Block(const BlockProperties& newProperties, const BlockSprite& newSpriteInfos)
     : properties(newProperties), spriteInfos(newSpriteInfos)
 {
     sprite.setSize(sf::Vector2f(spriteInfos.size.x, spriteInfos.size.y));
@@ -9,7 +9,7 @@ blockClass::blockClass(const blockProperties& newProperties, const blockSprite& 
     setCollisionForVersion();
 }
 
-void blockClass::update()
+void Block::update()
 {
     if (hasCheckedCollideLastFrame)
     {
@@ -21,12 +21,12 @@ void blockClass::update()
     }
 }
 
-void blockClass::draw(sf::RenderWindow& window)
+void Block::draw(sf::RenderWindow& window)
 {
     window.draw(sprite);
 }
 
-bool blockClass::isCollidingWith(sf::FloatRect collideBox)
+bool Block::isCollidingWith(sf::FloatRect collideBox)
 {
     hasCheckedCollideLastFrame = true;
 
@@ -37,7 +37,7 @@ bool blockClass::isCollidingWith(sf::FloatRect collideBox)
     return wasInCollideLastFrame;
 }
 
-sf::Vector2i blockClass::getPosAfterCollide(sf::FloatRect collideBox, direction dir)
+sf::Vector2i Block::getPosAfterCollide(sf::FloatRect collideBox, Direction dir)
 {
     return collision.getNewPosAfterCollide(collideBox,
                                            sf::FloatRect(position.x + spriteInfos.margin.x,
@@ -46,29 +46,29 @@ sf::Vector2i blockClass::getPosAfterCollide(sf::FloatRect collideBox, direction 
                                            dir);
 }
 
-const blockProperties blockClass::getBlockInfo()
+const BlockProperties Block::getBlockInfo()
 {
     return properties;
 }
 
-bool blockClass::getWasInCollideLastFrame()
+bool Block::getWasInCollideLastFrame()
 {
     return wasInCollideLastFrame;
 }
 
-void blockClass::setPosition(sf::Vector2i newPosition)
+void Block::setPosition(sf::Vector2i newPosition)
 {
     position = newPosition;
     sprite.setPosition(position.x + spriteInfos.margin.x, position.y + spriteInfos.margin.y);
 }
 
-void blockClass::setPosition(int newX, int newY)
+void Block::setPosition(int newX, int newY)
 {
     position = sf::Vector2i(newX, newY);
     sprite.setPosition(newX + spriteInfos.margin.x, newY + spriteInfos.margin.y);
 }
 
-void blockClass::setCollisionForVersion()
+void Block::setCollisionForVersion()
 {
-    collision.setFuncsForGameVersion(global::versionOfGame);
+    collision.setFuncsForGameVersion(Global::versionOfGame);
 }

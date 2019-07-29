@@ -5,27 +5,27 @@
 #include <string>
 #include <vector>
 
-class versionNumberClass;
+class VersionNumber;
 
-versionNumberClass operator""_vn(const char* versionNumbersAsStr, std::size_t sizeOfStr);
+VersionNumber operator""_vn(const char* versionNumbersAsStr, std::size_t sizeOfStr);
 
-class versionNumberClass
+class VersionNumber
 {
 public:
-    versionNumberClass(const std::initializer_list<unsigned int>& listOfVersionNumbers = {});
-    versionNumberClass(const std::string& versionNumbersAsStr);
-    bool operator==(const versionNumberClass& other) const;
-    bool operator!=(const versionNumberClass& other) const;
-    bool operator<(const versionNumberClass& other) const;
-    bool operator>(const versionNumberClass& other) const;
-    bool operator<=(const versionNumberClass& other) const;
-    bool operator>=(const versionNumberClass& other) const;
+    VersionNumber(const std::initializer_list<unsigned int>& listOfVersionNumbers = {});
+    VersionNumber(const std::string& versionNumbersAsStr);
+    bool operator==(const VersionNumber& other) const;
+    bool operator!=(const VersionNumber& other) const;
+    bool operator<(const VersionNumber& other) const;
+    bool operator>(const VersionNumber& other) const;
+    bool operator<=(const VersionNumber& other) const;
+    bool operator>=(const VersionNumber& other) const;
 
 private:
-    int spaceshipOperator(const versionNumberClass& other) const;
+    int spaceshipOperator(const VersionNumber& other) const;
 
 private:
     std::vector<unsigned int> versionNumbers;
 };
 
-#endif // VERSIONNUMBER_HPP
+#endif

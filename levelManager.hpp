@@ -9,34 +9,34 @@
 #include "event.hpp"
 #include "versionNumber.hpp"
 
-typedef std::pair<int, int> point;
+typedef std::pair<int, int> Point;
 
-struct levelInfo
+struct LevelInfo
 {
-    std::map<point, std::unique_ptr<blockClass>> mapOfGame;
-    std::list<std::unique_ptr<eventClass>> listOfEvent;
+    std::map<Point, std::unique_ptr<Block>> mapOfGame;
+    std::list<std::unique_ptr<EventClass>> listOfEvent;
     sf::IntRect limitOfGame;
     sf::Vector2i playerStartPosition;
-    versionNumberClass initialGameVersion;
+    VersionNumber initialGameVersion;
     std::string nextLevelName;
 };
 
-struct basicLevelInfo
+struct BasicLevelInfo
 {
-    std::map<point, basicBlock> mapOfGame;
+    std::map<Point, BasicBlock> mapOfGame;
     sf::IntRect limitOfGame;
     sf::Vector2i playerStartPosition;
     std::list<std::string> otherLines;
 };
 
-class levelManagerClass
+class LevelManager
 {
 public:
-    static void setBlockHere(std::map<point, std::unique_ptr<blockClass>>& currentMap, blockId idOfBlock, int xBlock,
+    static void setBlockHere(std::map<Point, std::unique_ptr<Block>>& currentMap, BlockId idOfBlock, int xBlock,
                              int yBlock);
-    static void loadLevelFromFile(levelInfo& currentLevel, std::string filePath);
-    static void loadBasicLevelFromFile(basicLevelInfo& currentLevel, std::string filePath);
-    static void saveBasicLevel(basicLevelInfo& currentLevel, std::string levelName);
+    static void loadLevelFromFile(LevelInfo& currentLevel, std::string filePath);
+    static void loadBasicLevelFromFile(BasicLevelInfo& currentLevel, std::string filePath);
+    static void saveBasicLevel(BasicLevelInfo& currentLevel, std::string levelName);
 };
 
 #endif

@@ -1,55 +1,55 @@
-#include "gamePlayed.hpp"
+#include "gameEngine.hpp"
 #include "global.hpp"
 #include "messageManager.hpp"
 #include "playState.hpp"
 #include "screenTransitionState.hpp"
 
-gamePlayedClass::gamePlayedClass(std::string nameOfLevel)
+GameEngine::GameEngine(std::string nameOfLevel)
 {
     view.setSize(WIDTH_SCREEN, HEIGHT_SCREEN);
     view.setCenter(WIDTH_SCREEN / 2, HEIGHT_SCREEN / 2);
 
     currentLevelName = nameOfLevel;
-    levelManagerClass::loadLevelFromFile(infoForLevel, nameOfLevel);
-    global::versionOfGame = infoForLevel.initialGameVersion;
-    playerPlay.setPosition(infoForLevel.playerStartPosition);
+    LevelManager::loadLevelFromFile(infoForLevel, nameOfLevel);
+    Global::versionOfGame = infoForLevel.initialGameVersion;
+    player.setPosition(infoForLevel.playerStartPosition);
     updateGameVersion();
-    playerPlay.update();
+    player.update();
 }
 
-void gamePlayedClass::update()
+void GameEngine::update()
 {
     bool continueMove = false;
     bool playerIsAtFinishBlock = false;
 
     do
     {
-        continueMove = playerPlay.applyMove();
-        checkCharacterInBorder(playerPlay);
-        checkCharacterCollideWithBlock(playerPlay, playerPlay.getDirection(), true);
-        setCameraToCharacter(playerPlay);
+        continueMove = player.applyMove();
+        checkCharacterInBorder(player);
+        checkCharacterCollideWithBlock(player, player.getDirection(), true);
+        setCameraToCharacter(player);
     } while (continueMove);
 
     do
     {
-        continueMove = playerPlay.applyVerticalMove();
-        checkCharacterInBorder(playerPlay);
-        checkCharacterCollideWithBlock(playerPlay, playerPlay.getVerticalDirection(), true);
-        setCameraToCharacter(playerPlay);
+        continueMove = player.applyVerticalMove();
+        checkCharacterInBorder(player);
+        checkCharacterCollideWithBlock(player, player.getVerticalDirection(), true);
+        setCameraToCharacter(player);
     } while (continueMove);
 
-    playerPlay.setCanMoveIntentionally(true);
-    checkCharacterInBorder(playerPlay);
-    if (checkCharacterCollideWithBlock(playerPlay, playerPlay.getDirection()))
+    player.setCanMoveIntentionally(true);
+    checkCharacterInBorder(player);
+    if (checkCharacterCollideWithBlock(player, player.getDirection()))
     {
-        setCameraToCharacter(playerPlay);
+        setCameraToCharacter(player);
         playerIsAtFinishBlock = true;
     }
-    setCameraToCharacter(playerPlay);
-    checkCharacterCollideWithEvent(playerPlay);
+    setCameraToCharacter(player);
+    checkCharacterCollideWithEvent(player);
 
-    playerPlay.attractTo(sf::Vector2i(0, GRAVITY));
-    playerPlay.update();
+    player.attractTo(sf::Vector2i(0, GRAVITY));
+    player.update();
 
     listOfForegroundBlock.clear();
     for (int x = (view.getCenter().x - (WIDTH_SCREEN / 2)) / SIZE_BLOCK;
@@ -58,7 +58,7 @@ void gamePlayedClass::update()
         for (int y = (view.getCenter().y - (HEIGHT_SCREEN / 2)) / SIZE_BLOCK;
              y < (view.getCenter().y + (HEIGHT_SCREEN / 2)) / SIZE_BLOCK; ++y)
         {
-            auto block = infoForLevel.mapOfGame.find(point(x, y));
+            auto block = infoForLevel.mapOfGame.find(Point(x, y));
             if (block != infoForLevel.mapOfGame.end())
             {
                 block->second->update();
@@ -70,14 +70,14 @@ void gamePlayedClass::update()
         }
     }
 
-    if (playerPlay.getIsDead() && !playerIsAtFinishBlock)
+    if (player.getIsDead() && !playerIsAtFinishBlock)
     {
-        global::activeGameStateStack->add(std::make_unique<screenTransitionStateClass>(
-            std::make_unique<playStateClass>(currentLevelName), sf::Color::Black, 25));
+        Global::activeGameStateStack->add(std::make_unique<ScreenTransitionState>(
+            std::make_unique<PlayState>(currentLevelName), sf::Color::Black, 25));
     }
 }
 
-void gamePlayedClass::draw(sf::RenderWindow& window)
+void GameEngine::draw(sf::RenderWindow& window)
 {
     window.setView(view);
 
@@ -87,7 +87,7 @@ void gamePlayedClass::draw(sf::RenderWindow& window)
         for (int y = (view.getCenter().y - (HEIGHT_SCREEN / 2)) / SIZE_BLOCK;
              y < (view.getCenter().y + (HEIGHT_SCREEN / 2)) / SIZE_BLOCK; ++y)
         {
-            auto block = infoForLevel.mapOfGame.find(point(x, y));
+            auto block = infoForLevel.mapOfGame.find(Point(x, y));
             if (block != infoForLevel.mapOfGame.end())
             {
                 block->second->draw(window);
@@ -95,35 +95,35 @@ void gamePlayedClass::draw(sf::RenderWindow& window)
         }
     }
 
-    playerPlay.draw(window);
+    player.draw(window);
 
-    for (blockClass* thisBlock : listOfForegroundBlock)
+    for (Block* thisBlock : listOfForegroundBlock)
     {
         thisBlock->draw(window);
     }
 }
 
-void gamePlayedClass::movePlayerTo(direction dir)
+void GameEngine::movePlayerTo(Direction dir)
 {
-    playerPlay.setMoveTo(dir);
+    player.setMoveTo(dir);
 }
 
-void gamePlayedClass::jumpPlayer()
+void GameEngine::jumpPlayer()
 {
-    playerPlay.startJump();
+    player.startJump();
 }
 
-void gamePlayedClass::checkCharacterInBorder(characterClass& character)
+void GameEngine::checkCharacterInBorder(Character& character)
 {
     if (character.getPosition().x < infoForLevel.limitOfGame.left)
     {
-        character.hasEnterInCollide(direction::LEFT);
+        character.hasEnterInCollide(Direction::LEFT);
         character.setPosition(infoForLevel.limitOfGame.left, character.getPosition().y);
     }
     else if (character.getPosition().x + character.getCollideBox().width >
              infoForLevel.limitOfGame.left + infoForLevel.limitOfGame.width)
     {
-        character.hasEnterInCollide(direction::RIGHT);
+        character.hasEnterInCollide(Direction::RIGHT);
         character.setPosition(infoForLevel.limitOfGame.left + infoForLevel.limitOfGame.width -
                                   character.getCollideBox().width,
                               character.getPosition().y);
@@ -131,20 +131,20 @@ void gamePlayedClass::checkCharacterInBorder(characterClass& character)
 
     if (character.getPosition().y < infoForLevel.limitOfGame.top)
     {
-        character.hasEnterInCollide(direction::UP);
+        character.hasEnterInCollide(Direction::UP);
         character.setPosition(character.getPosition().x, infoForLevel.limitOfGame.top);
     }
     else if (character.getPosition().y + character.getCollideBox().height >
              infoForLevel.limitOfGame.top + infoForLevel.limitOfGame.height)
     {
-        character.hasEnterInCollide(direction::DOWN);
+        character.hasEnterInCollide(Direction::DOWN);
         character.setPosition(character.getPosition().x, infoForLevel.limitOfGame.top +
                                                              infoForLevel.limitOfGame.height -
                                                              character.getCollideBox().height);
     }
 }
 
-bool gamePlayedClass::checkCharacterCollideWithBlock(characterClass& character, direction dir, bool onlySolid)
+bool GameEngine::checkCharacterCollideWithBlock(Character& character, Direction dir, bool onlySolid)
 {
     for (int x = character.getCollideBox().left / SIZE_BLOCK;
          x < (character.getCollideBox().left + character.getCollideBox().width) / SIZE_BLOCK; ++x)
@@ -152,7 +152,7 @@ bool gamePlayedClass::checkCharacterCollideWithBlock(characterClass& character, 
         for (int y = character.getCollideBox().top / SIZE_BLOCK;
              y < (character.getCollideBox().top + character.getCollideBox().height) / SIZE_BLOCK; ++y)
         {
-            auto block = infoForLevel.mapOfGame.find(point(x, y));
+            auto block = infoForLevel.mapOfGame.find(Point(x, y));
 
             if (block != infoForLevel.mapOfGame.end())
             {
@@ -188,8 +188,8 @@ bool gamePlayedClass::checkCharacterCollideWithBlock(characterClass& character, 
                             {
                                 infoForLevel.nextLevelName = currentLevelName;
                             }
-                            global::activeGameStateStack->add(std::make_unique<screenTransitionStateClass>(
-                                std::make_unique<playStateClass>(infoForLevel.nextLevelName), sf::Color::Black, 25));
+                            Global::activeGameStateStack->add(std::make_unique<ScreenTransitionState>(
+                                std::make_unique<PlayState>(infoForLevel.nextLevelName), sf::Color::Black, 25));
                             return true;
                         }
                     }
@@ -201,7 +201,7 @@ bool gamePlayedClass::checkCharacterCollideWithBlock(characterClass& character, 
     return false;
 }
 
-void gamePlayedClass::checkCharacterCollideWithEvent(characterClass& character)
+void GameEngine::checkCharacterCollideWithEvent(Character& character)
 {
     for (auto eventIte = infoForLevel.listOfEvent.begin(); eventIte != infoForLevel.listOfEvent.end();)
     {
@@ -209,14 +209,13 @@ void gamePlayedClass::checkCharacterCollideWithEvent(characterClass& character)
         {
             if ((*eventIte)->getEventInfo().isUpdateEvent)
             {
-                global::versionOfGame = (*eventIte)->getEventInfo().newVersion;
+                Global::versionOfGame = (*eventIte)->getEventInfo().newVersion;
 
                 updateGameVersion();
             }
             if ((*eventIte)->getEventInfo().isShowMessageEvent)
             {
-                messageManagerClass::addMessageStateToStack("NORMAL_MESSAGE",
-                                                            (*eventIte)->getEventInfo().messageToShow);
+                MessageManager::addMessageStateToStack("NORMAL_MESSAGE", (*eventIte)->getEventInfo().messageToShow);
                 infoForLevel.listOfEvent.erase(eventIte++);
                 break;
             }
@@ -227,7 +226,7 @@ void gamePlayedClass::checkCharacterCollideWithEvent(characterClass& character)
     }
 }
 
-void gamePlayedClass::setCameraToCharacter(characterClass& character)
+void GameEngine::setCameraToCharacter(Character& character)
 {
     view.setCenter(character.getSpriteBox().left + character.getSpriteBox().width / 2,
                    character.getSpriteBox().top + character.getSpriteBox().height / 2);
@@ -253,12 +252,12 @@ void gamePlayedClass::setCameraToCharacter(characterClass& character)
     }
 }
 
-void gamePlayedClass::updateGameVersion()
+void GameEngine::updateGameVersion()
 {
     for (auto& thisBlock : infoForLevel.mapOfGame)
     {
         thisBlock.second->setCollisionForVersion();
     }
 
-    playerPlay.setMovementForVersion();
+    player.setMovementForVersion();
 }

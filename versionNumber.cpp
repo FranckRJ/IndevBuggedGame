@@ -2,17 +2,17 @@
 
 #include "versionNumber.hpp"
 
-versionNumberClass operator""_vn(const char* versionNumbersAsStr, std::size_t sizeOfStr)
+VersionNumber operator""_vn(const char* versionNumbersAsStr, std::size_t sizeOfStr)
 {
-    return versionNumberClass(std::string(versionNumbersAsStr, sizeOfStr));
+    return VersionNumber(std::string(versionNumbersAsStr, sizeOfStr));
 }
 
-versionNumberClass::versionNumberClass(const std::initializer_list<unsigned int>& listOfVersionNumbers)
+VersionNumber::VersionNumber(const std::initializer_list<unsigned int>& listOfVersionNumbers)
     : versionNumbers(listOfVersionNumbers)
 {
 }
 
-versionNumberClass::versionNumberClass(const std::string& versionNumbersAsStr)
+VersionNumber::VersionNumber(const std::string& versionNumbersAsStr)
 {
     std::string::size_type dotIdx;
     std::string::size_type startIdx = 0;
@@ -35,37 +35,37 @@ versionNumberClass::versionNumberClass(const std::string& versionNumbersAsStr)
     } while (dotIdx != std::string::npos);
 }
 
-bool versionNumberClass::operator==(const versionNumberClass& other) const
+bool VersionNumber::operator==(const VersionNumber& other) const
 {
     return (spaceshipOperator(other) == 0);
 }
 
-bool versionNumberClass::operator!=(const versionNumberClass& other) const
+bool VersionNumber::operator!=(const VersionNumber& other) const
 {
     return (spaceshipOperator(other) != 0);
 }
 
-bool versionNumberClass::operator<(const versionNumberClass& other) const
+bool VersionNumber::operator<(const VersionNumber& other) const
 {
     return (spaceshipOperator(other) < 0);
 }
 
-bool versionNumberClass::operator>(const versionNumberClass& other) const
+bool VersionNumber::operator>(const VersionNumber& other) const
 {
     return (spaceshipOperator(other) > 0);
 }
 
-bool versionNumberClass::operator<=(const versionNumberClass& other) const
+bool VersionNumber::operator<=(const VersionNumber& other) const
 {
     return (spaceshipOperator(other) <= 0);
 }
 
-bool versionNumberClass::operator>=(const versionNumberClass& other) const
+bool VersionNumber::operator>=(const VersionNumber& other) const
 {
     return (spaceshipOperator(other) >= 0);
 }
 
-int versionNumberClass::spaceshipOperator(const versionNumberClass& other) const
+int VersionNumber::spaceshipOperator(const VersionNumber& other) const
 {
     auto thisCurrNumIte = versionNumbers.cbegin();
     auto otherCurrNumIte = other.versionNumbers.cbegin();

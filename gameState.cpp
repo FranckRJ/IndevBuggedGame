@@ -1,6 +1,6 @@
 #include "gameState.hpp"
 
-gameStateClass::~gameStateClass()
+GameState::~GameState()
 {
     // vide
 }

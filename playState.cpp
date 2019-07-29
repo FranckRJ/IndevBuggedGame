@@ -1,10 +1,10 @@
 #include "playState.hpp"
 
-playStateClass::playStateClass(std::string nameOfLevel) : gamePlayed(nameOfLevel)
+PlayState::PlayState(std::string nameOfLevel) : gamePlayed(nameOfLevel)
 {
 }
 
-void playStateClass::update(sf::RenderWindow& window)
+void PlayState::update(sf::RenderWindow& window)
 {
     sf::Event event;
 
@@ -22,17 +22,17 @@ void playStateClass::update(sf::RenderWindow& window)
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
-        gamePlayed.movePlayerTo(direction::LEFT);
+        gamePlayed.movePlayerTo(Direction::LEFT);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
-        gamePlayed.movePlayerTo(direction::RIGHT);
+        gamePlayed.movePlayerTo(Direction::RIGHT);
     }
 
     gamePlayed.update();
 }
 
-void playStateClass::draw(sf::RenderWindow& window)
+void PlayState::draw(sf::RenderWindow& window)
 {
     window.clear(sf::Color(200, 200, 200));
     gamePlayed.draw(window);
