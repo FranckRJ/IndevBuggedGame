@@ -111,17 +111,22 @@ namespace
     {
         (void)spaceWasPressedLastFrame;
 
-        character.setCurrentVerticalVelocity(character.getJumpPower());
-        character.setCanJump(false);
-        character.setIsInJump(true);
-        return true;
+        if (character.getCanJumpIntentionally())
+        {
+            character.setCurrentVerticalVelocity(character.getJumpPower());
+            character.setCanJump(false);
+            character.setIsInJump(true);
+            return true;
+        }
+
+        return false;
     }
 
     bool startJumpV1_3(Character& character, bool spaceWasPressedLastFrame)
     {
         (void)spaceWasPressedLastFrame;
 
-        if (character.getCanJump())
+        if (character.getCanJumpIntentionally() && character.getCanJump())
         {
             character.setCurrentVerticalVelocity(character.getJumpPower());
             character.setCanJump(false);
@@ -134,16 +139,19 @@ namespace
 
     bool startJumpV1_5(Character& character, bool spaceWasPressedLastFrame)
     {
-        if (character.getCanJump())
+        if (character.getCanJumpIntentionally())
         {
-            character.setCurrentVerticalVelocity(character.getJumpPower());
-            character.setCanJump(false);
-            character.setIsInJump(true);
-            return true;
-        }
-        else if (!spaceWasPressedLastFrame)
-        {
-            character.setCurrentVerticalVelocity(0);
+            if (character.getCanJump())
+            {
+                character.setCurrentVerticalVelocity(character.getJumpPower());
+                character.setCanJump(false);
+                character.setIsInJump(true);
+                return true;
+            }
+            else if (!spaceWasPressedLastFrame)
+            {
+                character.setCurrentVerticalVelocity(0);
+            }
         }
 
         return false;

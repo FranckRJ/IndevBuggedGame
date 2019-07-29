@@ -15,6 +15,10 @@ GameEngine::GameEngine(std::string nameOfLevel)
     player.setPosition(infoForLevel.playerStartPosition);
     updateGameVersion();
     player.update();
+
+    // pour empecher le joueur de se deplacer lors de la premiere frame (affichage de message etc).
+    player.setCanMoveIntentionally(false);
+    player.setCanJumpIntentionally(false);
 }
 
 void GameEngine::update()
@@ -30,6 +34,7 @@ void GameEngine::update()
     checkCharacterCollideWithBlock(player, player.getVerticalDirection(), true);
 
     player.setCanMoveIntentionally(true);
+    player.setCanJumpIntentionally(true);
     checkCharacterInBorder(player);
     if (checkCharacterCollideWithBlock(player, player.getCurrentDirection()))
     {

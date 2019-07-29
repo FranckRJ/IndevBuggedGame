@@ -36,6 +36,8 @@ public:
     virtual void setIsInJump(bool value);
     virtual bool getCanMoveIntentionally() const;
     virtual void setCanMoveIntentionally(bool newVal);
+    virtual bool getCanJumpIntentionally() const;
+    virtual void setCanJumpIntentionally(bool value);
     virtual bool getIsDead() const;
     virtual void setIsDead(bool newVal);
 
@@ -49,6 +51,7 @@ protected:
     bool canJump = false;
     bool isInJump = false;
     bool canMoveIntentionally = false;
+    bool canJumpIntentionally = false;
     bool isDead = false;
 };
 

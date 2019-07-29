@@ -90,6 +90,16 @@ void Character::setCanMoveIntentionally(bool newVal)
     canMoveIntentionally = newVal;
 }
 
+bool Character::getCanJumpIntentionally() const
+{
+    return canJumpIntentionally;
+}
+
+void Character::setCanJumpIntentionally(bool value)
+{
+    canJumpIntentionally = value;
+}
+
 bool Character::getIsDead() const
 {
     return isDead;
