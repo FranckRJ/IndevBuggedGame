@@ -23,7 +23,7 @@ public:
     static BlockId stringBlockId(std::string str);
 
 private:
-    static inline std::vector listOfBlocks =
+    static inline std::vector<BlockInfos> listOfBlocks =
         std::vector<BlockInfos>(static_cast<std::size_t>(BlockId::NUMBER_OF_BLOCKS));
 };
 

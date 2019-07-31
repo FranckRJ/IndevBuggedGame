@@ -1,6 +1,8 @@
 debug
 profile
 release
+.qmake.stash
+Makefile
 *.pro.user
 *.pro.user.*
 *.autosave
