@@ -2,7 +2,8 @@ NVI pour les interfaces.
 Pas d'implementation dans les interfaces (code ou membre), utiliser des classes de bases pour implementations generales.
 Regrouper des variables liees dans une structure, pas de x y mais une struct point. Idem pour les params de fonctions, prendre struct point au lien de 2 ints.
 Pas de fonctions virtuelles publics.
-Destructeur virtuel public ou non-virtuel protected pour les interfaces.
+Destructeur virtuel public ou non-virtuel protected pour les interfaces (= default obligatoire).
+Si un copy / move constructor / assignment ou destructor est déclaré, les 4 autres doivent l'être aussi, mais si possible ne rien déclarer du tout.
 Toujours declarer les variables en debut de bloc.
 Toujours un nom par declaration.
 Jamais cacher des noms dans des blocs imbriques.
