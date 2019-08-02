@@ -1,0 +1,30 @@
+NVI pour les interfaces.
+Pas d'implementation dans les interfaces (code ou membre), utiliser des classes de bases pour implementations generales.
+Regrouper des variables liees dans une structure, pas de x y mais une struct point. Idem pour les params de fonctions, prendre struct point au lien de 2 ints.
+Pas de fonctions virtuelles publics.
+Destructeur virtuel public ou non-virtuel protected pour les interfaces.
+Toujours declarer les variables en debut de bloc.
+Toujours un nom par declaration.
+Jamais cacher des noms dans des blocs imbriques.
+Toujours init les variables dans la declaration (avec lambda si besoin).
+Toujours init les variables membre des classes lors de la construction.
+Operateurs symetriques doivent etre non-membre et meme scope que classes.
+New et delete interdis.
+Minimiser les casts au maximum (floor / round / etc pour float -> int).
+Private data (toujours pour classes).
+Pas de constructeur pour les structs.
+Pas de move inutile.
+Pas de unique_ptr&& en parametre parce que inutile (copie desactivee).
+Supprimer copie (assignation / constructeur) pour les classes polymorphiques.
+Utiliser la STL pour les algos plutot que des boucles (et pour tout ce qui est possible).
+Jamais de nom en ALL_CAPS, sauf macro (mais jamais de macro de toute facon autre que pour des #ifdef).
+Toujours construire via {} sans egal, genre string{"lol"} ou int{2}. Utiliser () uniquement si vraiment besoin (genre vector(5) pour taille).
+Variables const / constexpr par defaut.
+Jamais utiliser les C-arrays, mais plutot std::vector ou std::array.
+Utiliser at() plutot que [] pour throw plutot que crash, mais si possible ne pas se referer aux indexs (for range based loop plutot que index loop etc).
+Jamais de c-var_arg.
+Privilegier parentheses plutot que de se baser sur la precedence des ops quand c'est pas evident (operateurs mathematiques = evident par ex).
+Nommer toutes les constantes (sauf trucs evidents style 0 pour l'init d'un index etc).
+Toujours utiliser nullptr.
+Helper functions dans un namespace anonyme plutot qu'en tant que fonction privee d'une classe.
+Pass primitif type par copie, autre par const ref pour les fonctions.
