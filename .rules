@@ -22,10 +22,13 @@ Jamais de nom en ALL_CAPS, sauf macro (mais jamais de macro de toute facon autre
 Toujours construire via {} sans egal, genre string{"lol"} ou int{2}. Utiliser () uniquement si vraiment besoin (genre vector(5) pour taille).
 Variables const / constexpr par defaut.
 Jamais utiliser les C-arrays, mais plutot std::vector ou std::array.
-Utiliser at() plutot que [] pour throw plutot que crash, mais si possible ne pas se referer aux indexs (for range based loop plutot que index loop etc).
+Utiliser at() plutot que [] pour throw plutot que crash, mais si possible ne pas se referer aux indexes (for range based loop plutot que index loop etc).
 Jamais de c-var_arg.
 Privilegier parentheses plutot que de se baser sur la precedence des ops quand c'est pas evident (operateurs mathematiques = evident par ex).
 Nommer toutes les constantes (sauf trucs evidents style 0 pour l'init d'un index etc).
 Toujours utiliser nullptr.
 Helper functions dans un namespace anonyme plutot qu'en tant que fonction privee d'une classe.
 Pass primitif type par copie, autre par const ref pour les fonctions.
+Passer les arguments des fonctions par const reference si read-only.
+AAA pour les variables locales.
+Eviter de retourner des const& pour raisons d'optimisations.
