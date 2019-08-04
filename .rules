@@ -9,7 +9,7 @@ Toujours un nom par declaration.
 Jamais cacher des noms dans des blocs imbriques.
 Toujours init les variables dans la declaration (avec lambda si besoin).
 Toujours init les variables membre des classes lors de la construction.
-Operateurs symetriques doivent etre non-membre et meme scope que classes.
+Les operateurs doivent etre non-membre et dans le meme scope que les classes, sauf operateurs d'assignation ou impossible à faire.
 New et delete interdis.
 Raw pointers interdis aussi (sauf en paramètre de fonctions qui ne touchent pas à l'ownership, mais dans ce cas si non-nullable une référence est mieux).
 Minimiser les casts au maximum (floor / round / etc pour float -> int).
@@ -30,6 +30,7 @@ Nommer toutes les constantes (sauf trucs evidents style 0 pour l'init d'un index
 Toujours utiliser nullptr.
 Helper functions dans un namespace anonyme plutot qu'en tant que fonction privee d'une classe.
 Pass primitif type par copie, autre par const ref pour les fonctions.
+Si un paramètre doit être copié, il vaut mieux le passer par value plutôt que par référence et le copier plus tard (sauf si la copie n'est pas certaine).
 Passer les arguments des fonctions par const reference si read-only.
 AAA pour les variables locales.
 Retourner par value lorsque possible (pas de polymorphisme), parce que grace aux move / RVO / etc c'est pas plus lent que par pointeur / const-ref.
