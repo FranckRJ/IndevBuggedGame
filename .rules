@@ -11,6 +11,7 @@ Toujours init les variables dans la declaration (avec lambda si besoin).
 Toujours init les variables membre des classes lors de la construction.
 Operateurs symetriques doivent etre non-membre et meme scope que classes.
 New et delete interdis.
+Raw pointers interdis aussi (sauf en paramètre de fonctions qui ne touchent pas à l'ownership, mais dans ce cas si non-nullable une référence est mieux).
 Minimiser les casts au maximum (floor / round / etc pour float -> int).
 Private data (toujours pour classes).
 Pas de constructeur pour les structs.
@@ -31,4 +32,6 @@ Helper functions dans un namespace anonyme plutot qu'en tant que fonction privee
 Pass primitif type par copie, autre par const ref pour les fonctions.
 Passer les arguments des fonctions par const reference si read-only.
 AAA pour les variables locales.
-Eviter de retourner des const& pour raisons d'optimisations.
+Retourner par value lorsque possible (pas de polymorphisme), parce que grace aux move / RVO / etc c'est pas plus lent que par pointeur / const-ref.
+Utiliser std::optional pour retourner des valeurs qui peuvent ne pas exister sans qu'il y ai d'erreurs (si la non-existence provient d'une erreur, throw).
+Ne pas faire des comparaisons directes avec nullptr, plutôt utiliser if (ptr) pour checker sa validité (pareil pour les booleans).
