@@ -31,8 +31,8 @@ void ScreenTransitionState::updateImpl(sf::RenderWindow& window)
         {
             newColor.a = 255;
             speedOfFade = -speedOfFade;
-            Global::activeGameStateStack->popBefore();
-            Global::activeGameStateStack->addBefore(std::move(stateToSet));
+            Global::activeGameStateStack->popBeforeLast();
+            Global::activeGameStateStack->addBeforeLast(std::move(stateToSet));
             stateToSet.release(); // normalement pas utile mais on sait jamais.
         }
         else
@@ -58,7 +58,7 @@ void ScreenTransitionState::updateImpl(sf::RenderWindow& window)
 
 void ScreenTransitionState::drawImpl(sf::RenderWindow& window)
 {
-    Global::activeGameStateStack->oldDraw(window);
+    Global::activeGameStateStack->drawBeforeLast(window);
 
     window.setView(window.getDefaultView());
 

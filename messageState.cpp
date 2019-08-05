@@ -100,7 +100,7 @@ void MessageState::updateImpl(sf::RenderWindow& window)
 
 void MessageState::drawImpl(sf::RenderWindow& window)
 {
-    Global::activeGameStateStack->oldDraw(window);
+    Global::activeGameStateStack->drawBeforeLast(window);
 
     window.setView(window.getDefaultView());
 

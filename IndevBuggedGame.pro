@@ -71,6 +71,7 @@ HEADERS += \
     screenTransitionState.hpp \
     startScreenState.hpp \
     utilities.hpp \
+    utls.hpp \
     versionNumber.hpp \
     widgetCursor.hpp \
     widgetText.hpp

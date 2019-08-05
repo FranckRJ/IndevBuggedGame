@@ -3,10 +3,9 @@
 
 #include "versionNumber.hpp"
 
-VersionNumber::VersionNumber(std::initializer_list<int> listOfVersionNumbers)
-    : versionNumbers{std::move(listOfVersionNumbers)}
+VersionNumber::VersionNumber(std::initializer_list<int> versionNumbers) : mVersionNumbers{std::move(versionNumbers)}
 {
-    for (const auto& number : versionNumbers)
+    for (const auto& number : mVersionNumbers)
     {
         if (number < 0)
         {
@@ -33,7 +32,7 @@ VersionNumber::VersionNumber(const std::string& versionNumbersAsStr)
             throw std::invalid_argument{"invalid version number"};
         }
 
-        versionNumbers.emplace_back(newNumber);
+        mVersionNumbers.emplace_back(newNumber);
         startIdx = dotIdx + 1;
     }
 }
@@ -45,24 +44,24 @@ VersionNumber operator""_vn(const char* versionNumbersAsStr, std::size_t sizeOfS
 
 int VersionNumber::spaceshipOperator(const VersionNumber& other) const
 {
-    auto thisCurrNumIte = versionNumbers.cbegin();
-    auto otherCurrNumIte = other.versionNumbers.cbegin();
+    auto thisCurrNumIte = mVersionNumbers.cbegin();
+    auto otherCurrNumIte = other.mVersionNumbers.cbegin();
 
-    while (thisCurrNumIte != versionNumbers.cend() || otherCurrNumIte != other.versionNumbers.cend())
+    while (thisCurrNumIte != mVersionNumbers.cend() || otherCurrNumIte != other.mVersionNumbers.cend())
     {
-        auto thisCurrNum = (thisCurrNumIte == versionNumbers.cend() ? 0 : *thisCurrNumIte);
-        auto otherCurrNum = (otherCurrNumIte == other.versionNumbers.cend() ? 0 : *otherCurrNumIte);
+        auto thisCurrNum = (thisCurrNumIte == mVersionNumbers.cend() ? 0 : *thisCurrNumIte);
+        auto otherCurrNum = (otherCurrNumIte == other.mVersionNumbers.cend() ? 0 : *otherCurrNumIte);
 
         if (thisCurrNum != otherCurrNum)
         {
             return (thisCurrNum < otherCurrNum ? -1 : 1);
         }
 
-        if (thisCurrNumIte != versionNumbers.cend())
+        if (thisCurrNumIte != mVersionNumbers.cend())
         {
             ++thisCurrNumIte;
         }
-        if (otherCurrNumIte != other.versionNumbers.cend())
+        if (otherCurrNumIte != other.mVersionNumbers.cend())
         {
             ++otherCurrNumIte;
         }

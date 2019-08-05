@@ -34,7 +34,7 @@ void Game::run()
         {
             gameStateStack.resetStackHasChanged();
             gameStateStack.update(window);
-        } while (gameStateStack.getStackHasChanged());
+        } while (gameStateStack.stackHasChanged());
 
         gameStateStack.draw(window);
         window.display();

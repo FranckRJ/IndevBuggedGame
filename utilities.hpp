@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 
+// Ancienne classe Utilities, doit etre refaite pour bouger tout ce qui est general dans utls.
 class Utilities
 {
 public:

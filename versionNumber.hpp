@@ -8,13 +8,13 @@
 class VersionNumber
 {
 public:
-    VersionNumber(std::initializer_list<int> listOfVersionNumbers = {});
+    VersionNumber(std::initializer_list<int> versionNumbers = {});
     VersionNumber(const std::string& versionNumbersAsStr);
 
     int spaceshipOperator(const VersionNumber& other) const;
 
 private:
-    std::vector<int> versionNumbers;
+    std::vector<int> mVersionNumbers;
 };
 
 VersionNumber operator""_vn(const char* versionNumbersAsStr, std::size_t sizeOfStr);

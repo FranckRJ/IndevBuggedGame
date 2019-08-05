@@ -1,89 +1,86 @@
 #include <utility>
 
 #include "gameStateStack.hpp"
+#include "utls.hpp"
 
-void GameStateStack::set(std::unique_ptr<GameState>&& state)
+void GameStateStack::set(std::unique_ptr<GameState> state)
 {
-    listOfStates.clear();
+    mListOfStates.clear();
     add(std::move(state));
 }
 
-void GameStateStack::add(std::unique_ptr<GameState>&& state)
+void GameStateStack::add(std::unique_ptr<GameState> state)
 {
-    stackHasChanged = true;
-    listOfStates.emplace_back(std::move(state));
+    mStackHasChanged = true;
+    mListOfStates.emplace_back(std::move(state));
 }
 
-void GameStateStack::addBefore(std::unique_ptr<GameState>&& state)
+void GameStateStack::addBeforeLast(std::unique_ptr<GameState> state)
 {
-    if (listOfStates.size() > 0)
+    if (mListOfStates.size() > 0)
     {
-        auto it = listOfStates.end();
-        stackHasChanged = true;
-        --it;
-        listOfStates.emplace(it, std::move(state));
+        auto lastIte = std::next(mListOfStates.begin(), utls::asSigned(mListOfStates.size() - 1));
+        mStackHasChanged = true;
+        mListOfStates.emplace(lastIte, std::move(state));
     }
 }
 
 void GameStateStack::pop()
 {
-    stackHasChanged = true;
-    listOfStates.pop_back();
+    mStackHasChanged = true;
+    mListOfStates.pop_back();
 }
 
-void GameStateStack::popBefore()
+void GameStateStack::popBeforeLast()
 {
-    if (listOfStates.size() >= 2)
+    if (mListOfStates.size() > 1)
     {
-        auto it = listOfStates.end();
-        stackHasChanged = true;
-        ----it;
-        listOfStates.erase(it);
+        auto beforeLastIte = std::next(mListOfStates.begin(), utls::asSigned(mListOfStates.size() - 2));
+        mStackHasChanged = true;
+        mListOfStates.erase(beforeLastIte);
     }
 }
 
 void GameStateStack::update(sf::RenderWindow& window)
 {
-    if (!listOfStates.empty())
+    if (!mListOfStates.empty())
     {
-        listOfStates.back()->update(window);
+        mListOfStates.back()->update(window);
     }
 }
 
-void GameStateStack::oldUpdate(sf::RenderWindow& window)
+void GameStateStack::updateBeforeLast(sf::RenderWindow& window)
 {
-    if (listOfStates.size() >= 2)
+    if (mListOfStates.size() > 1)
     {
-        auto it = listOfStates.rbegin();
-        ++it;
-        (*it)->update(window);
+        auto beforeLastIte = std::next(mListOfStates.begin(), utls::asSigned(mListOfStates.size() - 2));
+        (*beforeLastIte)->update(window);
     }
 }
 
 void GameStateStack::draw(sf::RenderWindow& window)
 {
-    if (!listOfStates.empty())
+    if (!mListOfStates.empty())
     {
-        listOfStates.back()->draw(window);
+        mListOfStates.back()->draw(window);
     }
 }
 
-void GameStateStack::oldDraw(sf::RenderWindow& window)
+void GameStateStack::drawBeforeLast(sf::RenderWindow& window)
 {
-    if (listOfStates.size() >= 2)
+    if (mListOfStates.size() >= 2)
     {
-        auto it = listOfStates.rbegin();
-        ++it;
-        (*it)->draw(window);
+        auto beforeLastIte = std::next(mListOfStates.begin(), utls::asSigned(mListOfStates.size() - 2));
+        (*beforeLastIte)->draw(window);
     }
 }
 
-bool GameStateStack::getStackHasChanged()
+bool GameStateStack::stackHasChanged()
 {
-    return stackHasChanged;
+    return mStackHasChanged;
 }
 
 void GameStateStack::resetStackHasChanged()
 {
-    stackHasChanged = false;
+    mStackHasChanged = false;
 }
