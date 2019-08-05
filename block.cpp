@@ -44,19 +44,19 @@ bool Block::applyCollision(Character& character, Direction movementDir, bool onl
         {
             if (properties.isDeadlyToPlayer)
             {
-                character.setIsDead(true);
+                character.setStatus(Character::Status::isDead, true);
             }
             if (properties.doStopPlayerFromMoving)
             {
-                character.setCanMoveIntentionally(false);
+                character.setStatus(Character::Status::canMoveIntentionally, false);
             }
             if (properties.affectCharacterMove != sf::Vector2i(0, 0))
             {
-                character.addToSetOfBlocksAffectingMove(id);
+                character.addToListOfBlocksAffectingMove(id);
             }
             if (properties.isFinishTrigger)
             {
-                character.setHasTriggeredFinishBlock(true);
+                character.setStatus(Character::Status::hasTriggeredFinishBlock, true);
             }
         }
         wasInCollideLastFrame = isColliding;

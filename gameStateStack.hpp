@@ -9,15 +9,15 @@
 class GameStateStack
 {
 public:
-    void set(std::unique_ptr<GameState> state);
-    void add(std::unique_ptr<GameState> state);
-    void addBeforeLast(std::unique_ptr<GameState> state);
+    void set(std::unique_ptr<GameState> pState);
+    void add(std::unique_ptr<GameState> pState);
+    void addBeforeLast(std::unique_ptr<GameState> pState);
     void pop();
     void popBeforeLast();
-    void update(sf::RenderWindow& window);
-    void updateBeforeLast(sf::RenderWindow& window);
-    void draw(sf::RenderWindow& window);
-    void drawBeforeLast(sf::RenderWindow& window);
+    void update(sf::RenderWindow& pWindow);
+    void updateBeforeLast(sf::RenderWindow& pWindow);
+    void draw(sf::RenderWindow& pWindow);
+    void drawBeforeLast(sf::RenderWindow& pWindow);
     bool stackHasChanged();
     void resetStackHasChanged();
 

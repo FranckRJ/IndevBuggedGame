@@ -1,146 +1,267 @@
 #include "character.hpp"
 
-Character::~Character()
+void Character::update()
 {
-    // vide
+    updateImpl();
 }
 
-sf::Vector2i Character::getPosition()
+void Character::draw(sf::RenderWindow& pWindow)
 {
-    return position;
+    drawImpl(pWindow);
 }
 
-void Character::setPosition(sf::Vector2i newPosition)
+Direction Character::movingDirection() const
 {
-    position = newPosition;
+    return movingDirectionImpl();
 }
 
-void Character::setPosition(int newX, int newY)
+Direction Character::movedHorizontalDirection() const
 {
-    setPosition(sf::Vector2i(newX, newY));
+    return movedHorizontalDirectionImpl();
 }
 
-void Character::changePosition(int addX, int addY)
+Direction Character::movedVerticalDirection() const
 {
-    setPosition(sf::Vector2i(position.x + addX, position.y + addY));
+    return movedVerticalDirectionImpl();
 }
 
-Direction Character::getCurrentDirection() const
+void Character::setMovingDirection(Direction pDirection)
 {
-    return currentDirection;
+    setMovingDirectionImpl(pDirection);
 }
 
-Direction Character::getMovedHorizontalDirection() const
+void Character::setMovedHorizontalDirection(Direction pDirection)
 {
-    return movedHorizontalDirection;
+    setMovedHorizontalDirectionImpl(pDirection);
 }
 
-Direction Character::getMovedVerticalDirection() const
+void Character::setMovedVerticalDirection(Direction pDirection)
 {
-    return movedVerticalDirection;
+    setMovedVerticalDirectionImpl(pDirection);
 }
 
-void Character::setCurrentDirection(const Direction& value)
+sf::FloatRect Character::spriteBox() const
 {
-    currentDirection = value;
+    return spriteBoxImpl();
 }
 
-sf::IntRect Character::getCollideBox()
+sf::IntRect Character::collideBox() const
 {
-    return sf::IntRect(position.x, position.y, sizeOfCollideBox.x, sizeOfCollideBox.y);
+    return collideBoxImpl();
 }
 
-int Character::getSpeed() const
+sf::Vector2i Character::position() const
 {
-    return speed;
+    return positionImpl();
 }
 
-int Character::getJumpPower() const
+void Character::setPosition(sf::Vector2i pPosition)
 {
-    return jumpPower;
+    setPositionImpl(pPosition);
 }
 
-double Character::getCurrentVerticalVelocity() const
+void Character::changePosition(sf::Vector2i pChangeToApply)
 {
-    return currentVerticalVelocity;
+    changePositionImpl(pChangeToApply);
 }
 
-void Character::setCurrentVerticalVelocity(double value)
+double Character::verticalVelocity() const
 {
-    currentVerticalVelocity = value;
+    return verticalVelocityImpl();
 }
 
-bool Character::getCanJump() const
+void Character::setVerticalVelocity(double pVerticalVelocity)
 {
-    return canJump;
+    setVerticalVelocityImpl(pVerticalVelocity);
 }
 
-void Character::setCanJump(bool value)
+bool Character::canJump() const
 {
-    canJump = value;
+    return canJumpImpl();
 }
 
-bool Character::getIsInJump() const
+bool Character::isInJump() const
 {
-    return isInJump;
+    return isInJumpImpl();
 }
 
-void Character::setIsInJump(bool value)
+void Character::setCanJump(bool pCanJump)
 {
-    isInJump = value;
+    setCanJumpImpl(pCanJump);
 }
 
-bool Character::getCanMoveIntentionally() const
+void Character::setIsInJump(bool pIsInJump)
 {
-    return canMoveIntentionally;
+    setIsInJumpImpl(pIsInJump);
 }
 
-void Character::setCanMoveIntentionally(bool newVal)
+bool Character::hasStatus(Character::Status pStatus) const
 {
-    canMoveIntentionally = newVal;
+    hasStatusImpl(pStatus);
 }
 
-bool Character::getCanJumpIntentionally() const
+void Character::setStatus(Character::Status pStatus, bool pValue)
 {
-    return canJumpIntentionally;
+    setStatusImpl(pStatus, pValue);
 }
 
-void Character::setCanJumpIntentionally(bool value)
+void Character::resetAllStatus()
 {
-    canJumpIntentionally = value;
+    resetAllStatusImpl();
 }
 
-bool Character::getIsDead() const
+const std::set<BlockId> Character::listOfBlocksAffectingMove() const
 {
-    return isDead;
+    return listOfBlocksAffectingMoveImpl();
 }
 
-void Character::setIsDead(bool newVal)
+void Character::addToListOfBlocksAffectingMove(BlockId pBlock)
 {
-    isDead = newVal;
+    addToListOfBlocksAffectingMoveImpl(pBlock);
 }
 
-bool Character::getHasTriggeredFinishBlock() const
+void Character::resetListOfBlocksAffectingMove()
 {
-    return hasTriggeredFinishBlock;
+    resetListOfBlocksAffectingMoveImpl();
 }
 
-void Character::setHasTriggeredFinishBlock(bool value)
+int Character::speed() const
 {
-    hasTriggeredFinishBlock = value;
+    return speedImpl();
 }
 
-const std::set<BlockId> Character::getSetOfBlocksAffectingMove() const
+int Character::jumpPower() const
 {
-    return setOfBlocksAffectingMove;
+    return jumpPowerImpl();
 }
 
-void Character::addToSetOfBlocksAffectingMove(BlockId newBlock)
+void Character::hasEnterInCollide(Direction pDirection)
 {
-    setOfBlocksAffectingMove.emplace(newBlock);
+    hasEnterInCollideImpl(pDirection);
 }
 
-void Character::resetSetOfBlocksAffectingMove()
+CharacterImpl::CharacterImpl(int pSpeed, int pJumpPower) : mSpeed{pSpeed}, mJumpPower{pJumpPower}
 {
-    setOfBlocksAffectingMove.clear();
+}
+
+Direction CharacterImpl::movingDirectionImpl() const
+{
+    return mMovingDirection;
+}
+
+Direction CharacterImpl::movedHorizontalDirectionImpl() const
+{
+    return mMovedHorizontalDirection;
+}
+
+Direction CharacterImpl::movedVerticalDirectionImpl() const
+{
+    return mMovedVerticalDirection;
+}
+
+void CharacterImpl::setMovingDirectionImpl(Direction pDirection)
+{
+    mMovingDirection = pDirection;
+}
+
+void CharacterImpl::setMovedHorizontalDirectionImpl(Direction pDirection)
+{
+    mMovedHorizontalDirection = pDirection;
+}
+
+void CharacterImpl::setMovedVerticalDirectionImpl(Direction pDirection)
+{
+    mMovedVerticalDirection = pDirection;
+}
+
+sf::Vector2i CharacterImpl::positionImpl() const
+{
+    return mPosition;
+}
+
+void CharacterImpl::setPositionImpl(sf::Vector2i pPosition)
+{
+    mPosition = pPosition;
+}
+
+void CharacterImpl::changePositionImpl(sf::Vector2i pChangeToApply)
+{
+    mPosition += pChangeToApply;
+}
+
+double CharacterImpl::verticalVelocityImpl() const
+{
+    return mVerticalVelocity;
+}
+
+void CharacterImpl::setVerticalVelocityImpl(double pVerticalVelocity)
+{
+    mVerticalVelocity = pVerticalVelocity;
+}
+
+bool CharacterImpl::canJumpImpl() const
+{
+    return mCanJump;
+}
+
+bool CharacterImpl::isInJumpImpl() const
+{
+    return mIsInJump;
+}
+
+void CharacterImpl::setCanJumpImpl(bool pCanJump)
+{
+    mCanJump = pCanJump;
+}
+
+void CharacterImpl::setIsInJumpImpl(bool pIsInJump)
+{
+    mIsInJump = pIsInJump;
+}
+
+bool CharacterImpl::hasStatusImpl(Status pStatus) const
+{
+    return mListOfStatus.count(pStatus) > 0;
+}
+
+void CharacterImpl::setStatusImpl(Status pStatus, bool pValue)
+{
+    if (pValue)
+    {
+        mListOfStatus.emplace(pStatus);
+    }
+    else
+    {
+        mListOfStatus.erase(pStatus);
+    }
+}
+
+void CharacterImpl::resetAllStatusImpl()
+{
+    mListOfStatus.clear();
+}
+
+const std::set<BlockId> CharacterImpl::listOfBlocksAffectingMoveImpl() const
+{
+    return mListOfBlocksAffectingMove;
+}
+
+void CharacterImpl::addToListOfBlocksAffectingMoveImpl(BlockId pBlock)
+{
+    mListOfBlocksAffectingMove.emplace(pBlock);
+}
+
+void CharacterImpl::resetListOfBlocksAffectingMoveImpl()
+{
+    mListOfBlocksAffectingMove.clear();
+}
+
+int CharacterImpl::speedImpl() const
+{
+    return mSpeed;
+}
+
+int CharacterImpl::jumpPowerImpl() const
+{
+    return mJumpPower;
 }

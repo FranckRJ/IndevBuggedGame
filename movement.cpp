@@ -6,11 +6,12 @@ namespace
 {
     bool applyBaseCharacterMoveV1_0(Character& character)
     {
-        if (character.getCanMoveIntentionally() && character.getCurrentDirection() != Direction::NONE)
+        if (character.hasStatus(Character::Status::canMoveIntentionally) &&
+            character.movingDirection() != Direction::NONE)
         {
-            if (character.getCurrentDirection() == Direction::RIGHT)
+            if (character.movingDirection() == Direction::RIGHT)
             {
-                character.changePosition(character.getSpeed(), 0);
+                character.changePosition({character.speed(), 0});
                 return true;
             }
         }
@@ -20,16 +21,17 @@ namespace
 
     bool applyBaseCharacterMoveV1_1(Character& character)
     {
-        if (character.getCanMoveIntentionally() && character.getCurrentDirection() != Direction::NONE)
+        if (character.hasStatus(Character::Status::canMoveIntentionally) &&
+            character.movingDirection() != Direction::NONE)
         {
-            if (character.getCurrentDirection() == Direction::RIGHT)
+            if (character.movingDirection() == Direction::RIGHT)
             {
-                character.changePosition(character.getSpeed(), 0);
+                character.changePosition({character.speed(), 0});
                 return true;
             }
-            else if (character.getCurrentDirection() == Direction::LEFT)
+            else if (character.movingDirection() == Direction::LEFT)
             {
-                character.changePosition(-character.getSpeed(), 0);
+                character.changePosition({-character.speed(), 0});
                 return true;
             }
         }
@@ -41,14 +43,14 @@ namespace
     {
         int changeToXPosition = 0;
 
-        for (const BlockId& id : character.getSetOfBlocksAffectingMove())
+        for (const BlockId& id : character.listOfBlocksAffectingMove())
         {
             changeToXPosition += BlockManager::getBlockInfos(id).properties.affectCharacterMove.x;
         }
 
         if (changeToXPosition != 0)
         {
-            character.changePosition(changeToXPosition, 0);
+            character.changePosition({changeToXPosition, 0});
             return true;
         }
 
@@ -57,9 +59,9 @@ namespace
 
     bool applyVerticalMoveV1_0(Character& character)
     {
-        if (!Utilities::doubleIsNear(character.getCurrentVerticalVelocity(), 0.0))
+        if (!Utilities::doubleIsNear(character.verticalVelocity(), 0.0))
         {
-            character.changePosition(0, static_cast<int>(character.getCurrentVerticalVelocity()));
+            character.changePosition({0, static_cast<int>(character.verticalVelocity())});
             return true;
         }
 
@@ -70,13 +72,13 @@ namespace
     {
         if (collideDir == Direction::UP || collideDir == Direction::DOWN)
         {
-            if (character.getCurrentVerticalVelocity() > 100)
+            if (character.verticalVelocity() > 100)
             {
-                character.setCurrentVerticalVelocity(99);
+                character.setVerticalVelocity(99);
             }
             else
             {
-                character.setCurrentVerticalVelocity(0);
+                character.setVerticalVelocity(0);
             }
 
             if (collideDir == Direction::DOWN)
@@ -94,7 +96,7 @@ namespace
     {
         if (collideDir == Direction::UP || collideDir == Direction::DOWN)
         {
-            character.setCurrentVerticalVelocity(0);
+            character.setVerticalVelocity(0);
 
             if (collideDir == Direction::DOWN)
             {
@@ -109,7 +111,7 @@ namespace
     {
         if (collideDir == Direction::UP || collideDir == Direction::DOWN)
         {
-            character.setCurrentVerticalVelocity(0);
+            character.setVerticalVelocity(0);
 
             if (collideDir == Direction::DOWN)
             {
@@ -130,9 +132,9 @@ namespace
     {
         (void)spaceWasPressedLastFrame;
 
-        if (character.getCanJumpIntentionally())
+        if (character.hasStatus(Character::Status::canJumpIntentionally))
         {
-            character.setCurrentVerticalVelocity(character.getJumpPower());
+            character.setVerticalVelocity(character.jumpPower());
             character.setCanJump(false);
             character.setIsInJump(true);
             return true;
@@ -145,9 +147,9 @@ namespace
     {
         (void)spaceWasPressedLastFrame;
 
-        if (character.getCanJumpIntentionally() && character.getCanJump())
+        if (character.hasStatus(Character::Status::canJumpIntentionally) && character.canJump())
         {
-            character.setCurrentVerticalVelocity(character.getJumpPower());
+            character.setVerticalVelocity(character.jumpPower());
             character.setCanJump(false);
             character.setIsInJump(true);
             return true;
@@ -158,18 +160,18 @@ namespace
 
     bool startJumpV1_5(Character& character, bool spaceWasPressedLastFrame)
     {
-        if (character.getCanJumpIntentionally())
+        if (character.hasStatus(Character::Status::canJumpIntentionally))
         {
-            if (character.getCanJump())
+            if (character.canJump())
             {
-                character.setCurrentVerticalVelocity(character.getJumpPower());
+                character.setVerticalVelocity(character.jumpPower());
                 character.setCanJump(false);
                 character.setIsInJump(true);
                 return true;
             }
             else if (!spaceWasPressedLastFrame)
             {
-                character.setCurrentVerticalVelocity(0);
+                character.setVerticalVelocity(0);
             }
         }
 
@@ -180,11 +182,11 @@ namespace
     {
         (void)spaceWasPressedLastFrame;
 
-        if (character.getCanJumpIntentionally())
+        if (character.hasStatus(Character::Status::canJumpIntentionally))
         {
-            if (character.getCanJump())
+            if (character.canJump())
             {
-                character.setCurrentVerticalVelocity(character.getJumpPower());
+                character.setVerticalVelocity(character.jumpPower());
                 character.setCanJump(false);
                 character.setIsInJump(true);
                 return true;

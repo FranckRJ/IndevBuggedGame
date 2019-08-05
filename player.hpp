@@ -7,34 +7,37 @@
 #include "movement.hpp"
 #include "particleMotor.hpp"
 
-class Player : public Character
+class Player : public CharacterImpl
 {
 public:
     Player();
-    void update();
-    void draw(sf::RenderWindow& window);
-    void updateSpriteShape();
     void applyHorizontalMove();
     void applyVerticalMove();
-    void applySpriteDeformation();
-    bool moveSpriteWidthDeformation(int amount);
-    void hasEnterInCollide(Direction dir);
     void startJump(bool spaceWasPressedLastFrame);
     void applyGravity(int gravityStrength);
-    sf::FloatRect getSpriteBox();
     void setMovementForVersion();
+
+private:
+    void updateImpl() override;
+    void drawImpl(sf::RenderWindow& window) override;
+    void updateSpriteShape();
+    void applySpriteDeformation();
+    bool moveSpriteWidthDeformation(int amount);
+    void hasEnterInCollideImpl(Direction pDirection) override;
+    sf::FloatRect spriteBoxImpl() const override;
+    sf::IntRect collideBoxImpl() const override;
     void setVisorForSprite();
 
 private:
-    sf::RectangleShape sprite;
-    sf::RectangleShape spriteVisor;
-    sf::Vector2i baseSpriteSize;
-    sf::Vector2i spriteSizeDeformation;
-    int currentFrame = 0;
-    int spriteWidthDeformationNeeded = 0;
-    ParticleMotor particleMotor;
-    MovementClass movement;
-    Direction lastDirection = Direction::RIGHT;
+    sf::RectangleShape mSprite;
+    sf::RectangleShape mSpriteVisor;
+    sf::Vector2i mBaseSpriteSize = {0, 0};
+    sf::Vector2i mSpriteSizeDeformation;
+    int mCurrentFrame = 0;
+    int mSpriteWidthDeformationNeeded = 0;
+    ParticleMotor mParticleMotor;
+    MovementClass mMovement;
+    Direction mLastDirection = Direction::RIGHT;
 };
 
 #endif

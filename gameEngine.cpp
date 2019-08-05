@@ -17,25 +17,25 @@ GameEngine::GameEngine(std::string nameOfLevel)
     player.update();
 
     // pour empecher le joueur de se deplacer lors de la premiere frame (affichage de message etc).
-    player.setCanMoveIntentionally(false);
-    player.setCanJumpIntentionally(false);
+    player.setStatus(Character::Status::canMoveIntentionally, false);
+    player.setStatus(Character::Status::canJumpIntentionally, false);
 }
 
 void GameEngine::update()
 {
     player.applyHorizontalMove();
     checkCharacterInBorder(player);
-    checkCharacterCollideWithBlock(player, player.getMovedHorizontalDirection(), true);
+    checkCharacterCollideWithBlock(player, player.movedHorizontalDirection(), true);
 
     player.applyVerticalMove();
     checkCharacterInBorder(player);
-    checkCharacterCollideWithBlock(player, player.getMovedVerticalDirection(), true);
+    checkCharacterCollideWithBlock(player, player.movedVerticalDirection(), true);
 
-    player.setCanMoveIntentionally(true);
-    player.setCanJumpIntentionally(true);
-    player.resetSetOfBlocksAffectingMove();
+    player.setStatus(Character::Status::canMoveIntentionally, true);
+    player.setStatus(Character::Status::canJumpIntentionally, true);
+    player.resetListOfBlocksAffectingMove();
     checkCharacterInBorder(player);
-    checkCharacterCollideWithBlock(player, player.getMovedHorizontalDirection());
+    checkCharacterCollideWithBlock(player, player.movedHorizontalDirection());
     setCameraToCharacter(player);
     checkCharacterCollideWithEvent(player);
 
@@ -61,7 +61,7 @@ void GameEngine::update()
         }
     }
 
-    if (player.getHasTriggeredFinishBlock())
+    if (player.hasStatus(Character::Status::hasTriggeredFinishBlock))
     {
         if (infoForLevel.nextLevelName.empty())
         {
@@ -70,7 +70,7 @@ void GameEngine::update()
         Global::activeGameStateStack->add(std::make_unique<ScreenTransitionState>(
             std::make_unique<PlayState>(infoForLevel.nextLevelName), sf::Color::Black, 25));
     }
-    else if (player.getIsDead())
+    else if (player.hasStatus(Character::Status::isDead))
     {
         Global::activeGameStateStack->add(std::make_unique<ScreenTransitionState>(
             std::make_unique<PlayState>(currentLevelName), sf::Color::Black, 25));
@@ -105,7 +105,7 @@ void GameEngine::draw(sf::RenderWindow& window)
 
 void GameEngine::setPlayerDirection(Direction dir)
 {
-    player.setCurrentDirection(dir);
+    player.setMovingDirection(dir);
 }
 
 void GameEngine::jumpPlayer(bool spaceWasPressedLastFrame)
@@ -115,42 +115,41 @@ void GameEngine::jumpPlayer(bool spaceWasPressedLastFrame)
 
 void GameEngine::checkCharacterInBorder(Character& character)
 {
-    if (character.getPosition().x < infoForLevel.limitOfGame.left)
+    if (character.position().x < infoForLevel.limitOfGame.left)
     {
         character.hasEnterInCollide(Direction::LEFT);
-        character.setPosition(infoForLevel.limitOfGame.left, character.getPosition().y);
+        character.setPosition({infoForLevel.limitOfGame.left, character.position().y});
     }
-    else if (character.getPosition().x + character.getCollideBox().width >
+    else if (character.position().x + character.collideBox().width >
              infoForLevel.limitOfGame.left + infoForLevel.limitOfGame.width)
     {
         character.hasEnterInCollide(Direction::RIGHT);
-        character.setPosition(infoForLevel.limitOfGame.left + infoForLevel.limitOfGame.width -
-                                  character.getCollideBox().width,
-                              character.getPosition().y);
+        character.setPosition(
+            {infoForLevel.limitOfGame.left + infoForLevel.limitOfGame.width - character.collideBox().width,
+             character.position().y});
     }
 
-    if (character.getPosition().y < infoForLevel.limitOfGame.top)
+    if (character.position().y < infoForLevel.limitOfGame.top)
     {
         character.hasEnterInCollide(Direction::UP);
-        character.setPosition(character.getPosition().x, infoForLevel.limitOfGame.top);
+        character.setPosition({character.position().x, infoForLevel.limitOfGame.top});
     }
-    else if (character.getPosition().y + character.getCollideBox().height >
+    else if (character.position().y + character.collideBox().height >
              infoForLevel.limitOfGame.top + infoForLevel.limitOfGame.height)
     {
         character.hasEnterInCollide(Direction::DOWN);
-        character.setPosition(character.getPosition().x, infoForLevel.limitOfGame.top +
-                                                             infoForLevel.limitOfGame.height -
-                                                             character.getCollideBox().height);
+        character.setPosition({character.position().x, infoForLevel.limitOfGame.top + infoForLevel.limitOfGame.height -
+                                                           character.collideBox().height});
     }
 }
 
 void GameEngine::checkCharacterCollideWithBlock(Character& character, Direction dir, bool onlySolid)
 {
-    for (int x = character.getCollideBox().left / SIZE_BLOCK;
-         x <= (character.getCollideBox().left + character.getCollideBox().width) / SIZE_BLOCK; ++x)
+    for (int x = character.collideBox().left / SIZE_BLOCK;
+         x <= (character.collideBox().left + character.collideBox().width) / SIZE_BLOCK; ++x)
     {
-        for (int y = character.getCollideBox().top / SIZE_BLOCK;
-             y <= (character.getCollideBox().top + character.getCollideBox().height) / SIZE_BLOCK; ++y)
+        for (int y = character.collideBox().top / SIZE_BLOCK;
+             y <= (character.collideBox().top + character.collideBox().height) / SIZE_BLOCK; ++y)
         {
             auto block = infoForLevel.mapOfGame.find(Point(x, y));
 
@@ -166,7 +165,7 @@ void GameEngine::checkCharacterCollideWithEvent(Character& character)
 {
     for (auto eventIte = infoForLevel.listOfEvent.begin(); eventIte != infoForLevel.listOfEvent.end();)
     {
-        if ((*eventIte)->isCollideWith(character.getCollideBox()))
+        if ((*eventIte)->isCollideWith(character.collideBox()))
         {
             if ((*eventIte)->getEventInfo().isUpdateEvent)
             {
@@ -189,8 +188,8 @@ void GameEngine::checkCharacterCollideWithEvent(Character& character)
 
 void GameEngine::setCameraToCharacter(Character& character)
 {
-    view.setCenter(character.getSpriteBox().left + character.getSpriteBox().width / 2,
-                   character.getSpriteBox().top + character.getSpriteBox().height / 2);
+    view.setCenter(character.spriteBox().left + character.spriteBox().width / 2,
+                   character.spriteBox().top + character.spriteBox().height / 2);
 
     if (view.getCenter().x < infoForLevel.limitOfGame.left + (WIDTH_SCREEN / 2))
     {

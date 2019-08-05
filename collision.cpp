@@ -9,7 +9,7 @@ void Collision::setFuncsForGameVersion(VersionNumber gameVersion)
 
 bool Collision::isCollidingBlock(Character& character, const Block& block, Direction movementDir)
 {
-    sf::IntRect characterCollideBox = character.getCollideBox();
+    sf::IntRect characterCollideBox = character.collideBox();
     sf::IntRect blockCollideBox = block.getCollideBox();
 
     (void)movementDir;
@@ -21,34 +21,34 @@ bool Collision::isCollidingBlock(Character& character, const Block& block, Direc
 
 void Collision::replaceCharacterNearBlock(Character& character, const Block& block, Direction movementDir)
 {
-    sf::IntRect characterCollideBox = character.getCollideBox();
+    sf::IntRect characterCollideBox = character.collideBox();
     sf::IntRect blockCollideBox = block.getCollideBox();
 
     switch (movementDir)
     {
         case Direction::LEFT:
         {
-            character.setPosition(blockCollideBox.left + blockCollideBox.width, characterCollideBox.top);
+            character.setPosition({blockCollideBox.left + blockCollideBox.width, characterCollideBox.top});
             break;
         }
         case Direction::UP:
         {
-            character.setPosition(characterCollideBox.left, blockCollideBox.top + blockCollideBox.height);
+            character.setPosition({characterCollideBox.left, blockCollideBox.top + blockCollideBox.height});
             break;
         }
         case Direction::RIGHT:
         {
-            character.setPosition(blockCollideBox.left - characterCollideBox.width, characterCollideBox.top);
+            character.setPosition({blockCollideBox.left - characterCollideBox.width, characterCollideBox.top});
             break;
         }
         case Direction::DOWN:
         {
-            character.setPosition(characterCollideBox.left, blockCollideBox.top - characterCollideBox.height);
+            character.setPosition({characterCollideBox.left, blockCollideBox.top - characterCollideBox.height});
             break;
         }
         default:
         {
-            character.setPosition(characterCollideBox.left, characterCollideBox.top);
+            character.setPosition({characterCollideBox.left, characterCollideBox.top});
             break;
         }
     }

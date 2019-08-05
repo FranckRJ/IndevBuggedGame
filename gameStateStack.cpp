@@ -3,25 +3,25 @@
 #include "gameStateStack.hpp"
 #include "utls.hpp"
 
-void GameStateStack::set(std::unique_ptr<GameState> state)
+void GameStateStack::set(std::unique_ptr<GameState> pState)
 {
     mListOfStates.clear();
-    add(std::move(state));
+    add(std::move(pState));
 }
 
-void GameStateStack::add(std::unique_ptr<GameState> state)
+void GameStateStack::add(std::unique_ptr<GameState> pState)
 {
     mStackHasChanged = true;
-    mListOfStates.emplace_back(std::move(state));
+    mListOfStates.emplace_back(std::move(pState));
 }
 
-void GameStateStack::addBeforeLast(std::unique_ptr<GameState> state)
+void GameStateStack::addBeforeLast(std::unique_ptr<GameState> pState)
 {
     if (mListOfStates.size() > 0)
     {
         auto lastIte = std::next(mListOfStates.begin(), utls::asSigned(mListOfStates.size() - 1));
         mStackHasChanged = true;
-        mListOfStates.emplace(lastIte, std::move(state));
+        mListOfStates.emplace(lastIte, std::move(pState));
     }
 }
 
@@ -41,37 +41,37 @@ void GameStateStack::popBeforeLast()
     }
 }
 
-void GameStateStack::update(sf::RenderWindow& window)
+void GameStateStack::update(sf::RenderWindow& pWindow)
 {
     if (!mListOfStates.empty())
     {
-        mListOfStates.back()->update(window);
+        mListOfStates.back()->update(pWindow);
     }
 }
 
-void GameStateStack::updateBeforeLast(sf::RenderWindow& window)
+void GameStateStack::updateBeforeLast(sf::RenderWindow& pWindow)
 {
     if (mListOfStates.size() > 1)
     {
         auto beforeLastIte = std::next(mListOfStates.begin(), utls::asSigned(mListOfStates.size() - 2));
-        (*beforeLastIte)->update(window);
+        (*beforeLastIte)->update(pWindow);
     }
 }
 
-void GameStateStack::draw(sf::RenderWindow& window)
+void GameStateStack::draw(sf::RenderWindow& pWindow)
 {
     if (!mListOfStates.empty())
     {
-        mListOfStates.back()->draw(window);
+        mListOfStates.back()->draw(pWindow);
     }
 }
 
-void GameStateStack::drawBeforeLast(sf::RenderWindow& window)
+void GameStateStack::drawBeforeLast(sf::RenderWindow& pWindow)
 {
     if (mListOfStates.size() >= 2)
     {
         auto beforeLastIte = std::next(mListOfStates.begin(), utls::asSigned(mListOfStates.size() - 2));
-        (*beforeLastIte)->draw(window);
+        (*beforeLastIte)->draw(pWindow);
     }
 }
 

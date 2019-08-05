@@ -3,7 +3,7 @@
 
 #include "versionNumber.hpp"
 
-VersionNumber::VersionNumber(std::initializer_list<int> versionNumbers) : mVersionNumbers{std::move(versionNumbers)}
+VersionNumber::VersionNumber(std::initializer_list<int> pVersionNumbers) : mVersionNumbers{std::move(pVersionNumbers)}
 {
     for (const auto& number : mVersionNumbers)
     {
@@ -14,18 +14,18 @@ VersionNumber::VersionNumber(std::initializer_list<int> versionNumbers) : mVersi
     }
 }
 
-VersionNumber::VersionNumber(const std::string& versionNumbersAsStr)
+VersionNumber::VersionNumber(const std::string& pVersionNumbersAsStr)
 {
     auto dotIdx = std::string::npos;
     auto startIdx = std::string::size_type{0};
     auto nbOfDigitsInNumber = std::size_t{0};
     auto newNumber = 0;
 
-    while (startIdx < versionNumbersAsStr.size())
+    while (startIdx < pVersionNumbersAsStr.size())
     {
-        dotIdx = versionNumbersAsStr.find('.', startIdx);
-        dotIdx = (dotIdx == std::string::npos ? versionNumbersAsStr.size() : dotIdx);
-        newNumber = std::stoi(versionNumbersAsStr.substr(startIdx, dotIdx - startIdx), &nbOfDigitsInNumber);
+        dotIdx = pVersionNumbersAsStr.find('.', startIdx);
+        dotIdx = (dotIdx == std::string::npos ? pVersionNumbersAsStr.size() : dotIdx);
+        newNumber = std::stoi(pVersionNumbersAsStr.substr(startIdx, dotIdx - startIdx), &nbOfDigitsInNumber);
 
         if (nbOfDigitsInNumber != (dotIdx - startIdx) || newNumber < 0)
         {
@@ -37,20 +37,20 @@ VersionNumber::VersionNumber(const std::string& versionNumbersAsStr)
     }
 }
 
-VersionNumber operator""_vn(const char* versionNumbersAsStr, std::size_t sizeOfStr)
+VersionNumber operator""_vn(const char* pVersionNumbersAsStr, std::size_t pSizeOfStr)
 {
-    return VersionNumber{std::string{versionNumbersAsStr, sizeOfStr}};
+    return VersionNumber{std::string{pVersionNumbersAsStr, pSizeOfStr}};
 }
 
-int VersionNumber::spaceshipOperator(const VersionNumber& other) const
+int VersionNumber::spaceshipOperator(const VersionNumber& pOther) const
 {
     auto thisCurrNumIte = mVersionNumbers.cbegin();
-    auto otherCurrNumIte = other.mVersionNumbers.cbegin();
+    auto otherCurrNumIte = pOther.mVersionNumbers.cbegin();
 
-    while (thisCurrNumIte != mVersionNumbers.cend() || otherCurrNumIte != other.mVersionNumbers.cend())
+    while (thisCurrNumIte != mVersionNumbers.cend() || otherCurrNumIte != pOther.mVersionNumbers.cend())
     {
         auto thisCurrNum = (thisCurrNumIte == mVersionNumbers.cend() ? 0 : *thisCurrNumIte);
-        auto otherCurrNum = (otherCurrNumIte == other.mVersionNumbers.cend() ? 0 : *otherCurrNumIte);
+        auto otherCurrNum = (otherCurrNumIte == pOther.mVersionNumbers.cend() ? 0 : *otherCurrNumIte);
 
         if (thisCurrNum != otherCurrNum)
         {
@@ -61,7 +61,7 @@ int VersionNumber::spaceshipOperator(const VersionNumber& other) const
         {
             ++thisCurrNumIte;
         }
-        if (otherCurrNumIte != other.mVersionNumbers.cend())
+        if (otherCurrNumIte != pOther.mVersionNumbers.cend())
         {
             ++otherCurrNumIte;
         }
@@ -70,32 +70,32 @@ int VersionNumber::spaceshipOperator(const VersionNumber& other) const
     return 0;
 }
 
-bool operator==(const VersionNumber& lhs, const VersionNumber& rhs)
+bool operator==(const VersionNumber& pLhs, const VersionNumber& pRhs)
 {
-    return (lhs.spaceshipOperator(rhs) == 0);
+    return (pLhs.spaceshipOperator(pRhs) == 0);
 }
 
-bool operator!=(const VersionNumber& lhs, const VersionNumber& rhs)
+bool operator!=(const VersionNumber& pLhs, const VersionNumber& pRhs)
 {
-    return (lhs.spaceshipOperator(rhs) != 0);
+    return (pLhs.spaceshipOperator(pRhs) != 0);
 }
 
-bool operator<(const VersionNumber& lhs, const VersionNumber& rhs)
+bool operator<(const VersionNumber& pLhs, const VersionNumber& pRhs)
 {
-    return (lhs.spaceshipOperator(rhs) < 0);
+    return (pLhs.spaceshipOperator(pRhs) < 0);
 }
 
-bool operator>(const VersionNumber& lhs, const VersionNumber& rhs)
+bool operator>(const VersionNumber& pLhs, const VersionNumber& pRhs)
 {
-    return (lhs.spaceshipOperator(rhs) > 0);
+    return (pLhs.spaceshipOperator(pRhs) > 0);
 }
 
-bool operator<=(const VersionNumber& lhs, const VersionNumber& rhs)
+bool operator<=(const VersionNumber& pLhs, const VersionNumber& pRhs)
 {
-    return (lhs.spaceshipOperator(rhs) <= 0);
+    return (pLhs.spaceshipOperator(pRhs) <= 0);
 }
 
-bool operator>=(const VersionNumber& lhs, const VersionNumber& rhs)
+bool operator>=(const VersionNumber& pLhs, const VersionNumber& pRhs)
 {
-    return (lhs.spaceshipOperator(rhs) >= 0);
+    return (pLhs.spaceshipOperator(pRhs) >= 0);
 }
