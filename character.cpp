@@ -97,7 +97,7 @@ void Character::setIsInJump(bool pIsInJump)
 
 bool Character::hasStatus(Character::Status pStatus) const
 {
-    hasStatusImpl(pStatus);
+    return hasStatusImpl(pStatus);
 }
 
 void Character::setStatus(Character::Status pStatus, bool pValue)
