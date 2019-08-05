@@ -8,8 +8,10 @@ class PlayState : public GameState
 {
 public:
     PlayState(std::string nameOfLevel);
-    void update(sf::RenderWindow& window);
-    void draw(sf::RenderWindow& window);
+
+private:
+    void updateImpl(sf::RenderWindow& window) override;
+    void drawImpl(sf::RenderWindow& window) override;
 
 private:
     GameEngine gameEngine;

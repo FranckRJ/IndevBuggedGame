@@ -11,7 +11,7 @@ MessageState::MessageState(std::vector<RectForMessage>& newListOfRect, sf::Text 
     time.restart();
 }
 
-void MessageState::update(sf::RenderWindow& window)
+void MessageState::updateImpl(sf::RenderWindow& window)
 {
     sf::Event event;
 
@@ -98,7 +98,7 @@ void MessageState::update(sf::RenderWindow& window)
     }
 }
 
-void MessageState::draw(sf::RenderWindow& window)
+void MessageState::drawImpl(sf::RenderWindow& window)
 {
     Global::activeGameStateStack->oldDraw(window);
 

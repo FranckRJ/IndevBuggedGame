@@ -69,7 +69,7 @@ StartScreenState::StartScreenState()
     listOfInstructions.push_back(InstructionInfos("WAIT", "0.1"));
 }
 
-void StartScreenState::update(sf::RenderWindow& window)
+void StartScreenState::updateImpl(sf::RenderWindow& window)
 {
     sf::Event event;
 
@@ -118,7 +118,7 @@ void StartScreenState::update(sf::RenderWindow& window)
     }
 }
 
-void StartScreenState::draw(sf::RenderWindow& window)
+void StartScreenState::drawImpl(sf::RenderWindow& window)
 {
     window.setView(window.getDefaultView());
     window.clear(sf::Color::Black);

@@ -10,8 +10,10 @@ class ScreenTransitionState : public GameState
 {
 public:
     ScreenTransitionState(std::unique_ptr<GameState>&& newState, sf::Color color, int newSpeed);
-    void update(sf::RenderWindow& window);
-    void draw(sf::RenderWindow& window);
+
+private:
+    void updateImpl(sf::RenderWindow& window) override;
+    void drawImpl(sf::RenderWindow& window) override;
 
 private:
     std::unique_ptr<GameState> stateToSet;

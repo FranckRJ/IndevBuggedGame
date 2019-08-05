@@ -20,8 +20,10 @@ class StartScreenState : public GameState
 {
 public:
     StartScreenState();
-    void update(sf::RenderWindow& window);
-    void draw(sf::RenderWindow& window);
+
+private:
+    void updateImpl(sf::RenderWindow& window) override;
+    void drawImpl(sf::RenderWindow& window) override;
 
 private:
     std::list<InstructionInfos> listOfInstructions;

@@ -12,7 +12,7 @@ ScreenTransitionState::ScreenTransitionState(std::unique_ptr<GameState>&& newSta
     fadeEffect.setSize(sf::Vector2f(WIDTH_SCREEN, HEIGHT_SCREEN));
 }
 
-void ScreenTransitionState::update(sf::RenderWindow& window)
+void ScreenTransitionState::updateImpl(sf::RenderWindow& window)
 {
     sf::Event event;
     sf::Color newColor = fadeEffect.getFillColor();
@@ -56,7 +56,7 @@ void ScreenTransitionState::update(sf::RenderWindow& window)
     fadeEffect.setFillColor(newColor);
 }
 
-void ScreenTransitionState::draw(sf::RenderWindow& window)
+void ScreenTransitionState::drawImpl(sf::RenderWindow& window)
 {
     Global::activeGameStateStack->oldDraw(window);
 

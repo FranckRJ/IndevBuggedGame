@@ -12,8 +12,10 @@ class MainMenuState : public GameState
 {
 public:
     MainMenuState();
-    void update(sf::RenderWindow& window);
-    void draw(sf::RenderWindow& window);
+
+private:
+    void updateImpl(sf::RenderWindow& window) override;
+    void drawImpl(sf::RenderWindow& window) override;
     void centerWidgetInList();
 
 private:

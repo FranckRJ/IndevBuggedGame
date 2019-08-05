@@ -51,7 +51,7 @@ MainMenuState::MainMenuState()
     cursorText.setPositionToReach(listOfButton[currentId].getCentralVerticalPos());
 }
 
-void MainMenuState::update(sf::RenderWindow& window)
+void MainMenuState::updateImpl(sf::RenderWindow& window)
 {
     sf::Event event;
 
@@ -125,7 +125,7 @@ void MainMenuState::update(sf::RenderWindow& window)
     cursorText.update();
 }
 
-void MainMenuState::draw(sf::RenderWindow& window)
+void MainMenuState::drawImpl(sf::RenderWindow& window)
 {
     window.setView(window.getDefaultView());
     window.clear(sf::Color::Black);

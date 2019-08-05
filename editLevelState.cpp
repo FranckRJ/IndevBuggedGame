@@ -17,7 +17,7 @@ EditLevelState::EditLevelState(std::string levelName)
     currentBlock.sprite.setPosition(-SIZE_BLOCK * 2, -SIZE_BLOCK * 2);
 }
 
-void EditLevelState::update(sf::RenderWindow& window)
+void EditLevelState::updateImpl(sf::RenderWindow& window)
 {
     sf::Event event;
 
@@ -79,7 +79,7 @@ void EditLevelState::update(sf::RenderWindow& window)
     }
 }
 
-void EditLevelState::draw(sf::RenderWindow& window)
+void EditLevelState::drawImpl(sf::RenderWindow& window)
 {
     window.clear(sf::Color(200, 200, 200));
     window.setView(view);

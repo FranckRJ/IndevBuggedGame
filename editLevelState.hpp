@@ -10,8 +10,10 @@ class EditLevelState : public GameState
 {
 public:
     EditLevelState(std::string levelName);
-    void update(sf::RenderWindow& window);
-    void draw(sf::RenderWindow& window);
+
+private:
+    void updateImpl(sf::RenderWindow& window) override;
+    void drawImpl(sf::RenderWindow& window) override;
     void leftClickHere(int x, int y);
     void rightClickHere(int x, int y);
     void mouseMoveHere(int x, int y);

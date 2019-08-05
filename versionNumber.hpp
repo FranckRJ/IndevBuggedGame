@@ -10,6 +10,7 @@ class VersionNumber
 public:
     VersionNumber(std::initializer_list<int> listOfVersionNumbers = {});
     VersionNumber(const std::string& versionNumbersAsStr);
+
     int spaceshipOperator(const VersionNumber& other) const;
 
 private:

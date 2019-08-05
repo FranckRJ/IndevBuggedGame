@@ -22,8 +22,10 @@ class MessageState : public GameState
 {
 public:
     MessageState(std::vector<RectForMessage>& newListOfRect, sf::Text newMessageToShow);
-    void update(sf::RenderWindow& window);
-    void draw(sf::RenderWindow& window);
+
+private:
+    void updateImpl(sf::RenderWindow& window) override;
+    void drawImpl(sf::RenderWindow& window) override;
     bool changeSizeOfRect(RectForMessage& rect, sf::Vector2i speed, sf::Vector2i endSize, int factor = 1);
 
 private:

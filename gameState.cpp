@@ -1,6 +1,11 @@
 #include "gameState.hpp"
 
-GameState::~GameState()
+void GameState::update(sf::RenderWindow& window)
 {
-    // vide
+    updateImpl(window);
+}
+
+void GameState::draw(sf::RenderWindow& window)
+{
+    drawImpl(window);
 }

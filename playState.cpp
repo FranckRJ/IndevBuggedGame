@@ -4,7 +4,7 @@ PlayState::PlayState(std::string nameOfLevel) : gameEngine(nameOfLevel)
 {
 }
 
-void PlayState::update(sf::RenderWindow& window)
+void PlayState::updateImpl(sf::RenderWindow& window)
 {
     sf::Event event;
 
@@ -37,7 +37,7 @@ void PlayState::update(sf::RenderWindow& window)
     gameEngine.update();
 }
 
-void PlayState::draw(sf::RenderWindow& window)
+void PlayState::drawImpl(sf::RenderWindow& window)
 {
     window.clear(sf::Color(200, 200, 200));
     gameEngine.draw(window);
