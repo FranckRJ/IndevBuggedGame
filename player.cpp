@@ -51,7 +51,7 @@ void Player::applyHorizontalMove()
 
 void Player::applyVerticalMove()
 {
-    int oldYPosition = position().y;
+    auto oldYPosition = position().y;
 
     mMovement.applyVerticalMove(*this);
 
@@ -164,7 +164,7 @@ void Player::applySpriteDeformation()
 
 bool Player::moveSpriteWidthDeformation(int amount)
 {
-    bool hasMovedFully = true;
+    auto hasMovedFully = true;
 
     mSpriteSizeDeformation.x += amount;
     if (mSpriteSizeDeformation.x > 10)
