@@ -5,27 +5,24 @@
 #include <string>
 #include <vector>
 
-class VersionNumber;
-
-VersionNumber operator""_vn(const char* versionNumbersAsStr, std::size_t sizeOfStr);
-
 class VersionNumber
 {
 public:
-    VersionNumber(const std::initializer_list<unsigned int>& listOfVersionNumbers = {});
+    VersionNumber(std::initializer_list<int> listOfVersionNumbers = {});
     VersionNumber(const std::string& versionNumbersAsStr);
-    bool operator==(const VersionNumber& other) const;
-    bool operator!=(const VersionNumber& other) const;
-    bool operator<(const VersionNumber& other) const;
-    bool operator>(const VersionNumber& other) const;
-    bool operator<=(const VersionNumber& other) const;
-    bool operator>=(const VersionNumber& other) const;
-
-private:
     int spaceshipOperator(const VersionNumber& other) const;
 
 private:
-    std::vector<unsigned int> versionNumbers;
+    std::vector<int> versionNumbers;
 };
+
+VersionNumber operator""_vn(const char* versionNumbersAsStr, std::size_t sizeOfStr);
+
+bool operator==(const VersionNumber& lhs, const VersionNumber& rhs);
+bool operator!=(const VersionNumber& lhs, const VersionNumber& rhs);
+bool operator<(const VersionNumber& lhs, const VersionNumber& rhs);
+bool operator>(const VersionNumber& lhs, const VersionNumber& rhs);
+bool operator<=(const VersionNumber& lhs, const VersionNumber& rhs);
+bool operator>=(const VersionNumber& lhs, const VersionNumber& rhs);
 
 #endif
