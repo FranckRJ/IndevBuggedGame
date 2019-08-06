@@ -1,4 +1,5 @@
 #include <fstream>
+#include <utility>
 
 #include "blockManager.hpp"
 #include "eventManager.hpp"
@@ -9,9 +10,9 @@
 void LevelManager::setBlockHere(std::map<Point, std::unique_ptr<Block>>& currentMap, BlockId idOfBlock, int xBlock,
                                 int yBlock)
 {
-    Block* block = BlockManager::createBlock(idOfBlock);
+    auto block = BlockManager::createBlock(idOfBlock);
     block->setPosition({xBlock * SIZE_BLOCK, yBlock * SIZE_BLOCK});
-    currentMap[Point(xBlock, yBlock)] = std::unique_ptr<Block>(block);
+    currentMap[Point(xBlock, yBlock)] = std::move(block);
 }
 
 void LevelManager::loadLevelFromFile(LevelInfo& currentLevel, std::string filePath)
@@ -73,8 +74,8 @@ void LevelManager::loadLevelFromFile(LevelInfo& currentLevel, std::string filePa
             int sizeX = Utilities::stringToInt(Utilities::readFirstString(currentLine));
             int sizeY = Utilities::stringToInt(Utilities::readFirstString(currentLine));
 
-            currentLevel.listOfEvent.push_back(std::unique_ptr<EventClass>(
-                EventManager::createEvent(nameOfEvent, sf::IntRect(posX, posY, sizeX, sizeY), currentLine)));
+            currentLevel.listOfEvent.emplace_back(
+                EventManager::createEvent(nameOfEvent, sf::IntRect{posX, posY, sizeX, sizeY}, currentLine));
         }
     }
 

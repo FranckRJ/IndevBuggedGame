@@ -5,33 +5,33 @@
 
 void ParticleMotor::update()
 {
-    for (auto thisParticle = listOfParticle.begin(); thisParticle != listOfParticle.end();)
+    for (auto thisParticle = mListOfParticle.begin(); thisParticle != mListOfParticle.end();)
     {
         (*thisParticle)->update();
 
         if ((*thisParticle)->getIsDead())
         {
-            listOfParticle.erase(thisParticle++);
+            mListOfParticle.erase(thisParticle++);
             continue;
         }
         ++thisParticle;
     }
 }
 
-void ParticleMotor::draw(sf::RenderWindow& window)
+void ParticleMotor::draw(sf::RenderWindow& pWindow)
 {
-    for (std::unique_ptr<Particle>& thisParticle : listOfParticle)
+    for (const auto& thisParticle : mListOfParticle)
     {
-        thisParticle->draw(window);
+        thisParticle->draw(pWindow);
     }
 }
 
-void ParticleMotor::addParticle(sf::Vector2f atThisPosition, int particleSpeed)
+void ParticleMotor::addParticle(sf::Vector2f pAtThisPosition, int pParticleSpeed)
 {
-    int addVerticalVelocity = -(rand() % 5);
-    int addHorizontalVelocity = (rand() % 5) - 2;
+    auto addVerticalVelocity = -(rand() % 5);
+    auto addHorizontalVelocity = (rand() % 5) - 2;
 
-    listOfParticle.push_back(std::unique_ptr<Particle>(ParticleManager::createParticle(
-        "NORMAL_PARTICLE", sf::Color::Blue, sf::Vector2f(10, 10),
-        sf::Vector2i(particleSpeed + addHorizontalVelocity, addVerticalVelocity), atThisPosition)));
+    mListOfParticle.emplace_back(ParticleManager::createParticle(
+        "NORMAL_PARTICLE", sf::Color::Blue, sf::Vector2f{10.f, 10.f},
+        sf::Vector2i{pParticleSpeed + addHorizontalVelocity, addVerticalVelocity}, pAtThisPosition));
 }

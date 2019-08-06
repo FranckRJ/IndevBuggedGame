@@ -63,11 +63,11 @@ void BlockManager::initialize()
     }
 }
 
-Block* BlockManager::createBlock(BlockId id)
+std::unique_ptr<Block> BlockManager::createBlock(BlockId id)
 {
-    BlockInfos& infos = getBlockInfos(id);
+    const auto& infos = getBlockInfos(id);
 
-    return new Block(infos.properties, infos.spriteInfos, id);
+    return std::make_unique<Block>(infos.properties, infos.spriteInfos, id);
 }
 
 BasicBlock BlockManager::createBasicBlock(BlockId id)

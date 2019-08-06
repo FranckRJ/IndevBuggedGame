@@ -1,8 +1,10 @@
+#include <stdexcept>
+
 #include "particleManager.hpp"
 
 void ParticleManager::initialize()
 {
-    ParticleInfo baseInfo;
+    auto baseInfo = ParticleInfo{};
 
     baseInfo.attractedByGravity = true;
     baseInfo.horizontalVelocity = 0;
@@ -11,26 +13,29 @@ void ParticleManager::initialize()
     baseInfo.lostAlphaSpeed = 255;
 
     {
-        ParticleInfo info = baseInfo;
+        auto info = baseInfo;
 
         info.verticalVelocity = -4;
         info.lostAlphaSpeed = 20;
 
-        listOfParticle["NORMAL_PARTICLE"] = info;
+        mListOfParticle["NORMAL_PARTICLE"] = info;
     }
 }
 
-Particle* ParticleManager::createParticle(std::string particleName, sf::Color particleColor, sf::Vector2f particleSize,
-                                          sf::Vector2i velocity, sf::Vector2f basePosition)
+std::unique_ptr<Particle> ParticleManager::createParticle(const std::string& pParticleName,
+                                                          const sf::Color& pParticleColor,
+                                                          const sf::Vector2f& pParticleSize,
+                                                          const sf::Vector2i& pVelocity,
+                                                          const sf::Vector2f& pBasePosition)
 {
-    auto infos = listOfParticle.find(particleName);
+    auto infos = mListOfParticle.find(pParticleName);
 
-    if (infos != listOfParticle.end())
+    if (infos != mListOfParticle.end())
     {
-        return new Particle(infos->second, particleColor, particleSize, velocity, basePosition);
+        return std::make_unique<Particle>(infos->second, pParticleColor, pParticleSize, pVelocity, pBasePosition);
     }
     else
     {
-        return new Particle;
+        throw std::invalid_argument{"invalid particle name"};
     }
 }

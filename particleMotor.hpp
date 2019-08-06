@@ -11,11 +11,11 @@ class ParticleMotor
 {
 public:
     void update();
-    void draw(sf::RenderWindow& window);
-    void addParticle(sf::Vector2f atThisPosition, int particleSpeed);
+    void draw(sf::RenderWindow& pWindow);
+    void addParticle(sf::Vector2f pAtThisPosition, int pParticleSpeed);
 
 private:
-    std::list<std::unique_ptr<Particle>> listOfParticle;
+    std::list<std::unique_ptr<Particle>> mListOfParticle;
 };
 
 #endif

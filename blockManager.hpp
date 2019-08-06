@@ -2,6 +2,7 @@
 #define BLOCKMANAGER_HPP
 
 #include <cstddef>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -11,7 +12,7 @@ class BlockManager
 {
 public:
     static void initialize();
-    static Block* createBlock(BlockId id);
+    static std::unique_ptr<Block> createBlock(BlockId id);
     static BasicBlock createBasicBlock(BlockId id);
     static BasicBlock createNextBasicBlock(const BasicBlock& block);
     static BasicBlock createPreviousBasicBlock(const BasicBlock& block);

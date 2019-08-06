@@ -1,9 +1,10 @@
 #include "eventManager.hpp"
 #include "utilities.hpp"
 
-EventClass* EventManager::createEvent(std::string eventName, sf::IntRect newSurface, std::string additionnalInfo)
+std::unique_ptr<EventClass> EventManager::createEvent(std::string eventName, sf::IntRect newSurface,
+                                                      std::string additionnalInfo)
 {
-    return (new EventClass(getEventInfoFor(eventName, additionnalInfo), newSurface));
+    return std::make_unique<EventClass>(getEventInfoFor(eventName, additionnalInfo), newSurface);
 }
 
 EventInfo EventManager::getEventInfoFor(std::string eventName, std::string additionnalInfo)
