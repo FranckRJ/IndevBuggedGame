@@ -36,3 +36,5 @@ AAA pour les variables locales.
 Retourner par value lorsque possible (pas de polymorphisme), parce que grace aux move / RVO / etc c'est pas plus lent que par pointeur / const-ref.
 Utiliser std::optional pour retourner des valeurs qui peuvent ne pas exister sans qu'il y ai d'erreurs (si la non-existence provient d'une erreur, throw).
 Ne pas faire des comparaisons directes avec nullptr, plutôt utiliser if (ptr) pour checker sa validité (pareil pour les booleans).
+Preferer les getters sans le mot get.
+Prefixer les parametres par p et les data members prives par m (ou protected mais eviter de toute facon). Dans le but d'eviter les collisions de noms.
