@@ -1,54 +1,54 @@
 #include "collision.hpp"
 #include "block.hpp"
 
-void Collision::setFuncsForGameVersion(VersionNumber gameVersion)
+void Collision::setFuncsForGameVersion(const VersionNumber& pGameVersion)
 {
     // TODO
-    (void)gameVersion;
+    (void)pGameVersion;
 }
 
-bool Collision::isCollidingBlock(Character& character, const Block& block, Direction movementDir)
+bool Collision::isCollidingBlock(Character& pCharacter, const Block& pBlock, Direction pMovementDir)
 {
-    sf::IntRect characterCollideBox = character.collideBox();
-    sf::IntRect blockCollideBox = block.collideBox();
+    auto characterCollideBox = pCharacter.collideBox();
+    auto blockCollideBox = pBlock.collideBox();
 
-    (void)movementDir;
+    (void)pMovementDir;
     return (blockCollideBox.left < (characterCollideBox.left + characterCollideBox.width) &&
             (blockCollideBox.left + blockCollideBox.width) > characterCollideBox.left &&
             blockCollideBox.top < (characterCollideBox.top + characterCollideBox.height) &&
             (blockCollideBox.top + blockCollideBox.height) > characterCollideBox.top);
 }
 
-void Collision::replaceCharacterNearBlock(Character& character, const Block& block, Direction movementDir)
+void Collision::replaceCharacterNearBlock(Character& pCharacter, const Block& pBlock, Direction pMovementDir)
 {
-    sf::IntRect characterCollideBox = character.collideBox();
-    sf::IntRect blockCollideBox = block.collideBox();
+    auto characterCollideBox = pCharacter.collideBox();
+    auto blockCollideBox = pBlock.collideBox();
 
-    switch (movementDir)
+    switch (pMovementDir)
     {
         case Direction::LEFT:
         {
-            character.setPosition({blockCollideBox.left + blockCollideBox.width, characterCollideBox.top});
+            pCharacter.setPosition({blockCollideBox.left + blockCollideBox.width, characterCollideBox.top});
             break;
         }
         case Direction::UP:
         {
-            character.setPosition({characterCollideBox.left, blockCollideBox.top + blockCollideBox.height});
+            pCharacter.setPosition({characterCollideBox.left, blockCollideBox.top + blockCollideBox.height});
             break;
         }
         case Direction::RIGHT:
         {
-            character.setPosition({blockCollideBox.left - characterCollideBox.width, characterCollideBox.top});
+            pCharacter.setPosition({blockCollideBox.left - characterCollideBox.width, characterCollideBox.top});
             break;
         }
         case Direction::DOWN:
         {
-            character.setPosition({characterCollideBox.left, blockCollideBox.top - characterCollideBox.height});
+            pCharacter.setPosition({characterCollideBox.left, blockCollideBox.top - characterCollideBox.height});
             break;
         }
         default:
         {
-            character.setPosition({characterCollideBox.left, characterCollideBox.top});
+            pCharacter.setPosition({characterCollideBox.left, characterCollideBox.top});
             break;
         }
     }

@@ -10,22 +10,22 @@
 class MovementClass
 {
 public:
-    void setFuncsForGameVersion(const VersionNumber& gameVersion);
-    bool applyBaseCharacterMove(Character& character);
-    bool applySecondaryHorizontalMove(Character& character);
-    bool applyVerticalMove(Character& character);
-    void applyCollide(Character& character, Direction collideDIr);
-    bool startJump(Character& character, bool spaceWasPressedLastFrame);
+    void setFuncsForGameVersion(const VersionNumber& pGameVersion);
+    bool applyBaseCharacterMove(Character& pCharacter);
+    bool applySecondaryHorizontalMove(Character& pCharacter);
+    bool applyVerticalMove(Character& pCharacter);
+    void applyCollide(Character& pCharacter, Direction pCollideDIr);
+    bool startJump(Character& pCharacter, bool pSpaceWasPressedLastFrame);
 
 private:
     void resetAllInternalFuncs();
 
 private:
-    std::function<bool(Character&)> applyBaseCharacterMoveFunc;
-    std::function<bool(Character&)> applySecondaryHorizontalMoveFunc;
-    std::function<bool(Character&)> applyVerticalMoveFunc;
-    std::function<void(Character&, Direction)> applyCollideFunc;
-    std::function<bool(Character&, bool)> startJumpFunc;
+    std::function<bool(Character&)> mApplyBaseCharacterMoveFunc;
+    std::function<bool(Character&)> mApplySecondaryHorizontalMoveFunc;
+    std::function<bool(Character&)> mApplyVerticalMoveFunc;
+    std::function<void(Character&, Direction)> mApplyCollideFunc;
+    std::function<bool(Character&, bool)> mStartJumpFunc;
 };
 
 #endif

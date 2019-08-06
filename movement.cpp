@@ -4,14 +4,14 @@
 
 namespace
 {
-    bool applyBaseCharacterMoveV1_0(Character& character)
+    bool applyBaseCharacterMoveV1_0(Character& pCharacter)
     {
-        if (character.hasStatus(Character::Status::canMoveIntentionally) &&
-            character.movingDirection() != Direction::NONE)
+        if (pCharacter.hasStatus(Character::Status::canMoveIntentionally) &&
+            pCharacter.movingDirection() != Direction::NONE)
         {
-            if (character.movingDirection() == Direction::RIGHT)
+            if (pCharacter.movingDirection() == Direction::RIGHT)
             {
-                character.changePosition({character.speed(), 0});
+                pCharacter.changePosition({pCharacter.speed(), 0});
                 return true;
             }
         }
@@ -19,19 +19,19 @@ namespace
         return false;
     }
 
-    bool applyBaseCharacterMoveV1_1(Character& character)
+    bool applyBaseCharacterMoveV1_1(Character& pCharacter)
     {
-        if (character.hasStatus(Character::Status::canMoveIntentionally) &&
-            character.movingDirection() != Direction::NONE)
+        if (pCharacter.hasStatus(Character::Status::canMoveIntentionally) &&
+            pCharacter.movingDirection() != Direction::NONE)
         {
-            if (character.movingDirection() == Direction::RIGHT)
+            if (pCharacter.movingDirection() == Direction::RIGHT)
             {
-                character.changePosition({character.speed(), 0});
+                pCharacter.changePosition({pCharacter.speed(), 0});
                 return true;
             }
-            else if (character.movingDirection() == Direction::LEFT)
+            else if (pCharacter.movingDirection() == Direction::LEFT)
             {
-                character.changePosition({-character.speed(), 0});
+                pCharacter.changePosition({-pCharacter.speed(), 0});
                 return true;
             }
         }
@@ -39,156 +39,156 @@ namespace
         return false;
     }
 
-    bool applySecondaryHorizontalMoveV1_0(Character& character)
+    bool applySecondaryHorizontalMoveV1_0(Character& pCharacter)
     {
         int changeToXPosition = 0;
 
-        for (const BlockId& id : character.listOfBlocksAffectingMove())
+        for (const BlockId& id : pCharacter.listOfBlocksAffectingMove())
         {
             changeToXPosition += BlockManager::getBlockInfos(id).properties.affectCharacterMove.x;
         }
 
         if (changeToXPosition != 0)
         {
-            character.changePosition({changeToXPosition, 0});
+            pCharacter.changePosition({changeToXPosition, 0});
             return true;
         }
 
         return false;
     }
 
-    bool applyVerticalMoveV1_0(Character& character)
+    bool applyVerticalMoveV1_0(Character& pCharacter)
     {
-        if (!Utilities::doubleIsNear(character.verticalVelocity(), 0.0))
+        if (!Utilities::doubleIsNear(pCharacter.verticalVelocity(), 0.0))
         {
-            character.changePosition({0, static_cast<int>(character.verticalVelocity())});
+            pCharacter.changePosition({0, static_cast<int>(pCharacter.verticalVelocity())});
             return true;
         }
 
         return false;
     }
 
-    void applyCollideV1_0(Character& character, Direction collideDir)
+    void applyCollideV1_0(Character& pCharacter, Direction pCollideDir)
     {
-        if (collideDir == Direction::UP || collideDir == Direction::DOWN)
+        if (pCollideDir == Direction::UP || pCollideDir == Direction::DOWN)
         {
-            if (character.verticalVelocity() > 100)
+            if (pCharacter.verticalVelocity() > 100)
             {
-                character.setVerticalVelocity(99);
+                pCharacter.setVerticalVelocity(99);
             }
             else
             {
-                character.setVerticalVelocity(0);
+                pCharacter.setVerticalVelocity(0);
             }
 
-            if (collideDir == Direction::DOWN)
+            if (pCollideDir == Direction::DOWN)
             {
-                character.setIsInJump(false);
+                pCharacter.setIsInJump(false);
             }
         }
-        if (collideDir != Direction::NONE)
+        if (pCollideDir != Direction::NONE)
         {
-            character.setCanJump(true);
+            pCharacter.setCanJump(true);
         }
     }
 
-    void applyCollideV1_4(Character& character, Direction collideDir)
+    void applyCollideV1_4(Character& pCharacter, Direction pCollideDir)
     {
-        if (collideDir == Direction::UP || collideDir == Direction::DOWN)
+        if (pCollideDir == Direction::UP || pCollideDir == Direction::DOWN)
         {
-            character.setVerticalVelocity(0);
+            pCharacter.setVerticalVelocity(0);
 
-            if (collideDir == Direction::DOWN)
+            if (pCollideDir == Direction::DOWN)
             {
-                character.setIsInJump(false);
+                pCharacter.setIsInJump(false);
             }
 
-            character.setCanJump(true);
+            pCharacter.setCanJump(true);
         }
     }
 
-    void applyCollideV1_5(Character& character, Direction collideDir)
+    void applyCollideV1_5(Character& pCharacter, Direction pCollideDir)
     {
-        if (collideDir == Direction::UP || collideDir == Direction::DOWN)
+        if (pCollideDir == Direction::UP || pCollideDir == Direction::DOWN)
         {
-            character.setVerticalVelocity(0);
+            pCharacter.setVerticalVelocity(0);
 
-            if (collideDir == Direction::DOWN)
+            if (pCollideDir == Direction::DOWN)
             {
-                character.setCanJump(true);
-                character.setIsInJump(false);
+                pCharacter.setCanJump(true);
+                pCharacter.setIsInJump(false);
             }
         }
     }
 
-    bool startJumpV1_0(Character& character, bool spaceWasPressedLastFrame)
+    bool startJumpV1_0(Character& pCharacter, bool pSpaceWasPressedLastFrame)
     {
-        (void)character;
-        (void)spaceWasPressedLastFrame;
+        (void)pCharacter;
+        (void)pSpaceWasPressedLastFrame;
         return false;
     }
 
-    bool startJumpV1_2(Character& character, bool spaceWasPressedLastFrame)
+    bool startJumpV1_2(Character& pCharacter, bool pSpaceWasPressedLastFrame)
     {
-        (void)spaceWasPressedLastFrame;
+        (void)pSpaceWasPressedLastFrame;
 
-        if (character.hasStatus(Character::Status::canJumpIntentionally))
+        if (pCharacter.hasStatus(Character::Status::canJumpIntentionally))
         {
-            character.setVerticalVelocity(character.jumpPower());
-            character.setCanJump(false);
-            character.setIsInJump(true);
+            pCharacter.setVerticalVelocity(pCharacter.jumpPower());
+            pCharacter.setCanJump(false);
+            pCharacter.setIsInJump(true);
             return true;
         }
 
         return false;
     }
 
-    bool startJumpV1_3(Character& character, bool spaceWasPressedLastFrame)
+    bool startJumpV1_3(Character& pCharacter, bool pSpaceWasPressedLastFrame)
     {
-        (void)spaceWasPressedLastFrame;
+        (void)pSpaceWasPressedLastFrame;
 
-        if (character.hasStatus(Character::Status::canJumpIntentionally) && character.canJump())
+        if (pCharacter.hasStatus(Character::Status::canJumpIntentionally) && pCharacter.canJump())
         {
-            character.setVerticalVelocity(character.jumpPower());
-            character.setCanJump(false);
-            character.setIsInJump(true);
+            pCharacter.setVerticalVelocity(pCharacter.jumpPower());
+            pCharacter.setCanJump(false);
+            pCharacter.setIsInJump(true);
             return true;
         }
 
         return false;
     }
 
-    bool startJumpV1_5(Character& character, bool spaceWasPressedLastFrame)
+    bool startJumpV1_5(Character& pCharacter, bool pSpaceWasPressedLastFrame)
     {
-        if (character.hasStatus(Character::Status::canJumpIntentionally))
+        if (pCharacter.hasStatus(Character::Status::canJumpIntentionally))
         {
-            if (character.canJump())
+            if (pCharacter.canJump())
             {
-                character.setVerticalVelocity(character.jumpPower());
-                character.setCanJump(false);
-                character.setIsInJump(true);
+                pCharacter.setVerticalVelocity(pCharacter.jumpPower());
+                pCharacter.setCanJump(false);
+                pCharacter.setIsInJump(true);
                 return true;
             }
-            else if (!spaceWasPressedLastFrame)
+            else if (!pSpaceWasPressedLastFrame)
             {
-                character.setVerticalVelocity(0);
+                pCharacter.setVerticalVelocity(0);
             }
         }
 
         return false;
     }
 
-    bool startJumpV1_6(Character& character, bool spaceWasPressedLastFrame)
+    bool startJumpV1_6(Character& pCharacter, bool pSpaceWasPressedLastFrame)
     {
-        (void)spaceWasPressedLastFrame;
+        (void)pSpaceWasPressedLastFrame;
 
-        if (character.hasStatus(Character::Status::canJumpIntentionally))
+        if (pCharacter.hasStatus(Character::Status::canJumpIntentionally))
         {
-            if (character.canJump())
+            if (pCharacter.canJump())
             {
-                character.setVerticalVelocity(character.jumpPower());
-                character.setCanJump(false);
-                character.setIsInJump(true);
+                pCharacter.setVerticalVelocity(pCharacter.jumpPower());
+                pCharacter.setCanJump(false);
+                pCharacter.setIsInJump(true);
                 return true;
             }
         }
@@ -197,48 +197,48 @@ namespace
     }
 } // namespace
 
-void MovementClass::setFuncsForGameVersion(const VersionNumber& gameVersion)
+void MovementClass::setFuncsForGameVersion(const VersionNumber& pGameVersion)
 {
     /* TODO: changer la maniere dont est gere gameVersion. */
     resetAllInternalFuncs();
-    applyBaseCharacterMoveFunc = applyBaseCharacterMoveV1_0;
-    applySecondaryHorizontalMoveFunc = applySecondaryHorizontalMoveV1_0;
-    applyVerticalMoveFunc = applyVerticalMoveV1_0;
-    applyCollideFunc = applyCollideV1_0;
-    startJumpFunc = startJumpV1_0;
+    mApplyBaseCharacterMoveFunc = applyBaseCharacterMoveV1_0;
+    mApplySecondaryHorizontalMoveFunc = applySecondaryHorizontalMoveV1_0;
+    mApplyVerticalMoveFunc = applyVerticalMoveV1_0;
+    mApplyCollideFunc = applyCollideV1_0;
+    mStartJumpFunc = startJumpV1_0;
 
-    if (gameVersion >= "1.1"_vn)
+    if (pGameVersion >= "1.1"_vn)
     {
-        applyBaseCharacterMoveFunc = applyBaseCharacterMoveV1_1;
+        mApplyBaseCharacterMoveFunc = applyBaseCharacterMoveV1_1;
     }
-    if (gameVersion >= "1.2"_vn)
+    if (pGameVersion >= "1.2"_vn)
     {
-        startJumpFunc = startJumpV1_2;
+        mStartJumpFunc = startJumpV1_2;
     }
-    if (gameVersion >= "1.3"_vn)
+    if (pGameVersion >= "1.3"_vn)
     {
-        startJumpFunc = startJumpV1_3;
+        mStartJumpFunc = startJumpV1_3;
     }
-    if (gameVersion >= "1.4"_vn)
+    if (pGameVersion >= "1.4"_vn)
     {
-        applyCollideFunc = applyCollideV1_4;
+        mApplyCollideFunc = applyCollideV1_4;
     }
-    if (gameVersion >= "1.5"_vn)
+    if (pGameVersion >= "1.5"_vn)
     {
-        applyCollideFunc = applyCollideV1_5;
-        startJumpFunc = startJumpV1_5;
+        mApplyCollideFunc = applyCollideV1_5;
+        mStartJumpFunc = startJumpV1_5;
     }
-    if (gameVersion >= "1.6"_vn)
+    if (pGameVersion >= "1.6"_vn)
     {
-        startJumpFunc = startJumpV1_6;
+        mStartJumpFunc = startJumpV1_6;
     }
 }
 
-bool MovementClass::applyBaseCharacterMove(Character& character)
+bool MovementClass::applyBaseCharacterMove(Character& pCharacter)
 {
-    if (applyBaseCharacterMoveFunc)
+    if (mApplyBaseCharacterMoveFunc)
     {
-        return applyBaseCharacterMoveFunc(character);
+        return mApplyBaseCharacterMoveFunc(pCharacter);
     }
     else
     {
@@ -246,11 +246,11 @@ bool MovementClass::applyBaseCharacterMove(Character& character)
     }
 }
 
-bool MovementClass::applySecondaryHorizontalMove(Character& character)
+bool MovementClass::applySecondaryHorizontalMove(Character& pCharacter)
 {
-    if (applySecondaryHorizontalMoveFunc)
+    if (mApplySecondaryHorizontalMoveFunc)
     {
-        return applySecondaryHorizontalMoveFunc(character);
+        return mApplySecondaryHorizontalMoveFunc(pCharacter);
     }
     else
     {
@@ -258,11 +258,11 @@ bool MovementClass::applySecondaryHorizontalMove(Character& character)
     }
 }
 
-bool MovementClass::applyVerticalMove(Character& character)
+bool MovementClass::applyVerticalMove(Character& pCharacter)
 {
-    if (applyVerticalMoveFunc)
+    if (mApplyVerticalMoveFunc)
     {
-        return applyVerticalMoveFunc(character);
+        return mApplyVerticalMoveFunc(pCharacter);
     }
     else
     {
@@ -270,19 +270,19 @@ bool MovementClass::applyVerticalMove(Character& character)
     }
 }
 
-void MovementClass::applyCollide(Character& character, Direction collideDir)
+void MovementClass::applyCollide(Character& pCharacter, Direction pCollideDIr)
 {
-    if (applyCollideFunc)
+    if (mApplyCollideFunc)
     {
-        return applyCollideFunc(character, collideDir);
+        return mApplyCollideFunc(pCharacter, pCollideDIr);
     }
 }
 
-bool MovementClass::startJump(Character& character, bool spaceWasPressedLastFrame)
+bool MovementClass::startJump(Character& pCharacter, bool pSpaceWasPressedLastFrame)
 {
-    if (startJumpFunc)
+    if (mStartJumpFunc)
     {
-        return startJumpFunc(character, spaceWasPressedLastFrame);
+        return mStartJumpFunc(pCharacter, pSpaceWasPressedLastFrame);
     }
     else
     {
@@ -292,8 +292,8 @@ bool MovementClass::startJump(Character& character, bool spaceWasPressedLastFram
 
 void MovementClass::resetAllInternalFuncs()
 {
-    applyBaseCharacterMoveFunc = nullptr;
-    applyVerticalMoveFunc = nullptr;
-    applyCollideFunc = nullptr;
-    startJumpFunc = nullptr;
+    mApplyBaseCharacterMoveFunc = nullptr;
+    mApplyVerticalMoveFunc = nullptr;
+    mApplyCollideFunc = nullptr;
+    mStartJumpFunc = nullptr;
 }

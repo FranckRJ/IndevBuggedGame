@@ -11,9 +11,9 @@ class Block;
 class Collision
 {
 public:
-    void setFuncsForGameVersion(VersionNumber gameVersion);
-    bool isCollidingBlock(Character& character, const Block& block, Direction movementDir);
-    void replaceCharacterNearBlock(Character& character, const Block& block, Direction movementDir);
+    void setFuncsForGameVersion(const VersionNumber& pGameVersion);
+    bool isCollidingBlock(Character& pCharacter, const Block& pBlock, Direction pMovementDir);
+    void replaceCharacterNearBlock(Character& pCharacter, const Block& pBlock, Direction pMovementDir);
 };
 
 #endif
