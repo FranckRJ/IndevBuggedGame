@@ -53,7 +53,7 @@ void GameEngine::update()
             if (block != infoForLevel.mapOfGame.end())
             {
                 block->second->update();
-                if (block->second->getBlockInfo().isInForeground)
+                if (block->second->blockInfos().isInForeground)
                 {
                     listOfForegroundBlock.push_back(block->second.get());
                 }

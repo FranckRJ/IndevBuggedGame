@@ -45,26 +45,29 @@ struct BlockInfos
 class Block
 {
 public:
-    Block(const BlockProperties& newProperties, const BlockSprite& newSpriteInfos, BlockId newId);
+    Block(const BlockProperties& pProperties, const BlockSprite& pSpriteInfos, BlockId pId);
+
     void update();
-    void draw(sf::RenderWindow& window);
-    bool applyCollision(Character& character, Direction movementDir, bool onlyPositionCheck);
-    sf::IntRect getCollideBox() const;
-    const BlockProperties getBlockInfo();
-    bool getWasInCollideLastFrame();
-    void setPosition(sf::Vector2i newPosition);
-    void setPosition(int newX, int newY);
+    void draw(sf::RenderWindow& pWindow);
+
+    sf::IntRect collideBox() const;
+    const BlockProperties blockInfos() const;
+    bool wasInCollideLastFrame() const;
+
+    void setPosition(sf::Vector2i pPosition);
     void setCollisionForVersion();
 
+    bool applyCollision(Character& pCharacter, Direction pMovementDir, bool pOnlyPositionCheck);
+
 private:
-    bool wasInCollideLastFrame = false;
-    bool hasCheckedCollideLastFrame = false;
-    sf::RectangleShape sprite;
-    sf::Vector2i position;
-    Collision collision;
-    const BlockProperties& properties;
-    const BlockSprite& spriteInfos;
-    const BlockId id;
+    bool mWasInCollideLastFrame = false;
+    bool mHasCheckedCollideLastFrame = false;
+    sf::RectangleShape mSprite;
+    sf::Vector2i mPosition = {0, 0};
+    Collision mCollision;
+    const BlockProperties& mProperties;
+    const BlockSprite& mSpriteInfos;
+    const BlockId mId;
 };
 
 #endif

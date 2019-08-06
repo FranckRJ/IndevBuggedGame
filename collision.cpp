@@ -10,7 +10,7 @@ void Collision::setFuncsForGameVersion(VersionNumber gameVersion)
 bool Collision::isCollidingBlock(Character& character, const Block& block, Direction movementDir)
 {
     sf::IntRect characterCollideBox = character.collideBox();
-    sf::IntRect blockCollideBox = block.getCollideBox();
+    sf::IntRect blockCollideBox = block.collideBox();
 
     (void)movementDir;
     return (blockCollideBox.left < (characterCollideBox.left + characterCollideBox.width) &&
@@ -22,7 +22,7 @@ bool Collision::isCollidingBlock(Character& character, const Block& block, Direc
 void Collision::replaceCharacterNearBlock(Character& character, const Block& block, Direction movementDir)
 {
     sf::IntRect characterCollideBox = character.collideBox();
-    sf::IntRect blockCollideBox = block.getCollideBox();
+    sf::IntRect blockCollideBox = block.collideBox();
 
     switch (movementDir)
     {

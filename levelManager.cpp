@@ -10,7 +10,7 @@ void LevelManager::setBlockHere(std::map<Point, std::unique_ptr<Block>>& current
                                 int yBlock)
 {
     Block* block = BlockManager::createBlock(idOfBlock);
-    block->setPosition(xBlock * SIZE_BLOCK, yBlock * SIZE_BLOCK);
+    block->setPosition({xBlock * SIZE_BLOCK, yBlock * SIZE_BLOCK});
     currentMap[Point(xBlock, yBlock)] = std::unique_ptr<Block>(block);
 }
 

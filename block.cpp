@@ -1,99 +1,93 @@
 #include "block.hpp"
 #include "global.hpp"
 
-Block::Block(const BlockProperties& newProperties, const BlockSprite& newSpriteInfos, BlockId newId)
-    : properties(newProperties), spriteInfos(newSpriteInfos), id(newId)
+Block::Block(const BlockProperties& pProperties, const BlockSprite& pSpriteInfos, BlockId pId)
+    : mProperties{pProperties}, mSpriteInfos{pSpriteInfos}, mId{pId}
 {
-    sprite.setSize(sf::Vector2f(spriteInfos.size.x, spriteInfos.size.y));
-    sprite.setFillColor(spriteInfos.color);
+    mSprite.setSize(sf::Vector2f(mSpriteInfos.size.x, mSpriteInfos.size.y));
+    mSprite.setFillColor(mSpriteInfos.color);
     setCollisionForVersion();
 }
 
 void Block::update()
 {
-    if (hasCheckedCollideLastFrame)
+    if (mHasCheckedCollideLastFrame)
     {
-        hasCheckedCollideLastFrame = false;
+        mHasCheckedCollideLastFrame = false;
     }
     else
     {
-        wasInCollideLastFrame = false;
+        mWasInCollideLastFrame = false;
     }
 }
 
-void Block::draw(sf::RenderWindow& window)
+void Block::draw(sf::RenderWindow& pWindow)
 {
-    window.draw(sprite);
+    pWindow.draw(mSprite);
 }
 
-bool Block::applyCollision(Character& character, Direction movementDir, bool onlyPositionCheck)
+sf::IntRect Block::collideBox() const
 {
-    bool isColliding = collision.isCollidingBlock(character, *this, movementDir);
-
-    if (onlyPositionCheck)
-    {
-        if (isColliding && properties.isSolid)
-        {
-            collision.replaceCharacterNearBlock(character, *this, movementDir);
-            character.hasEnterInCollide(movementDir);
-        }
-    }
-    else
-    {
-        if (isColliding && (properties.isTriggeredContinuously || !wasInCollideLastFrame))
-        {
-            if (properties.isDeadlyToPlayer)
-            {
-                character.setStatus(Character::Status::isDead, true);
-            }
-            if (properties.doStopPlayerFromMoving)
-            {
-                character.setStatus(Character::Status::canMoveIntentionally, false);
-            }
-            if (properties.affectCharacterMove != sf::Vector2i(0, 0))
-            {
-                character.addToListOfBlocksAffectingMove(id);
-            }
-            if (properties.isFinishTrigger)
-            {
-                character.setStatus(Character::Status::hasTriggeredFinishBlock, true);
-            }
-        }
-        wasInCollideLastFrame = isColliding;
-    }
-
-    return isColliding;
+    return sf::IntRect{mPosition.x + mSpriteInfos.margin.x, mPosition.y + mSpriteInfos.margin.y, mSpriteInfos.size.x,
+                       mSpriteInfos.size.y};
 }
 
-sf::IntRect Block::getCollideBox() const
+const BlockProperties Block::blockInfos() const
 {
-    return sf::IntRect(position.x + spriteInfos.margin.x, position.y + spriteInfos.margin.y, spriteInfos.size.x,
-                       spriteInfos.size.y);
+    return mProperties;
 }
 
-const BlockProperties Block::getBlockInfo()
+bool Block::wasInCollideLastFrame() const
 {
-    return properties;
+    return mWasInCollideLastFrame;
 }
 
-bool Block::getWasInCollideLastFrame()
+void Block::setPosition(sf::Vector2i pPosition)
 {
-    return wasInCollideLastFrame;
-}
-
-void Block::setPosition(sf::Vector2i newPosition)
-{
-    position = newPosition;
-    sprite.setPosition(position.x + spriteInfos.margin.x, position.y + spriteInfos.margin.y);
-}
-
-void Block::setPosition(int newX, int newY)
-{
-    position = sf::Vector2i(newX, newY);
-    sprite.setPosition(newX + spriteInfos.margin.x, newY + spriteInfos.margin.y);
+    mPosition = pPosition;
+    mSprite.setPosition(mPosition.x + mSpriteInfos.margin.x, mPosition.y + mSpriteInfos.margin.y);
 }
 
 void Block::setCollisionForVersion()
 {
-    collision.setFuncsForGameVersion(Global::versionOfGame);
+    mCollision.setFuncsForGameVersion(Global::versionOfGame);
+}
+
+bool Block::applyCollision(Character& pCharacter, Direction pMovementDir, bool pOnlyPositionCheck)
+{
+    auto isColliding = mCollision.isCollidingBlock(pCharacter, *this, pMovementDir);
+
+    if (pOnlyPositionCheck)
+    {
+        if (isColliding && mProperties.isSolid)
+        {
+            mCollision.replaceCharacterNearBlock(pCharacter, *this, pMovementDir);
+            pCharacter.hasEnterInCollide(pMovementDir);
+        }
+    }
+    else
+    {
+        if (isColliding && (mProperties.isTriggeredContinuously || !mWasInCollideLastFrame))
+        {
+            if (mProperties.isDeadlyToPlayer)
+            {
+                pCharacter.setStatus(Character::Status::isDead, true);
+            }
+            if (mProperties.doStopPlayerFromMoving)
+            {
+                pCharacter.setStatus(Character::Status::canMoveIntentionally, false);
+            }
+            if (mProperties.affectCharacterMove != sf::Vector2i(0, 0))
+            {
+                pCharacter.addToListOfBlocksAffectingMove(mId);
+            }
+            if (mProperties.isFinishTrigger)
+            {
+                pCharacter.setStatus(Character::Status::hasTriggeredFinishBlock, true);
+            }
+        }
+        mWasInCollideLastFrame = isColliding;
+    }
+
+    return isColliding;
 }
