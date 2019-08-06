@@ -18,16 +18,16 @@ void Player::applyHorizontalMove()
 
     if (mMovement.applyBaseCharacterMove(*this))
     {
-        if (mCurrentFrame % 8 == 0 && !(isInJump()) && verticalVelocity() < (GRAVITY * 2))
+        if (mCurrentFrame % 3 == 0 && rand() % 100 >= 33 && !(isInJump()) && verticalVelocity() < (GRAVITY * 2))
         {
             if (movingDirection() == Direction::RIGHT)
             {
-                mParticleMotor.addParticle(sf::Vector2f(position().x, position().y + mBaseSpriteSize.y), -speed());
+                mParticleMotor.addParticle(sf::Vector2f(position().x + 5, position().y + mBaseSpriteSize.y), -speed());
             }
             else if (movingDirection() == Direction::LEFT)
             {
                 mParticleMotor.addParticle(
-                    sf::Vector2f(position().x + mBaseSpriteSize.x, position().y + mBaseSpriteSize.y), speed());
+                    sf::Vector2f(position().x + mBaseSpriteSize.x - 5, position().y + mBaseSpriteSize.y), speed());
             }
         }
 
