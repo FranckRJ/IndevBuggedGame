@@ -55,7 +55,7 @@ public:
     bool wasInCollideLastFrame() const;
 
     void setPosition(sf::Vector2i pPosition);
-    void setCollisionForVersion();
+    void setCollisionForVersion(const VersionNumber &pVersionOfGame);
 
     bool applyCollision(Character& pCharacter, Direction pMovementDir, bool pOnlyPositionCheck);
 

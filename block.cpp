@@ -6,7 +6,6 @@ Block::Block(const BlockProperties& pProperties, const BlockSprite& pSpriteInfos
 {
     mSprite.setSize(sf::Vector2f(mSpriteInfos.size.x, mSpriteInfos.size.y));
     mSprite.setFillColor(mSpriteInfos.color);
-    setCollisionForVersion();
 }
 
 void Block::update()
@@ -48,9 +47,9 @@ void Block::setPosition(sf::Vector2i pPosition)
     mSprite.setPosition(mPosition.x + mSpriteInfos.margin.x, mPosition.y + mSpriteInfos.margin.y);
 }
 
-void Block::setCollisionForVersion()
+void Block::setCollisionForVersion(const VersionNumber& pVersionOfGame)
 {
-    mCollision.setFuncsForGameVersion(Global::versionOfGame);
+    mCollision.setFuncsForGameVersion(pVersionOfGame);
 }
 
 bool Block::applyCollision(Character& pCharacter, Direction pMovementDir, bool pOnlyPositionCheck)

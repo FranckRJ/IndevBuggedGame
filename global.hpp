@@ -14,7 +14,6 @@
 
 namespace Global
 {
-    inline VersionNumber versionOfGame = "1.0"_vn;
     inline GameStateStack* activeGameStateStack;
     inline sf::Font font;
 }; // namespace Global

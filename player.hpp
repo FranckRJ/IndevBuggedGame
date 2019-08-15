@@ -15,7 +15,7 @@ public:
     void applyVerticalMove();
     void startJump(bool spaceWasPressedLastFrame);
     void applyGravity(int gravityStrength);
-    void setMovementForVersion();
+    void setMovementForVersion(const VersionNumber &pVersionOfGame);
 
 private:
     void updateImpl() override;

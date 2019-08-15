@@ -9,7 +9,6 @@ Player::Player() : CharacterImpl{5, -20}
     mBaseSpriteSize = sf::Vector2i(40, 80);
     mSprite.setFillColor(sf::Color::Blue);
     mSpriteVisor.setFillColor(sf::Color(0, 0, 150));
-    setMovementForVersion();
 }
 
 void Player::applyHorizontalMove()
@@ -78,9 +77,9 @@ void Player::applyGravity(int gravityStrength)
     setVerticalVelocity(verticalVelocity() + gravityStrength);
 }
 
-void Player::setMovementForVersion()
+void Player::setMovementForVersion(const VersionNumber& pVersionOfGame)
 {
-    mMovement.setFuncsForGameVersion(Global::versionOfGame);
+    mMovement.setFuncsForGameVersion(pVersionOfGame);
 }
 
 void Player::updateImpl()
