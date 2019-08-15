@@ -5,10 +5,10 @@
 Player::Player() : CharacterImpl{5, -20}
 {
     setCanJump(true);
-    mSpriteSizeDeformation = sf::Vector2i(0, 0);
-    mBaseSpriteSize = sf::Vector2i(40, 80);
+    mSpriteSizeDeformation = {0, 0};
+    mBaseSpriteSize = {40, 80};
     mSprite.setFillColor(sf::Color::Blue);
-    mSpriteVisor.setFillColor(sf::Color(0, 0, 150));
+    mSpriteVisor.setFillColor(sf::Color{0, 0, 150});
 }
 
 void Player::applyHorizontalMove()
@@ -64,17 +64,17 @@ void Player::applyVerticalMove()
     }
 }
 
-void Player::startJump(bool spaceWasPressedLastFrame)
+void Player::startJump(bool pSpaceWasPressedLastFrame)
 {
-    if (mMovement.startJump(*this, spaceWasPressedLastFrame))
+    if (mMovement.startJump(*this, pSpaceWasPressedLastFrame))
     {
         mSpriteWidthDeformationNeeded -= 4;
     }
 }
 
-void Player::applyGravity(int gravityStrength)
+void Player::applyGravity(int pGravityStrength)
 {
-    setVerticalVelocity(verticalVelocity() + gravityStrength);
+    setVerticalVelocity(verticalVelocity() + pGravityStrength);
 }
 
 void Player::setMovementForVersion(const VersionNumber& pVersionOfGame)
@@ -234,7 +234,7 @@ sf::IntRect Player::collideBoxImpl() const
 
 void Player::setVisorForSprite()
 {
-    mSpriteVisor.setSize(sf::Vector2f(mSprite.getSize().x / 2, 10));
+    mSpriteVisor.setSize({mSprite.getSize().x / 2.f, 10.f});
 
     if (mLastDirection == Direction::RIGHT)
     {

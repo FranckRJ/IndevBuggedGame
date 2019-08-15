@@ -13,9 +13,9 @@ public:
     Player();
     void applyHorizontalMove();
     void applyVerticalMove();
-    void startJump(bool spaceWasPressedLastFrame);
-    void applyGravity(int gravityStrength);
-    void setMovementForVersion(const VersionNumber &pVersionOfGame);
+    void startJump(bool pSpaceWasPressedLastFrame);
+    void applyGravity(int pGravityStrength);
+    void setMovementForVersion(const VersionNumber& pVersionOfGame);
 
 private:
     void updateImpl() override;
@@ -32,7 +32,7 @@ private:
     sf::RectangleShape mSprite;
     sf::RectangleShape mSpriteVisor;
     sf::Vector2i mBaseSpriteSize = {0, 0};
-    sf::Vector2i mSpriteSizeDeformation;
+    sf::Vector2i mSpriteSizeDeformation = {0, 0};
     int mCurrentFrame = 0;
     int mSpriteWidthDeformationNeeded = 0;
     ParticleMotor mParticleMotor;
