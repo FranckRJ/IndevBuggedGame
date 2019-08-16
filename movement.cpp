@@ -142,7 +142,7 @@ namespace
 
         if (pCharacter.hasStatus(Character::Status::canJumpIntentionally))
         {
-            pCharacter.setVerticalVelocity(pCharacter.jumpPower());
+            pCharacter.setVerticalVelocity(-pCharacter.jumpPower());
             pCharacter.setCanJump(false);
             pCharacter.setIsInJump(true);
             return true;
@@ -157,7 +157,7 @@ namespace
 
         if (pCharacter.hasStatus(Character::Status::canJumpIntentionally) && pCharacter.canJump())
         {
-            pCharacter.setVerticalVelocity(pCharacter.jumpPower());
+            pCharacter.setVerticalVelocity(-pCharacter.jumpPower());
             pCharacter.setCanJump(false);
             pCharacter.setIsInJump(true);
             return true;
@@ -172,7 +172,7 @@ namespace
         {
             if (pCharacter.canJump())
             {
-                pCharacter.setVerticalVelocity(pCharacter.jumpPower());
+                pCharacter.setVerticalVelocity(-pCharacter.jumpPower());
                 pCharacter.setCanJump(false);
                 pCharacter.setIsInJump(true);
                 return true;
@@ -194,7 +194,7 @@ namespace
         {
             if (pCharacter.canJump())
             {
-                pCharacter.setVerticalVelocity(pCharacter.jumpPower());
+                pCharacter.setVerticalVelocity(-pCharacter.jumpPower());
                 pCharacter.setCanJump(false);
                 pCharacter.setIsInJump(true);
                 return true;

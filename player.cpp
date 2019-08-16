@@ -2,7 +2,7 @@
 #include "global.hpp"
 #include "utilities.hpp"
 
-Player::Player() : CharacterImpl{5, -20}
+Player::Player() : CharacterImpl{5, 20}
 {
     setCanJump(true);
     mSpriteSizeDeformation = {0, 0};
