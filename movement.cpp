@@ -1,6 +1,7 @@
 #include "movement.hpp"
 #include "blockManager.hpp"
 #include "utilities.hpp"
+#include "utls.hpp"
 
 namespace
 {
@@ -61,7 +62,14 @@ namespace
     {
         if (!Utilities::doubleIsNear(pCharacter.verticalVelocity(), 0.0))
         {
+            if (pCharacter.hasStatus(Character::Status::isInFluid))
+            {
+                pCharacter.setVerticalVelocity(
+                    utls::coerceIn<double>(pCharacter.verticalVelocity(), -pCharacter.speed(), pCharacter.speed()));
+            }
+
             pCharacter.changePosition({0, static_cast<int>(pCharacter.verticalVelocity())});
+
             return true;
         }
 
@@ -195,6 +203,20 @@ namespace
 
         return false;
     }
+
+    bool startJumpInFluidV1_0(Character& pCharacter, bool pSpaceWasPressedLastFrame)
+    {
+        (void)pSpaceWasPressedLastFrame;
+
+        if (pCharacter.hasStatus(Character::Status::canJumpIntentionally))
+        {
+            pCharacter.setVerticalVelocity(-pCharacter.speed());
+            pCharacter.setCanJump(false);
+            pCharacter.setIsInJump(true);
+        }
+
+        return false;
+    }
 } // namespace
 
 void MovementClass::setFuncsForGameVersion(const VersionNumber& pGameVersion)
@@ -206,6 +228,7 @@ void MovementClass::setFuncsForGameVersion(const VersionNumber& pGameVersion)
     mApplyVerticalMoveFunc = applyVerticalMoveV1_0;
     mApplyCollideFunc = applyCollideV1_0;
     mStartJumpFunc = startJumpV1_0;
+    mStartJumpInFluidFunc = startJumpInFluidV1_0;
 
     if (pGameVersion >= "1.1"_vn)
     {
@@ -280,14 +303,21 @@ void MovementClass::applyCollide(Character& pCharacter, Direction pCollideDIr)
 
 bool MovementClass::startJump(Character& pCharacter, bool pSpaceWasPressedLastFrame)
 {
-    if (mStartJumpFunc)
+    if (pCharacter.hasStatus(Character::Status::isInFluid))
     {
-        return mStartJumpFunc(pCharacter, pSpaceWasPressedLastFrame);
+        if (mStartJumpInFluidFunc)
+        {
+            return mStartJumpInFluidFunc(pCharacter, pSpaceWasPressedLastFrame);
+        }
     }
     else
     {
-        return false;
+        if (mStartJumpFunc)
+        {
+            return mStartJumpFunc(pCharacter, pSpaceWasPressedLastFrame);
+        }
     }
+    return false;
 }
 
 void MovementClass::resetAllInternalFuncs()

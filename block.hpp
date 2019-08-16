@@ -25,7 +25,7 @@ struct BlockProperties
     bool isTriggeredContinuously = true;
     bool isDeadlyToPlayer = false;
     bool isInForeground = false;
-    bool doStopPlayerFromMoving = false;
+    std::map<Character::Status, bool> temporaryEffects = {};
     sf::Vector2i affectCharacterMove = sf::Vector2i(0, 0);
 };
 
@@ -55,7 +55,7 @@ public:
     bool wasInCollideLastFrame() const;
 
     void setPosition(sf::Vector2i pPosition);
-    void setCollisionForVersion(const VersionNumber &pVersionOfGame);
+    void setCollisionForVersion(const VersionNumber& pVersionOfGame);
 
     bool applyCollision(Character& pCharacter, Direction pMovementDir, bool pOnlyPositionCheck);
 

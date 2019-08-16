@@ -72,9 +72,9 @@ bool Block::applyCollision(Character& pCharacter, Direction pMovementDir, bool p
             {
                 pCharacter.setStatus(Character::Status::isDead, true);
             }
-            if (mProperties.doStopPlayerFromMoving)
+            for (const auto& [effectStatus, effectValue] : mProperties.temporaryEffects)
             {
-                pCharacter.setStatus(Character::Status::canMoveIntentionally, false);
+                pCharacter.setStatus(effectStatus, effectValue);
             }
             if (mProperties.affectCharacterMove != sf::Vector2i(0, 0))
             {

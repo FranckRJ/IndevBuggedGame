@@ -54,7 +54,8 @@ void BlockManager::initialize()
         BlockProperties properties;
         BlockSprite spriteInfos;
 
-        properties.doStopPlayerFromMoving = true;
+        properties.temporaryEffects = {{Character::Status::canMoveIntentionally, false},
+                                       {Character::Status::isInFluid, true}};
         properties.affectCharacterMove = sf::Vector2i(5, 0);
 
         spriteInfos.color = sf::Color(138, 43, 226);

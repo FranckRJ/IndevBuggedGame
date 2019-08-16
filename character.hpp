@@ -16,7 +16,7 @@ public:
         hasTriggeredFinishBlock,
         canMoveIntentionally,
         canJumpIntentionally,
-
+        isInFluid
     };
 
     Character() = default;

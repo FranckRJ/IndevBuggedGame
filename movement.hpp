@@ -26,6 +26,7 @@ private:
     std::function<bool(Character&)> mApplyVerticalMoveFunc;
     std::function<void(Character&, Direction)> mApplyCollideFunc;
     std::function<bool(Character&, bool)> mStartJumpFunc;
+    std::function<bool(Character&, bool)> mStartJumpInFluidFunc;
 };
 
 #endif

@@ -34,6 +34,7 @@ void GameEngine::update()
 
     mPlayer.setStatus(Character::Status::canMoveIntentionally, true);
     mPlayer.setStatus(Character::Status::canJumpIntentionally, true);
+    mPlayer.setStatus(Character::Status::isInFluid, false);
     mPlayer.resetListOfBlocksAffectingMove();
     checkCharacterInBorder(mPlayer);
     checkCharacterCollideWithBlock(mPlayer, mPlayer.movedHorizontalDirection());
