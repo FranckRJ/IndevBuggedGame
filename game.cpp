@@ -1,42 +1,40 @@
-#include <ctime>
-
-#include "blockManager.hpp"
 #include "game.hpp"
+#include "blockManager.hpp"
 #include "global.hpp"
 #include "messageManager.hpp"
 #include "particleManager.hpp"
 #include "startScreenState.hpp"
+#include "utls.hpp"
 
 Game::Game()
 {
-    sf::ContextSettings settings;
+    auto settings = sf::ContextSettings{};
+
     settings.antialiasingLevel = 8;
-    window.create(sf::VideoMode(WIDTH_SCREEN, HEIGHT_SCREEN), "Indev Bugged Game",
-                  sf::Style::Titlebar | sf::Style::Close, settings);
-    window.setFramerateLimit(61);
-    // window.setVerticalSyncEnabled(true);
+    mWindow.create(sf::VideoMode(WIDTH_SCREEN, HEIGHT_SCREEN), "Indev Bugged Game",
+                   sf::Style::Titlebar | sf::Style::Close, settings);
+    mWindow.setFramerateLimit(61);
+    // mWindow.setVerticalSyncEnabled(true);
 
-    srand(time(nullptr));
-
-    Global::activeGameStateStack = &gameStateStack;
+    Global::activeGameStateStack = &mGameStateStack;
     Global::font.loadFromFile("resources/lucon.ttf");
     BlockManager::initialize();
     MessageManager::initialize();
     ParticleManager::initialize();
-    gameStateStack.set(std::make_unique<StartScreenState>());
+    mGameStateStack.set(std::make_unique<StartScreenState>());
 }
 
 void Game::run()
 {
-    while (window.isOpen())
+    while (mWindow.isOpen())
     {
         do
         {
-            gameStateStack.resetStackHasChanged();
-            gameStateStack.update(window);
-        } while (gameStateStack.stackHasChanged());
+            mGameStateStack.resetStackHasChanged();
+            mGameStateStack.update(mWindow);
+        } while (mGameStateStack.stackHasChanged());
 
-        gameStateStack.draw(window);
-        window.display();
+        mGameStateStack.draw(mWindow);
+        mWindow.display();
     }
 }

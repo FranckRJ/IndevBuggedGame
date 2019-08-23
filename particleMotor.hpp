@@ -15,6 +15,8 @@ public:
     void addParticle(sf::Vector2f pAtThisPosition, int pParticleSpeed);
 
 private:
+    std::uniform_int_distribution<int> mRandomAddVerticalVelocity{-4, 0};
+    std::uniform_int_distribution<int> mRandomAddHorizontalVelocity{-2, 2};
     std::list<std::unique_ptr<Particle>> mListOfParticle;
 };
 

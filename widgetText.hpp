@@ -2,6 +2,7 @@
 #define WIDGETTEXT_HPP
 
 #include <SFML/Graphics.hpp>
+#include <random>
 
 class WidgetText
 {
@@ -22,6 +23,8 @@ public:
     void setPosition(int newPosX, int newPosY);
 
 protected:
+    std::uniform_int_distribution<char> randomChar{33, 126}; // '!' et '~'
+    std::uniform_int_distribution<std::size_t> randomOriginalMessagePos;
     sf::Text messageToShow;
     std::string originalMessage;
     sf::Clock timerForBlink;

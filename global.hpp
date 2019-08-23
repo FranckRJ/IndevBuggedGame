@@ -8,6 +8,7 @@
 #define SIZE_POLICE 30
 
 #include <SFML/Graphics.hpp>
+#include <random>
 
 #include "gameStateStack.hpp"
 #include "versionNumber.hpp"
@@ -16,6 +17,9 @@ namespace Global
 {
     inline GameStateStack* activeGameStateStack;
     inline sf::Font font;
+    inline std::random_device slow_random;
+    inline std::mt19937 fast_random{slow_random()};
+    inline std::uniform_int_distribution<int> randomPercentage{0, 100};
 }; // namespace Global
 
 #endif

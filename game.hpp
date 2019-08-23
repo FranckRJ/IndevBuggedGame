@@ -7,11 +7,12 @@ class Game
 {
 public:
     Game();
+
     void run();
 
 private:
-    GameStateStack gameStateStack;
-    sf::RenderWindow window;
+    GameStateStack mGameStateStack;
+    sf::RenderWindow mWindow;
 };
 
 #endif

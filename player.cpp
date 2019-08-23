@@ -17,7 +17,8 @@ void Player::applyHorizontalMove()
 
     if (mMovement.applyBaseCharacterMove(*this))
     {
-        if (mCurrentFrame % 3 == 0 && rand() % 100 >= 33 && !(isInJump()) && verticalVelocity() < (GRAVITY * 2))
+        if (mCurrentFrame % 3 == 0 && Global::randomPercentage(Global::fast_random) >= 33 && !(isInJump()) &&
+            verticalVelocity() < (GRAVITY * 2))
         {
             if (movingDirection() == Direction::RIGHT)
             {

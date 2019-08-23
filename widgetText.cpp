@@ -44,10 +44,10 @@ void WidgetText::update()
         {
             if (timerForBug.getElapsedTime().asSeconds() > 0.5)
             {
-                if (rand() % 100 < 15)
+                if (Global::randomPercentage(Global::fast_random) < 15)
                 {
-                    int indexOfLetter = (rand() % (originalMessage.size() - 1)) + 1;
-                    char newLetter = (rand() % (126 - 33)) + 33;
+                    std::size_t indexOfLetter = randomOriginalMessagePos(Global::fast_random);
+                    char newLetter = randomChar(Global::fast_random);
                     std::string newMessage = originalMessage;
 
                     newMessage[indexOfLetter] = newLetter;
@@ -108,6 +108,7 @@ void WidgetText::setMessage(std::string newMessage, bool isOriginalMessage)
     if (isOriginalMessage)
     {
         originalMessage = newMessage;
+        randomOriginalMessagePos = std::uniform_int_distribution<std::size_t>{0, originalMessage.size() - 1};
         messageToShow.setOrigin(0, static_cast<int>(messageToShow.getLocalBounds().top));
     }
 }
