@@ -9,9 +9,9 @@
 class EventManager
 {
 public:
-    static std::unique_ptr<EventClass> createEvent(std::string eventName, sf::IntRect newSurface,
-                                                   std::string additionnalInfo);
-    static EventInfo getEventInfoFor(std::string eventName, std::string additionnalInfo);
+    static std::unique_ptr<Event> createEvent(std::string pEventName, sf::IntRect pSurface,
+                                              std::string pAdditionnalInfo);
+    static EventInfo eventInfoFor(std::string pEventName, std::string pAdditionnalInfo);
 };
 
 #endif

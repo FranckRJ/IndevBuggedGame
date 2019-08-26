@@ -14,7 +14,7 @@ typedef std::pair<int, int> Point;
 struct LevelInfo
 {
     std::map<Point, std::unique_ptr<Block>> mapOfGame;
-    std::list<std::unique_ptr<EventClass>> listOfEvent;
+    std::list<std::unique_ptr<Event>> listOfEvent;
     sf::IntRect limitOfGame;
     sf::Vector2i playerStartPosition;
     VersionNumber initialGameVersion;

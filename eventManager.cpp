@@ -1,31 +1,31 @@
 #include "eventManager.hpp"
 #include "utilities.hpp"
 
-std::unique_ptr<EventClass> EventManager::createEvent(std::string eventName, sf::IntRect newSurface,
-                                                      std::string additionnalInfo)
+std::unique_ptr<Event> EventManager::createEvent(std::string pEventName, sf::IntRect pSurface,
+                                                 std::string pAdditionnalInfo)
 {
-    return std::make_unique<EventClass>(getEventInfoFor(eventName, additionnalInfo), newSurface);
+    return std::make_unique<Event>(eventInfoFor(pEventName, pAdditionnalInfo), pSurface);
 }
 
-EventInfo EventManager::getEventInfoFor(std::string eventName, std::string additionnalInfo)
+EventInfo EventManager::eventInfoFor(std::string pEventName, std::string pAdditionnalInfo)
 {
-    EventInfo infoForEvent;
+    auto infoForEvent = EventInfo{};
 
-    if (eventName == "UPDATE_EVENT")
+    if (pEventName == "UPDATE_EVENT")
     {
         infoForEvent.isUpdateEvent = true;
-        infoForEvent.newVersion = Utilities::readFirstString(additionnalInfo);
-        infoForEvent.messageToShow = Utilities::addNewLine(additionnalInfo);
+        infoForEvent.newVersion = Utilities::readFirstString(pAdditionnalInfo);
+        infoForEvent.messageToShow = Utilities::addNewLine(pAdditionnalInfo);
 
         if (!infoForEvent.messageToShow.empty())
         {
             infoForEvent.isShowMessageEvent = true;
         }
     }
-    else if (eventName == "MESSAGE_EVENT")
+    else if (pEventName == "MESSAGE_EVENT")
     {
         infoForEvent.isShowMessageEvent = true;
-        infoForEvent.messageToShow = Utilities::addNewLine(additionnalInfo);
+        infoForEvent.messageToShow = Utilities::addNewLine(pAdditionnalInfo);
     }
 
     return infoForEvent;

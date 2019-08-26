@@ -13,16 +13,17 @@ struct EventInfo
     VersionNumber newVersion;
 };
 
-class EventClass
+class Event
 {
 public:
-    EventClass(EventInfo newInfoForEvent, sf::IntRect newSurfaceOfEvent);
-    bool isCollideWith(sf::IntRect collideBox);
-    const EventInfo getEventInfo();
+    Event(EventInfo pInfoForEvent, sf::IntRect pSurfaceOfEvent);
+
+    bool isCollideWith(sf::IntRect pCollideBox);
+    const EventInfo eventInfo();
 
 private:
-    sf::IntRect surfaceOfEvent;
-    EventInfo infoForEvent;
+    const EventInfo mEventInfo;
+    const sf::IntRect mSurfaceOfEvent;
 };
 
 #endif

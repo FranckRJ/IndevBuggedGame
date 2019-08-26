@@ -171,15 +171,15 @@ void GameEngine::checkCharacterCollideWithEvent(Character& pCharacter)
     {
         if ((*eventIte)->isCollideWith(pCharacter.collideBox()))
         {
-            if ((*eventIte)->getEventInfo().isUpdateEvent)
+            if ((*eventIte)->eventInfo().isUpdateEvent)
             {
-                mVersionOfGame = (*eventIte)->getEventInfo().newVersion;
+                mVersionOfGame = (*eventIte)->eventInfo().newVersion;
 
                 updateGameVersion();
             }
-            if ((*eventIte)->getEventInfo().isShowMessageEvent)
+            if ((*eventIte)->eventInfo().isShowMessageEvent)
             {
-                MessageManager::addMessageStateToStack("NORMAL_MESSAGE", (*eventIte)->getEventInfo().messageToShow);
+                MessageManager::addMessageStateToStack("NORMAL_MESSAGE", (*eventIte)->eventInfo().messageToShow);
                 mInfoForLevel.listOfEvent.erase(eventIte++);
                 break;
             }
