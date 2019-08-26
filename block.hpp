@@ -14,8 +14,8 @@ class Character;
 
 struct BasicBlock
 {
-    sf::RectangleShape sprite;
-    BlockId id;
+    sf::RectangleShape sprite{};
+    BlockId id{};
 };
 
 struct BlockProperties
@@ -26,7 +26,7 @@ struct BlockProperties
     bool isDeadlyToPlayer = false;
     bool isInForeground = false;
     std::map<Character::Status, bool> temporaryEffects = {};
-    sf::Vector2i affectCharacterMove = sf::Vector2i(0, 0);
+    sf::Vector2i addVelocityToCharacter = {0, 0};
 };
 
 struct BlockSprite

@@ -46,7 +46,7 @@ namespace
 
         for (const BlockId& id : pCharacter.listOfBlocksAffectingMove())
         {
-            changeToXPosition += BlockManager::getBlockInfos(id).properties.affectCharacterMove.x;
+            changeToXPosition += BlockManager::getBlockInfos(id).properties.addVelocityToCharacter.x;
         }
 
         if (changeToXPosition != 0)

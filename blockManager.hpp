@@ -12,19 +12,19 @@ class BlockManager
 {
 public:
     static void initialize();
-    static std::unique_ptr<Block> createBlock(BlockId id);
-    static BasicBlock createBasicBlock(BlockId id);
-    static BasicBlock createNextBasicBlock(const BasicBlock& block);
-    static BasicBlock createPreviousBasicBlock(const BasicBlock& block);
-    static sf::Color getColorOfBlock(BlockId id);
-    static BlockInfos& getBlockInfos(BlockId id);
-    static constexpr std::size_t blockIdToNumber(BlockId id);
-    static constexpr BlockId numberToBlockId(std::size_t number);
-    static std::string blockIdToString(BlockId id);
-    static BlockId stringBlockId(std::string str);
+    static std::unique_ptr<Block> createBlock(BlockId pId);
+    static BasicBlock createBasicBlock(BlockId pId);
+    static BasicBlock createNextBasicBlock(const BasicBlock& pBlock);
+    static BasicBlock createPreviousBasicBlock(const BasicBlock& pBlock);
+    static sf::Color getColorOfBlock(BlockId pId);
+    static BlockInfos& getBlockInfos(BlockId pId);
+    static constexpr std::size_t blockIdToNumber(BlockId pId);
+    static constexpr BlockId numberToBlockId(std::size_t pNumber);
+    static std::string blockIdToString(BlockId pId);
+    static BlockId stringBlockId(std::string pStr);
 
 private:
-    static inline std::vector<BlockInfos> listOfBlocks =
+    static inline std::vector<BlockInfos> mListOfBlocks =
         std::vector<BlockInfos>(static_cast<std::size_t>(BlockId::NUMBER_OF_BLOCKS));
 };
 

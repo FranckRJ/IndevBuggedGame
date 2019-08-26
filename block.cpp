@@ -76,7 +76,7 @@ bool Block::applyCollision(Character& pCharacter, Direction pMovementDir, bool p
             {
                 pCharacter.setStatus(effectStatus, effectValue);
             }
-            if (mProperties.affectCharacterMove != sf::Vector2i(0, 0))
+            if (mProperties.addVelocityToCharacter != sf::Vector2i(0, 0))
             {
                 pCharacter.addToListOfBlocksAffectingMove(mId);
             }

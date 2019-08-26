@@ -15,8 +15,8 @@ namespace
 void BlockManager::initialize()
 {
     {
-        BlockProperties properties;
-        BlockSprite spriteInfos;
+        auto properties = BlockProperties{};
+        auto spriteInfos = BlockSprite{};
 
         properties.isFinishTrigger = true;
         properties.isTriggeredContinuously = false;
@@ -28,8 +28,8 @@ void BlockManager::initialize()
     }
 
     {
-        BlockProperties properties;
-        BlockSprite spriteInfos;
+        auto properties = BlockProperties{};
+        auto spriteInfos = BlockSprite{};
 
         properties.isSolid = true;
 
@@ -39,8 +39,8 @@ void BlockManager::initialize()
     }
 
     {
-        BlockProperties properties;
-        BlockSprite spriteInfos;
+        auto properties = BlockProperties{};
+        auto spriteInfos = BlockSprite{};
 
         properties.isDeadlyToPlayer = true;
         properties.isInForeground = true;
@@ -51,12 +51,12 @@ void BlockManager::initialize()
     }
 
     {
-        BlockProperties properties;
-        BlockSprite spriteInfos;
+        auto properties = BlockProperties{};
+        auto spriteInfos = BlockSprite{};
 
         properties.temporaryEffects = {{Character::Status::canMoveIntentionally, false},
                                        {Character::Status::isInFluid, true}};
-        properties.affectCharacterMove = sf::Vector2i(5, 0);
+        properties.addVelocityToCharacter = {5, 0};
 
         spriteInfos.color = sf::Color(138, 43, 226);
 
@@ -64,28 +64,28 @@ void BlockManager::initialize()
     }
 }
 
-std::unique_ptr<Block> BlockManager::createBlock(BlockId id)
+std::unique_ptr<Block> BlockManager::createBlock(BlockId pId)
 {
-    const auto& infos = getBlockInfos(id);
+    const auto& infos = getBlockInfos(pId);
 
-    return std::make_unique<Block>(infos.properties, infos.spriteInfos, id);
+    return std::make_unique<Block>(infos.properties, infos.spriteInfos, pId);
 }
 
-BasicBlock BlockManager::createBasicBlock(BlockId id)
+BasicBlock BlockManager::createBasicBlock(BlockId pId)
 {
-    BlockInfos& infos = getBlockInfos(id);
-    BasicBlock newBlock;
+    const auto& infos = getBlockInfos(pId);
+    auto newBlock = BasicBlock{};
 
-    newBlock.id = id;
+    newBlock.id = pId;
     newBlock.sprite.setSize(sf::Vector2f(SIZE_BLOCK, SIZE_BLOCK));
     newBlock.sprite.setFillColor(infos.spriteInfos.color);
 
     return newBlock;
 }
 
-BasicBlock BlockManager::createNextBasicBlock(const BasicBlock& block)
+BasicBlock BlockManager::createNextBasicBlock(const BasicBlock& pBlock)
 {
-    std::size_t newBlockNumber = blockIdToNumber(block.id) + 1;
+    auto newBlockNumber = blockIdToNumber(pBlock.id) + 1;
 
     if (newBlockNumber >= blockIdToNumber(BlockId::NUMBER_OF_BLOCKS))
     {
@@ -95,9 +95,9 @@ BasicBlock BlockManager::createNextBasicBlock(const BasicBlock& block)
     return createBasicBlock(numberToBlockId(newBlockNumber));
 }
 
-BasicBlock BlockManager::createPreviousBasicBlock(const BasicBlock& block)
+BasicBlock BlockManager::createPreviousBasicBlock(const BasicBlock& pBlock)
 {
-    std::size_t newBlockNumber = blockIdToNumber(block.id);
+    auto newBlockNumber = blockIdToNumber(pBlock.id);
 
     if (newBlockNumber == 0)
     {
@@ -111,20 +111,20 @@ BasicBlock BlockManager::createPreviousBasicBlock(const BasicBlock& block)
     return createBasicBlock(numberToBlockId(newBlockNumber));
 }
 
-sf::Color BlockManager::getColorOfBlock(BlockId id)
+sf::Color BlockManager::getColorOfBlock(BlockId pId)
 {
-    BlockInfos& infos = getBlockInfos(id);
+    const auto& infos = getBlockInfos(pId);
 
     return infos.spriteInfos.color;
 }
 
-BlockInfos& BlockManager::getBlockInfos(BlockId id)
+BlockInfos& BlockManager::getBlockInfos(BlockId pId)
 {
-    std::size_t blockIdx = blockIdToNumber(id);
+    const auto blockIdx = blockIdToNumber(pId);
 
-    if (blockIdx < listOfBlocks.size())
+    if (blockIdx < mListOfBlocks.size())
     {
-        return listOfBlocks[blockIdx];
+        return mListOfBlocks[blockIdx];
     }
     else
     {
@@ -132,16 +132,16 @@ BlockInfos& BlockManager::getBlockInfos(BlockId id)
     }
 }
 
-constexpr std::size_t BlockManager::blockIdToNumber(BlockId id)
+constexpr std::size_t BlockManager::blockIdToNumber(BlockId pId)
 {
-    return static_cast<std::size_t>(id);
+    return static_cast<std::size_t>(pId);
 }
 
-constexpr BlockId BlockManager::numberToBlockId(std::size_t number)
+constexpr BlockId BlockManager::numberToBlockId(std::size_t pNumber)
 {
-    if (number < blockIdToNumber(BlockId::NUMBER_OF_BLOCKS))
+    if (pNumber < blockIdToNumber(BlockId::NUMBER_OF_BLOCKS))
     {
-        return static_cast<BlockId>(number);
+        return static_cast<BlockId>(pNumber);
     }
     else
     {
@@ -149,9 +149,9 @@ constexpr BlockId BlockManager::numberToBlockId(std::size_t number)
     }
 }
 
-std::string BlockManager::blockIdToString(BlockId id)
+std::string BlockManager::blockIdToString(BlockId pId)
 {
-    const auto blockConv = blockIdToStringConvList.find(id);
+    const auto blockConv = blockIdToStringConvList.find(pId);
 
     if (blockConv != blockIdToStringConvList.end())
     {
@@ -163,11 +163,11 @@ std::string BlockManager::blockIdToString(BlockId id)
     }
 }
 
-BlockId BlockManager::stringBlockId(std::string str)
+BlockId BlockManager::stringBlockId(std::string pStr)
 {
     for (const auto& [idOfBlock, strOfBlock] : blockIdToStringConvList)
     {
-        if (strOfBlock == str)
+        if (strOfBlock == pStr)
         {
             return idOfBlock;
         }
