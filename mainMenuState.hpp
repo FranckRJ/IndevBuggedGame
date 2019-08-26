@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <array>
+#include <cstddef>
 
 #include "gameState.hpp"
 #include "widgetCursor.hpp"
@@ -14,16 +15,17 @@ public:
     MainMenuState();
 
 private:
-    void updateImpl(sf::RenderWindow& window) override;
-    void drawImpl(sf::RenderWindow& window) override;
+    void updateImpl(sf::RenderWindow& pWindow) override;
+    void drawImpl(sf::RenderWindow& pWindow) override;
+
     void centerWidgetInList();
 
 private:
-    WidgetText nameOfGameText;
-    std::array<WidgetText, 4> listOfButton;
-    WidgetCursor cursorText;
-    bool choiceIsSelected;
-    int currentId;
+    WidgetText mNameOfGameText;
+    std::array<WidgetText, 4> mListOfButton;
+    WidgetCursor mCursorText;
+    bool mChoiceIsSelected = false;
+    std::size_t mCurrentId = 0;
 };
 
 #endif
