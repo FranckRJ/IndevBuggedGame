@@ -7,7 +7,7 @@
 #include "character.hpp"
 #include "versionNumber.hpp"
 
-class MovementClass
+class Movement
 {
 public:
     void setFuncsForGameVersion(const VersionNumber& pGameVersion);

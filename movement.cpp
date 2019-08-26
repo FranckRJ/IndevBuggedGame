@@ -219,7 +219,7 @@ namespace
     }
 } // namespace
 
-void MovementClass::setFuncsForGameVersion(const VersionNumber& pGameVersion)
+void Movement::setFuncsForGameVersion(const VersionNumber& pGameVersion)
 {
     /* TODO: changer la maniere dont est gere gameVersion. */
     resetAllInternalFuncs();
@@ -257,7 +257,7 @@ void MovementClass::setFuncsForGameVersion(const VersionNumber& pGameVersion)
     }
 }
 
-bool MovementClass::applyBaseCharacterMove(Character& pCharacter)
+bool Movement::applyBaseCharacterMove(Character& pCharacter)
 {
     if (mApplyBaseCharacterMoveFunc)
     {
@@ -269,7 +269,7 @@ bool MovementClass::applyBaseCharacterMove(Character& pCharacter)
     }
 }
 
-bool MovementClass::applySecondaryHorizontalMove(Character& pCharacter)
+bool Movement::applySecondaryHorizontalMove(Character& pCharacter)
 {
     if (mApplySecondaryHorizontalMoveFunc)
     {
@@ -281,7 +281,7 @@ bool MovementClass::applySecondaryHorizontalMove(Character& pCharacter)
     }
 }
 
-bool MovementClass::applyVerticalMove(Character& pCharacter)
+bool Movement::applyVerticalMove(Character& pCharacter)
 {
     if (mApplyVerticalMoveFunc)
     {
@@ -293,7 +293,7 @@ bool MovementClass::applyVerticalMove(Character& pCharacter)
     }
 }
 
-void MovementClass::applyCollide(Character& pCharacter, Direction pCollideDIr)
+void Movement::applyCollide(Character& pCharacter, Direction pCollideDIr)
 {
     if (mApplyCollideFunc)
     {
@@ -301,7 +301,7 @@ void MovementClass::applyCollide(Character& pCharacter, Direction pCollideDIr)
     }
 }
 
-bool MovementClass::startJump(Character& pCharacter, bool pSpaceWasPressedLastFrame)
+bool Movement::startJump(Character& pCharacter, bool pSpaceWasPressedLastFrame)
 {
     if (pCharacter.hasStatus(Character::Status::isInFluid))
     {
@@ -320,7 +320,7 @@ bool MovementClass::startJump(Character& pCharacter, bool pSpaceWasPressedLastFr
     return false;
 }
 
-void MovementClass::resetAllInternalFuncs()
+void Movement::resetAllInternalFuncs()
 {
     mApplyBaseCharacterMoveFunc = nullptr;
     mApplyVerticalMoveFunc = nullptr;

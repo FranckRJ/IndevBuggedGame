@@ -36,7 +36,7 @@ private:
     int mCurrentFrame = 0;
     int mSpriteWidthDeformationNeeded = 0;
     ParticleMotor mParticleMotor;
-    MovementClass mMovement;
+    Movement mMovement;
     Direction mLastDirection = Direction::RIGHT;
 };
 
