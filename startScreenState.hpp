@@ -10,10 +10,6 @@ struct InstructionInfos
 {
     std::string typeOfInstruction;
     std::string infosForInstruction;
-    InstructionInfos(std::string baseType, std::string baseInfo)
-        : typeOfInstruction(baseType), infosForInstruction(baseInfo)
-    {
-    }
 };
 
 class StartScreenState : public GameState
@@ -22,14 +18,14 @@ public:
     StartScreenState();
 
 private:
-    void updateImpl(sf::RenderWindow& window) override;
-    void drawImpl(sf::RenderWindow& window) const override;
+    void updateImpl(sf::RenderWindow& pWindow) override;
+    void drawImpl(sf::RenderWindow& pWindow) const override;
 
 private:
-    std::list<InstructionInfos> listOfInstructions;
-    sf::Text currentMessage;
-    sf::Clock timer;
-    bool isWaiting = false;
+    std::list<InstructionInfos> mListOfInstructions;
+    sf::Text mCurrentMessage;
+    sf::Clock mTimer;
+    bool mIsWaiting = false;
 };
 
 #endif
