@@ -125,6 +125,11 @@ sf::IntRect WidgetText::hitbox() const
                        utls::intFloor(messageHitbox.width), utls::intFloor(messageHitbox.height)};
 }
 
+void WidgetText::setTextIsBugged(bool pTextIsBugged)
+{
+    mTextIsBugged = pTextIsBugged;
+}
+
 void WidgetText::setFillColor(sf::Color pColor)
 {
     mMessageToShow.setFillColor(pColor);

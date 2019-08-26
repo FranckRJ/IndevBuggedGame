@@ -37,11 +37,13 @@ public:
 
     sf::IntRect hitbox() const;
 
+    void setTextIsBugged(bool pTextIsBugged);
+
     void setFillColor(sf::Color pColor);
 
     void setMessage(std::string pMessage, bool pIsOriginalMessage = true);
 
-protected:
+private:
     std::uniform_int_distribution<char> mRandomChar{33, 126}; // '!' et '~'
     std::uniform_int_distribution<std::size_t> mRandomOriginalMessagePos;
     sf::Text mMessageToShow;

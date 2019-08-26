@@ -15,7 +15,7 @@ WidgetCursor::WidgetCursor(std::string pMessage, sf::Color pColor, int pSize, sf
 void WidgetCursor::initialize()
 {
     mPositionToReach = centralVerticalPos();
-    mTextIsBugged = false;
+    setTextIsBugged(false);
 }
 
 void WidgetCursor::updateImpl()
@@ -35,8 +35,7 @@ void WidgetCursor::updateImpl()
         }
     }
 
-    setPosition({utls::intFloor(mMessageToShow.getPosition().x),
-                 utls::intFloor(mMessageToShow.getGlobalBounds().top + mCurrentSpeed)});
+    setPosition({position().x, hitbox().top + mCurrentSpeed});
 
     if (mCurrentSpeed > 0)
     {
