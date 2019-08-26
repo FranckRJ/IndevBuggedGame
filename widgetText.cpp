@@ -1,129 +1,142 @@
 #include "widgetText.hpp"
 #include "global.hpp"
+#include "utls.hpp"
 
 WidgetText::WidgetText()
 {
-    messageToShow.setFont(Global::font);
-    messageToShow.setOrigin(0, static_cast<int>(messageToShow.getLocalBounds().top));
-    numberOfTimeBlinkNeeded = 0;
-    textIsBugged = true;
-    isInBug = false;
+    mMessageToShow.setFont(Global::font);
+    mMessageToShow.setOrigin(0, utls::intFloor(mMessageToShow.getLocalBounds().top));
 }
 
-WidgetText::WidgetText(std::string newMessage, sf::Color newColor, int newSize, int newPosX, int newPosY) : WidgetText()
+WidgetText::WidgetText(std::string pMessage, sf::Color pColor, int pSize, sf::Vector2i pPos) : WidgetText()
 {
-    setMessage(newMessage);
-    setFillColor(newColor);
-    setSize(newSize);
-    setPosition(newPosX, newPosY);
+    setMessage(pMessage);
+    setFillColor(pColor);
+    setSize(pSize);
+    setPosition(pPos);
 }
 
 void WidgetText::update()
 {
-    if (numberOfTimeBlinkNeeded > 0 && messageToShow.getFillColor().a == 255 &&
-        timerForBlink.getElapsedTime().asSeconds() > 0.1)
+    updateImpl();
+}
+
+void WidgetText::updateImpl()
+{
+    if (mNumberOfTimeBlinkNeeded > 0 && mMessageToShow.getFillColor().a == 255 &&
+        mTimerForBlink.getElapsedTime().asSeconds() > 0.1f)
     {
-        sf::Color tmpColor = messageToShow.getFillColor();
+        auto tmpColor = mMessageToShow.getFillColor();
         tmpColor.a = 127;
-        messageToShow.setFillColor(tmpColor);
-        --numberOfTimeBlinkNeeded;
-        timerForBlink.restart();
+        mMessageToShow.setFillColor(tmpColor);
+        --mNumberOfTimeBlinkNeeded;
+        mTimerForBlink.restart();
     }
 
-    if (messageToShow.getFillColor().a == 127 && timerForBlink.getElapsedTime().asSeconds() > 0.1)
+    if (mMessageToShow.getFillColor().a == 127 && mTimerForBlink.getElapsedTime().asSeconds() > 0.1f)
     {
-        sf::Color tmpColor = messageToShow.getFillColor();
+        auto tmpColor = mMessageToShow.getFillColor();
         tmpColor.a = 255;
-        messageToShow.setFillColor(tmpColor);
-        timerForBlink.restart();
+        mMessageToShow.setFillColor(tmpColor);
+        mTimerForBlink.restart();
     }
 
-    if (textIsBugged)
+    if (mTextIsBugged)
     {
-        if (!isInBug)
+        if (!mIsInBug)
         {
-            if (timerForBug.getElapsedTime().asSeconds() > 0.5)
+            if (mTimerForBug.getElapsedTime().asSeconds() > 0.5f)
             {
                 if (Global::randomPercentage(Global::fast_random) < 15)
                 {
-                    std::size_t indexOfLetter = randomOriginalMessagePos(Global::fast_random);
-                    char newLetter = randomChar(Global::fast_random);
-                    std::string newMessage = originalMessage;
+                    std::size_t indexOfLetter = mRandomOriginalMessagePos(Global::fast_random);
+                    char newLetter = mRandomChar(Global::fast_random);
+                    std::string newMessage = mOriginalMessage;
 
                     newMessage[indexOfLetter] = newLetter;
                     setMessage(newMessage, false);
 
-                    isInBug = true;
+                    mIsInBug = true;
                 }
-                timerForBug.restart();
+                mTimerForBug.restart();
             }
         }
-        else if (timerForBug.getElapsedTime().asSeconds() > 0.1)
+        else if (mTimerForBug.getElapsedTime().asSeconds() > 0.1f)
         {
-            setMessage(originalMessage);
-            isInBug = false;
-            timerForBug.restart();
+            setMessage(mOriginalMessage);
+            mIsInBug = false;
+            mTimerForBug.restart();
         }
     }
 }
 
-void WidgetText::draw(sf::RenderWindow& window)
+void WidgetText::draw(sf::RenderWindow& pWindow)
 {
-    window.draw(messageToShow);
+    pWindow.draw(mMessageToShow);
 }
 
-int WidgetText::getNumberOfBlinkNeeded()
+int WidgetText::numberOfBlinkNeeded() const
 {
-    return numberOfTimeBlinkNeeded;
+    return mNumberOfTimeBlinkNeeded;
 }
 
-sf::FloatRect WidgetText::getHitbox()
+void WidgetText::setNumberOfBlinkNeeded(int pNumber)
 {
-    return messageToShow.getGlobalBounds();
+    mNumberOfTimeBlinkNeeded = pNumber;
 }
 
-sf::Vector2f WidgetText::getPosition()
+sf::Vector2i WidgetText::position() const
 {
-    return messageToShow.getPosition();
+    const auto pos = mMessageToShow.getPosition();
+    return sf::Vector2i(utls::intFloor(pos.x), utls::intFloor(pos.y));
 }
 
-int WidgetText::getCentralVerticalPos()
+void WidgetText::setPosition(sf::Vector2i pPos)
 {
-    return (messageToShow.getPosition().y + (messageToShow.getGlobalBounds().height / 2));
+    mMessageToShow.setPosition(pPos.x, pPos.y);
+    positionHasChanged();
 }
 
-void WidgetText::setNumberOfBlinkNeeded(int newNumber)
+int WidgetText::centralVerticalPos() const
 {
-    numberOfTimeBlinkNeeded = newNumber;
+    return utls::intFloor(mMessageToShow.getPosition().y + (mMessageToShow.getGlobalBounds().height / 2.f));
 }
 
-void WidgetText::setCentralVerticalPos(int newPosY)
+void WidgetText::setCentralVerticalPos(int pPosY)
 {
-    setPosition(messageToShow.getPosition().x, newPosY - (messageToShow.getGlobalBounds().height / 2));
+    setPosition({utls::intFloor(mMessageToShow.getPosition().x),
+                 pPosY - utls::intFloor(mMessageToShow.getGlobalBounds().height / 2.f)});
 }
 
-void WidgetText::setMessage(std::string newMessage, bool isOriginalMessage)
+void WidgetText::positionHasChanged()
 {
-    messageToShow.setString(newMessage);
-    if (isOriginalMessage)
+}
+
+void WidgetText::setSize(int pSize)
+{
+    mMessageToShow.setCharacterSize(utls::asUnsigned(pSize));
+}
+
+sf::IntRect WidgetText::hitbox() const
+{
+    auto messageHitbox = mMessageToShow.getGlobalBounds();
+
+    return sf::IntRect{utls::intFloor(messageHitbox.left), utls::intFloor(messageHitbox.top),
+                       utls::intFloor(messageHitbox.width), utls::intFloor(messageHitbox.height)};
+}
+
+void WidgetText::setFillColor(sf::Color pColor)
+{
+    mMessageToShow.setFillColor(pColor);
+}
+
+void WidgetText::setMessage(std::string pMessage, bool pIsOriginalMessage)
+{
+    mMessageToShow.setString(pMessage);
+    if (pIsOriginalMessage)
     {
-        originalMessage = newMessage;
-        randomOriginalMessagePos = std::uniform_int_distribution<std::size_t>{0, originalMessage.size() - 1};
-        messageToShow.setOrigin(0, static_cast<int>(messageToShow.getLocalBounds().top));
+        mOriginalMessage = pMessage;
+        mRandomOriginalMessagePos = std::uniform_int_distribution<std::size_t>{0, mOriginalMessage.size() - 1};
+        mMessageToShow.setOrigin(0, mMessageToShow.getLocalBounds().top);
     }
-}
-
-void WidgetText::setFillColor(sf::Color newColor)
-{
-    messageToShow.setFillColor(newColor);
-}
-
-void WidgetText::setSize(int newSize)
-{
-    messageToShow.setCharacterSize(newSize);
-}
-
-void WidgetText::setPosition(int newPosX, int newPosY)
-{
-    messageToShow.setPosition(newPosX, newPosY);
 }

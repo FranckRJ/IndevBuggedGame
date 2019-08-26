@@ -8,30 +8,49 @@ class WidgetText
 {
 public:
     WidgetText();
-    WidgetText(std::string newMessage, sf::Color newColor, int newSize, int newPosX = 0, int newPosY = 0);
+    WidgetText(std::string pMessage, sf::Color pColor, int pSize, sf::Vector2i pPos = {0, 0});
+
+    WidgetText(const WidgetText& pOther) = delete;
+    WidgetText& operator=(const WidgetText& pOther) = delete;
+
+    WidgetText(const WidgetText&& pOther) = delete;
+    WidgetText& operator=(const WidgetText&& pOther) = delete;
+
+    virtual ~WidgetText() = default;
+
     void update();
-    void draw(sf::RenderWindow& window);
-    int getNumberOfBlinkNeeded();
-    sf::FloatRect getHitbox();
-    sf::Vector2f getPosition();
-    int getCentralVerticalPos();
-    void setNumberOfBlinkNeeded(int newNumber);
-    void setCentralVerticalPos(int newPosY);
-    void setMessage(std::string newMessage, bool isOriginalMessage = true);
-    void setFillColor(sf::Color newColor);
-    void setSize(int newSize);
-    void setPosition(int newPosX, int newPosY);
+    virtual void updateImpl();
+    void draw(sf::RenderWindow& pWindow);
+
+    int numberOfBlinkNeeded() const;
+    void setNumberOfBlinkNeeded(int pNumber);
+
+    sf::Vector2i position() const;
+    void setPosition(sf::Vector2i pPos);
+
+    int centralVerticalPos() const;
+    void setCentralVerticalPos(int pPosY);
+
+    virtual void positionHasChanged();
+
+    void setSize(int pSize);
+
+    sf::IntRect hitbox() const;
+
+    void setFillColor(sf::Color pColor);
+
+    void setMessage(std::string pMessage, bool pIsOriginalMessage = true);
 
 protected:
-    std::uniform_int_distribution<char> randomChar{33, 126}; // '!' et '~'
-    std::uniform_int_distribution<std::size_t> randomOriginalMessagePos;
-    sf::Text messageToShow;
-    std::string originalMessage;
-    sf::Clock timerForBlink;
-    sf::Clock timerForBug;
-    int numberOfTimeBlinkNeeded;
-    bool textIsBugged;
-    bool isInBug;
+    std::uniform_int_distribution<char> mRandomChar{33, 126}; // '!' et '~'
+    std::uniform_int_distribution<std::size_t> mRandomOriginalMessagePos;
+    sf::Text mMessageToShow;
+    std::string mOriginalMessage;
+    sf::Clock mTimerForBlink;
+    sf::Clock mTimerForBug;
+    int mNumberOfTimeBlinkNeeded = 0;
+    bool mTextIsBugged = true;
+    bool mIsInBug = false;
 };
 
 #endif

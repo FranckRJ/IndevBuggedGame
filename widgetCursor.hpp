@@ -9,17 +9,21 @@ class WidgetCursor : public WidgetText
 {
 public:
     WidgetCursor();
-    WidgetCursor(std::string newMessage, sf::Color newColor, int newSize, int newPosX = 0, int newPosY = 0);
-    void update();
-    void setCentralVerticalPos(int newPosY);
-    void setPosition(int newPosX, int newPosY);
-    void setPositionToReach(int newPosY);
+    WidgetCursor(std::string pMessage, sf::Color pColor, int pSize, sf::Vector2i pPos = {0, 0});
+
+    void initialize();
+
+    void updateImpl() override;
+
+    void positionHasChanged() override;
+
+    void setPositionToReach(int pPosY);
 
 private:
-    int maxSpeed;
-    int currentSpeed;
-    int acceleration;
-    int positionToReach;
+    int mMaxSpeed = 20;
+    int mCurrentSpeed = 0;
+    int mAcceleration = 4;
+    int mPositionToReach = 0;
 };
 
 #endif

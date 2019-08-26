@@ -1,93 +1,86 @@
 #include "widgetCursor.hpp"
+#include "utls.hpp"
 
 WidgetCursor::WidgetCursor() : WidgetText()
 {
-    maxSpeed = 20;
-    currentSpeed = 0;
-    acceleration = 4;
-    positionToReach = getCentralVerticalPos();
-    textIsBugged = false;
+    initialize();
 }
 
-WidgetCursor::WidgetCursor(std::string newMessage, sf::Color newColor, int newSize, int newPosX, int newPosY)
-    : WidgetText(newMessage, newColor, newSize, newPosX, newPosY)
+WidgetCursor::WidgetCursor(std::string pMessage, sf::Color pColor, int pSize, sf::Vector2i pPos)
+    : WidgetText(pMessage, pColor, pSize, pPos)
 {
+    initialize();
 }
 
-void WidgetCursor::update()
+void WidgetCursor::initialize()
 {
-    if (currentSpeed == 0)
+    mPositionToReach = centralVerticalPos();
+    mTextIsBugged = false;
+}
+
+void WidgetCursor::updateImpl()
+{
+    if (mCurrentSpeed == 0)
     {
-        if (getCentralVerticalPos() != positionToReach)
+        if (centralVerticalPos() != mPositionToReach)
         {
-            if (positionToReach > getCentralVerticalPos())
+            if (mPositionToReach > centralVerticalPos())
             {
-                currentSpeed += acceleration;
+                mCurrentSpeed += mAcceleration;
             }
             else
             {
-                currentSpeed -= acceleration;
+                mCurrentSpeed -= mAcceleration;
             }
         }
     }
 
-    setPosition(messageToShow.getPosition().x, messageToShow.getGlobalBounds().top + currentSpeed);
+    setPosition({utls::intFloor(mMessageToShow.getPosition().x),
+                 utls::intFloor(mMessageToShow.getGlobalBounds().top + mCurrentSpeed)});
 
-    if (currentSpeed > 0)
+    if (mCurrentSpeed > 0)
     {
-        if (getCentralVerticalPos() >= positionToReach)
+        if (centralVerticalPos() >= mPositionToReach)
         {
-            setCentralVerticalPos(positionToReach);
-            currentSpeed = 0;
+            setCentralVerticalPos(mPositionToReach);
+            mCurrentSpeed = 0;
         }
         else
         {
-            currentSpeed += acceleration;
-            if (currentSpeed > maxSpeed)
+            mCurrentSpeed += mAcceleration;
+            if (mCurrentSpeed > mMaxSpeed)
             {
-                currentSpeed = maxSpeed;
+                mCurrentSpeed = mMaxSpeed;
             }
         }
     }
-    else if (currentSpeed < 0)
+    else if (mCurrentSpeed < 0)
     {
-        if (getCentralVerticalPos() <= positionToReach)
+        if (centralVerticalPos() <= mPositionToReach)
         {
-            setCentralVerticalPos(positionToReach);
-            currentSpeed = 0;
+            setCentralVerticalPos(mPositionToReach);
+            mCurrentSpeed = 0;
         }
         else
         {
-            currentSpeed -= acceleration;
-            if (currentSpeed < -maxSpeed)
+            mCurrentSpeed -= mAcceleration;
+            if (mCurrentSpeed < -mMaxSpeed)
             {
-                currentSpeed = -maxSpeed;
+                mCurrentSpeed = -mMaxSpeed;
             }
         }
     }
 }
 
-void WidgetCursor::setCentralVerticalPos(int newPosY)
+void WidgetCursor::positionHasChanged()
 {
-    WidgetText::setCentralVerticalPos(newPosY);
-
-    if (currentSpeed == 0)
+    if (mCurrentSpeed == 0)
     {
-        positionToReach = getCentralVerticalPos();
+        mPositionToReach = centralVerticalPos();
     }
 }
 
-void WidgetCursor::setPosition(int newPosX, int newPosY)
+void WidgetCursor::setPositionToReach(int pPosY)
 {
-    WidgetText::setPosition(newPosX, newPosY);
-
-    if (currentSpeed == 0)
-    {
-        positionToReach = getCentralVerticalPos();
-    }
-}
-
-void WidgetCursor::setPositionToReach(int newPosY)
-{
-    positionToReach = newPosY;
+    mPositionToReach = pPosY;
 }

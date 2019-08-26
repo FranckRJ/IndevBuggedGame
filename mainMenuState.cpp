@@ -6,49 +6,39 @@
 
 MainMenuState::MainMenuState()
 {
-    WidgetText playText;
-    WidgetText editorText;
-    WidgetText nothingText;
-    WidgetText leaveText;
-
     currentId = 0;
     choiceIsSelected = false;
 
     nameOfGameText.setSize(60);
     nameOfGameText.setMessage("Indev Bugged Game");
     nameOfGameText.setFillColor(sf::Color::Green);
-    nameOfGameText.setPosition(25, 25);
+    nameOfGameText.setPosition({25, 25});
 
-    playText.setSize(40);
-    playText.setMessage("Jouer");
-    playText.setFillColor(sf::Color::Green);
+    listOfButton[0].setSize(40);
+    listOfButton[0].setMessage("Jouer");
+    listOfButton[0].setFillColor(sf::Color::Green);
 
-    editorText.setSize(40);
-    editorText.setMessage("Editer");
-    editorText.setFillColor(sf::Color::Green);
+    listOfButton[1].setSize(40);
+    listOfButton[1].setMessage("Editer");
+    listOfButton[1].setFillColor(sf::Color::Green);
 
-    nothingText.setSize(40);
-    nothingText.setMessage("Rien");
-    nothingText.setFillColor(sf::Color::Green);
+    listOfButton[2].setSize(40);
+    listOfButton[2].setMessage("Rien");
+    listOfButton[2].setFillColor(sf::Color::Green);
 
-    leaveText.setSize(40);
-    leaveText.setMessage("Quitter");
-    leaveText.setFillColor(sf::Color::Green);
-
-    listOfButton.emplace_back(std::move(playText));
-    listOfButton.emplace_back(std::move(editorText));
-    listOfButton.emplace_back(std::move(nothingText));
-    listOfButton.emplace_back(std::move(leaveText));
+    listOfButton[3].setSize(40);
+    listOfButton[3].setMessage("Quitter");
+    listOfButton[3].setFillColor(sf::Color::Green);
 
     centerWidgetInList();
 
     cursorText.setSize(50);
     cursorText.setMessage(">");
     cursorText.setFillColor(sf::Color::Green);
-    cursorText.setPosition(listOfButton[currentId].getPosition().x - cursorText.getHitbox().width - 20, 0);
+    cursorText.setPosition({listOfButton[currentId].position().x - cursorText.hitbox().width - 20, 0});
 
-    cursorText.setCentralVerticalPos(listOfButton[currentId].getCentralVerticalPos());
-    cursorText.setPositionToReach(listOfButton[currentId].getCentralVerticalPos());
+    cursorText.setCentralVerticalPos(listOfButton[currentId].centralVerticalPos());
+    cursorText.setPositionToReach(listOfButton[currentId].centralVerticalPos());
 }
 
 void MainMenuState::updateImpl(sf::RenderWindow& window)
@@ -70,7 +60,7 @@ void MainMenuState::updateImpl(sf::RenderWindow& window)
                 {
                     currentId = listOfButton.size() - 1;
                 }
-                cursorText.setPositionToReach(listOfButton[currentId].getCentralVerticalPos());
+                cursorText.setPositionToReach(listOfButton[currentId].centralVerticalPos());
             }
             else if (event.key.code == sf::Keyboard::Down)
             {
@@ -79,7 +69,7 @@ void MainMenuState::updateImpl(sf::RenderWindow& window)
                 {
                     currentId = 0;
                 }
-                cursorText.setPositionToReach(listOfButton[currentId].getCentralVerticalPos());
+                cursorText.setPositionToReach(listOfButton[currentId].centralVerticalPos());
             }
             else if (event.key.code == sf::Keyboard::Space || event.key.code == sf::Keyboard::Return)
             {
@@ -96,7 +86,7 @@ void MainMenuState::updateImpl(sf::RenderWindow& window)
         }
     }
 
-    if (choiceIsSelected && listOfButton[currentId].getNumberOfBlinkNeeded() == 0)
+    if (choiceIsSelected && listOfButton[currentId].numberOfBlinkNeeded() == 0)
     {
         if (currentId == 0)
         {
@@ -146,11 +136,11 @@ void MainMenuState::centerWidgetInList()
 
     for (WidgetText& thisWidget : listOfButton)
     {
-        sizeOfAllWidgets += thisWidget.getHitbox().height + 20;
+        sizeOfAllWidgets += thisWidget.hitbox().height + 20;
 
-        if (thisWidget.getHitbox().width > widthestWidgetSize)
+        if (thisWidget.hitbox().width > widthestWidgetSize)
         {
-            widthestWidgetSize = thisWidget.getHitbox().width;
+            widthestWidgetSize = thisWidget.hitbox().width;
         }
     }
     sizeOfAllWidgets -= 20;
@@ -159,7 +149,7 @@ void MainMenuState::centerWidgetInList()
 
     for (WidgetText& thisWidget : listOfButton)
     {
-        thisWidget.setPosition((WIDTH_SCREEN / 2) - (widthestWidgetSize / 2), currentPositionForWidget);
-        currentPositionForWidget += thisWidget.getHitbox().height + 20;
+        thisWidget.setPosition({(WIDTH_SCREEN / 2) - (widthestWidgetSize / 2), currentPositionForWidget});
+        currentPositionForWidget += thisWidget.hitbox().height + 20;
     }
 }

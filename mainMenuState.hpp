@@ -2,7 +2,7 @@
 #define MAINMENUSTATE_HPP
 
 #include <SFML/Graphics.hpp>
-#include <vector>
+#include <array>
 
 #include "gameState.hpp"
 #include "widgetCursor.hpp"
@@ -20,7 +20,7 @@ private:
 
 private:
     WidgetText nameOfGameText;
-    std::vector<WidgetText> listOfButton;
+    std::array<WidgetText, 4> listOfButton;
     WidgetCursor cursorText;
     bool choiceIsSelected;
     int currentId;

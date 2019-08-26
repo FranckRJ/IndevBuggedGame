@@ -38,7 +38,14 @@ namespace utls
     template <class T>
     constexpr int intFloor(const T& val)
     {
-        return static_cast<int>(std::floor(val));
+        if (val >= 0)
+        {
+            return static_cast<int>(val);
+        }
+        else
+        {
+            return static_cast<int>(std::floor(val));
+        }
     }
 
     template <class T>
