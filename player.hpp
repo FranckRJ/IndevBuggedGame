@@ -19,10 +19,10 @@ public:
 
 private:
     void updateImpl() override;
-    void drawImpl(sf::RenderWindow& window) override;
+    void drawImpl(sf::RenderWindow& pWindow) const override;
     void updateSpriteShape();
     void applySpriteDeformation();
-    bool moveSpriteWidthDeformation(int amount);
+    bool moveSpriteWidthDeformation(int pAmount);
     void hasEnterInCollideImpl(Direction pDirection) override;
     sf::FloatRect spriteBoxImpl() const override;
     sf::IntRect collideBoxImpl() const override;

@@ -98,13 +98,13 @@ void MessageState::updateImpl(sf::RenderWindow& window)
     }
 }
 
-void MessageState::drawImpl(sf::RenderWindow& window)
+void MessageState::drawImpl(sf::RenderWindow& window) const
 {
     Global::activeGameStateStack->drawBeforeLast(window);
 
     window.setView(window.getDefaultView());
 
-    for (RectForMessage& rect : listOfRect)
+    for (const RectForMessage& rect : listOfRect)
     {
         window.draw(rect.rect);
     }

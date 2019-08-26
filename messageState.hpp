@@ -25,7 +25,7 @@ public:
 
 private:
     void updateImpl(sf::RenderWindow& window) override;
-    void drawImpl(sf::RenderWindow& window) override;
+    void drawImpl(sf::RenderWindow& window) const override;
     bool changeSizeOfRect(RectForMessage& rect, sf::Vector2i speed, sf::Vector2i endSize, int factor = 1);
 
 private:

@@ -119,14 +119,14 @@ void MainMenuState::updateImpl(sf::RenderWindow& pWindow)
     mCursorText.update();
 }
 
-void MainMenuState::drawImpl(sf::RenderWindow& pWindow)
+void MainMenuState::drawImpl(sf::RenderWindow& pWindow) const
 {
     pWindow.setView(pWindow.getDefaultView());
     pWindow.clear(sf::Color::Black);
     mNameOfGameText.draw(pWindow);
     mCursorText.draw(pWindow);
 
-    for (auto& thisWidget : mListOfButton)
+    for (const auto& thisWidget : mListOfButton)
     {
         thisWidget.draw(pWindow);
     }

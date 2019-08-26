@@ -8,7 +8,7 @@ void ParticleManager::initialize()
 
     baseInfo.attractedByGravity = true;
     baseInfo.horizontalVelocity = 0;
-    baseInfo.lifeTime = 0;
+    baseInfo.lifeTime = 0.f;
     baseInfo.verticalVelocity = 0;
     baseInfo.lostAlphaSpeed = 255;
 

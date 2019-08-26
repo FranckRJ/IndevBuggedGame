@@ -56,7 +56,7 @@ void ScreenTransitionState::updateImpl(sf::RenderWindow& window)
     fadeEffect.setFillColor(newColor);
 }
 
-void ScreenTransitionState::drawImpl(sf::RenderWindow& window)
+void ScreenTransitionState::drawImpl(sf::RenderWindow& window) const
 {
     Global::activeGameStateStack->drawBeforeLast(window);
 

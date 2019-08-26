@@ -20,7 +20,7 @@ public:
 
     void update();
     virtual void updateImpl();
-    void draw(sf::RenderWindow& pWindow);
+    void draw(sf::RenderWindow& pWindow) const;
 
     int numberOfBlinkNeeded() const;
     void setNumberOfBlinkNeeded(int pNumber);

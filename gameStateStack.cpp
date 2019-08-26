@@ -58,7 +58,7 @@ void GameStateStack::updateBeforeLast(sf::RenderWindow& pWindow)
     }
 }
 
-void GameStateStack::draw(sf::RenderWindow& pWindow)
+void GameStateStack::draw(sf::RenderWindow& pWindow) const
 {
     if (!mListOfStates.empty())
     {
@@ -66,7 +66,7 @@ void GameStateStack::draw(sf::RenderWindow& pWindow)
     }
 }
 
-void GameStateStack::drawBeforeLast(sf::RenderWindow& pWindow)
+void GameStateStack::drawBeforeLast(sf::RenderWindow& pWindow) const
 {
     if (mListOfStates.size() >= 2)
     {
@@ -75,7 +75,7 @@ void GameStateStack::drawBeforeLast(sf::RenderWindow& pWindow)
     }
 }
 
-bool GameStateStack::stackHasChanged()
+bool GameStateStack::stackHasChanged() const
 {
     return mStackHasChanged;
 }

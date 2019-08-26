@@ -30,7 +30,7 @@ public:
     virtual ~Character() = default;
 
     void update();
-    void draw(sf::RenderWindow& pWindow);
+    void draw(sf::RenderWindow& pWindow) const;
 
     Direction movingDirection() const;
     Direction movedHorizontalDirection() const;
@@ -69,7 +69,7 @@ public:
 
 private:
     virtual void updateImpl() = 0;
-    virtual void drawImpl(sf::RenderWindow& pWindow) = 0;
+    virtual void drawImpl(sf::RenderWindow& pWindow) const = 0;
 
     virtual Direction movingDirectionImpl() const = 0;
     virtual Direction movedHorizontalDirectionImpl() const = 0;

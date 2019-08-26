@@ -11,7 +11,7 @@ class ParticleMotor
 {
 public:
     void update();
-    void draw(sf::RenderWindow& pWindow);
+    void draw(sf::RenderWindow& pWindow) const;
     void addParticle(sf::Vector2f pAtThisPosition, int pParticleSpeed);
 
 private:

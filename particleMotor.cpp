@@ -17,7 +17,7 @@ void ParticleMotor::update()
     }
 }
 
-void ParticleMotor::draw(sf::RenderWindow& pWindow)
+void ParticleMotor::draw(sf::RenderWindow& pWindow) const
 {
     for (const auto& thisParticle : mListOfParticle)
     {

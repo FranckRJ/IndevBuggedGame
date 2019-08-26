@@ -11,7 +11,7 @@ class GameEngine
 public:
     GameEngine(std::string pNameOfLevel);
     void update();
-    void draw(sf::RenderWindow& pWindow);
+    void draw(sf::RenderWindow& pWindow) const;
     void setPlayerDirection(Direction pDirection);
     void jumpPlayer(bool pSpaceWasPressedLastFrame);
     void checkCharacterInBorder(Character& pCharacter);

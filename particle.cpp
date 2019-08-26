@@ -44,7 +44,7 @@ void Particle::update()
     }
 }
 
-void Particle::draw(sf::RenderWindow& window)
+void Particle::draw(sf::RenderWindow& window) const
 {
     window.draw(sprite);
 }

@@ -5,7 +5,7 @@ void Character::update()
     updateImpl();
 }
 
-void Character::draw(sf::RenderWindow& pWindow)
+void Character::draw(sf::RenderWindow& pWindow) const
 {
     drawImpl(pWindow);
 }

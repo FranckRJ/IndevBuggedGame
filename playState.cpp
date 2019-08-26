@@ -37,7 +37,7 @@ void PlayState::updateImpl(sf::RenderWindow& window)
     gameEngine.update();
 }
 
-void PlayState::drawImpl(sf::RenderWindow& window)
+void PlayState::drawImpl(sf::RenderWindow& window) const
 {
     window.clear(sf::Color(200, 200, 200));
     gameEngine.draw(window);

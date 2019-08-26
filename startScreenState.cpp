@@ -118,7 +118,7 @@ void StartScreenState::updateImpl(sf::RenderWindow& window)
     }
 }
 
-void StartScreenState::drawImpl(sf::RenderWindow& window)
+void StartScreenState::drawImpl(sf::RenderWindow& window) const
 {
     window.setView(window.getDefaultView());
     window.clear(sf::Color::Black);

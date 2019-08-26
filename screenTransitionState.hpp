@@ -13,7 +13,7 @@ public:
 
 private:
     void updateImpl(sf::RenderWindow& window) override;
-    void drawImpl(sf::RenderWindow& window) override;
+    void drawImpl(sf::RenderWindow& window) const override;
 
 private:
     std::unique_ptr<GameState> stateToSet;

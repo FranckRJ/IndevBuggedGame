@@ -13,7 +13,7 @@ public:
 
 private:
     void updateImpl(sf::RenderWindow& window) override;
-    void drawImpl(sf::RenderWindow& window) override;
+    void drawImpl(sf::RenderWindow& window) const override;
     void leftClickHere(int x, int y);
     void rightClickHere(int x, int y);
     void mouseMoveHere(int x, int y);

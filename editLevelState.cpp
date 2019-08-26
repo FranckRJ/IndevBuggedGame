@@ -79,7 +79,7 @@ void EditLevelState::updateImpl(sf::RenderWindow& window)
     }
 }
 
-void EditLevelState::drawImpl(sf::RenderWindow& window)
+void EditLevelState::drawImpl(sf::RenderWindow& window) const
 {
     window.clear(sf::Color(200, 200, 200));
     window.setView(view);
@@ -91,10 +91,10 @@ void EditLevelState::drawImpl(sf::RenderWindow& window)
         for (int y = (view.getCenter().y - (HEIGHT_SCREEN / 2)) / SIZE_BLOCK;
              y < (view.getCenter().y + (HEIGHT_SCREEN / 2)) / SIZE_BLOCK; ++y)
         {
-            auto block = infoForLevel.mapOfGame.find(Point(x, y));
-            if (block != infoForLevel.mapOfGame.end())
+            auto blockIte = infoForLevel.mapOfGame.find(Point(x, y));
+            if (blockIte != infoForLevel.mapOfGame.end())
             {
-                window.draw(block->second.sprite);
+                window.draw(blockIte->second.sprite);
             }
         }
     }

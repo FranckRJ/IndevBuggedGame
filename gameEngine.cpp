@@ -79,7 +79,7 @@ void GameEngine::update()
     }
 }
 
-void GameEngine::draw(sf::RenderWindow& pWindow)
+void GameEngine::draw(sf::RenderWindow& pWindow) const
 {
     pWindow.setView(mView);
 
@@ -89,18 +89,18 @@ void GameEngine::draw(sf::RenderWindow& pWindow)
         for (auto y = int{utls::intFloor((mView.getCenter().y - (HEIGHT_SCREEN / 2)) / SIZE_BLOCK)};
              y < (mView.getCenter().y + (HEIGHT_SCREEN / 2)) / SIZE_BLOCK; ++y)
         {
-            auto block = mInfoForLevel.mapOfGame.find(Point(x, y));
+            auto blockIte = mInfoForLevel.mapOfGame.find(Point(x, y));
 
-            if (block != mInfoForLevel.mapOfGame.end())
+            if (blockIte != mInfoForLevel.mapOfGame.end())
             {
-                block->second->draw(pWindow);
+                blockIte->second->draw(pWindow);
             }
         }
     }
 
     mPlayer.draw(pWindow);
 
-    for (auto& block : mListOfForegroundBlock)
+    for (const auto& block : mListOfForegroundBlock)
     {
         block->draw(pWindow);
     }

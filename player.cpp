@@ -97,11 +97,11 @@ void Player::updateImpl()
     mParticleMotor.update();
 }
 
-void Player::drawImpl(sf::RenderWindow& window)
+void Player::drawImpl(sf::RenderWindow& pWindow) const
 {
-    mParticleMotor.draw(window);
-    window.draw(mSprite);
-    window.draw(mSpriteVisor);
+    mParticleMotor.draw(pWindow);
+    pWindow.draw(mSprite);
+    pWindow.draw(mSpriteVisor);
 }
 
 void Player::updateSpriteShape()
@@ -162,11 +162,11 @@ void Player::applySpriteDeformation()
     }
 }
 
-bool Player::moveSpriteWidthDeformation(int amount)
+bool Player::moveSpriteWidthDeformation(int pAmount)
 {
     auto hasMovedFully = true;
 
-    mSpriteSizeDeformation.x += amount;
+    mSpriteSizeDeformation.x += pAmount;
     if (mSpriteSizeDeformation.x > 10)
     {
         mSpriteSizeDeformation.x = 10;
@@ -177,7 +177,7 @@ bool Player::moveSpriteWidthDeformation(int amount)
         mSpriteSizeDeformation.x = -10;
         hasMovedFully = false;
     }
-    mSpriteSizeDeformation.y -= amount;
+    mSpriteSizeDeformation.y -= pAmount;
     if (mSpriteSizeDeformation.y > 10)
     {
         mSpriteSizeDeformation.y = 10;

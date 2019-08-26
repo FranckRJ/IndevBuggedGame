@@ -8,7 +8,7 @@ struct ParticleInfo
     bool attractedByGravity;
     int verticalVelocity;
     int horizontalVelocity;
-    double lifeTime;
+    float lifeTime;
     int lostAlphaSpeed;
 };
 
@@ -19,7 +19,7 @@ public:
     Particle(ParticleInfo newParticleInfo, sf::Color particleColor, sf::Vector2f particleSize, sf::Vector2i velocity,
              sf::Vector2f basePosition);
     void update();
-    void draw(sf::RenderWindow& window);
+    void draw(sf::RenderWindow& window) const;
     bool getIsDead();
 
 private:

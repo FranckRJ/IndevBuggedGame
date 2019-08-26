@@ -48,7 +48,7 @@ public:
     Block(const BlockProperties& pProperties, const BlockSprite& pSpriteInfos, BlockId pId);
 
     void update();
-    void draw(sf::RenderWindow& pWindow);
+    void draw(sf::RenderWindow& pWindow) const;
 
     sf::IntRect collideBox() const;
     const BlockProperties blockInfos() const;

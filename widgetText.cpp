@@ -70,7 +70,7 @@ void WidgetText::updateImpl()
     }
 }
 
-void WidgetText::draw(sf::RenderWindow& pWindow)
+void WidgetText::draw(sf::RenderWindow& pWindow) const
 {
     pWindow.draw(mMessageToShow);
 }

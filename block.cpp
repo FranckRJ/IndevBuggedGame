@@ -20,7 +20,7 @@ void Block::update()
     }
 }
 
-void Block::draw(sf::RenderWindow& pWindow)
+void Block::draw(sf::RenderWindow& pWindow) const
 {
     pWindow.draw(mSprite);
 }

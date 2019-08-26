@@ -16,7 +16,7 @@ public:
 
 private:
     void updateImpl(sf::RenderWindow& pWindow) override;
-    void drawImpl(sf::RenderWindow& pWindow) override;
+    void drawImpl(sf::RenderWindow& pWindow) const override;
 
     void centerWidgetInList();
 
