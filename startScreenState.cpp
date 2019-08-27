@@ -6,7 +6,7 @@
 
 StartScreenState::StartScreenState()
 {
-    sf::Text finalMessage;
+    auto finalMessage = sf::Text{};
     finalMessage.setCharacterSize(80);
     finalMessage.setFont(Global::font);
     finalMessage.setString("> start IBG.exe_");

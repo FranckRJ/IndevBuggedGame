@@ -1,7 +1,7 @@
 #include "event.hpp"
 
 Event::Event(EventInfo pInfoForEvent, sf::IntRect pSurfaceOfEvent)
-    : mEventInfo(pInfoForEvent), mSurfaceOfEvent(pSurfaceOfEvent)
+    : mEventInfo{pInfoForEvent}, mSurfaceOfEvent{pSurfaceOfEvent}
 {
 }
 

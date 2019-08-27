@@ -8,7 +8,7 @@ WidgetText::WidgetText()
     mMessageToShow.setOrigin(0, utls::intFloor(mMessageToShow.getLocalBounds().top));
 }
 
-WidgetText::WidgetText(std::string pMessage, sf::Color pColor, int pSize, sf::Vector2i pPos) : WidgetText()
+WidgetText::WidgetText(std::string pMessage, sf::Color pColor, int pSize, sf::Vector2i pPos) : WidgetText{}
 {
     setMessage(pMessage);
     setFillColor(pColor);

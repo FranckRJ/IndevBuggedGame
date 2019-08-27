@@ -1,13 +1,13 @@
 #include "widgetCursor.hpp"
 #include "utls.hpp"
 
-WidgetCursor::WidgetCursor() : WidgetText()
+WidgetCursor::WidgetCursor() : WidgetText{}
 {
     initialize();
 }
 
 WidgetCursor::WidgetCursor(std::string pMessage, sf::Color pColor, int pSize, sf::Vector2i pPos)
-    : WidgetText(pMessage, pColor, pSize, pPos)
+    : WidgetText{pMessage, pColor, pSize, pPos}
 {
     initialize();
 }
