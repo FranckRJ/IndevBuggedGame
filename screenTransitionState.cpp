@@ -1,66 +1,62 @@
 #include "screenTransitionState.hpp"
 #include "global.hpp"
 
-ScreenTransitionState::ScreenTransitionState(std::unique_ptr<GameState>&& newState, sf::Color color, int newSpeed)
-    : stateToSet(std::move(newState))
+ScreenTransitionState::ScreenTransitionState(std::unique_ptr<GameState> pState, sf::Color pColor, int pSpeed)
+    : mStateToSet{std::move(pState)}, mSpeedOfFade{pSpeed}
 {
-    sf::Color colorOfFadeEffect = color;
-    speedOfFade = newSpeed;
-
-    colorOfFadeEffect.a = 0;
-    fadeEffect.setFillColor(colorOfFadeEffect);
-    fadeEffect.setSize(sf::Vector2f(WIDTH_SCREEN, HEIGHT_SCREEN));
+    pColor.a = 0;
+    mFadeEffect.setFillColor(pColor);
+    mFadeEffect.setSize(sf::Vector2f(WIDTH_SCREEN, HEIGHT_SCREEN));
 }
 
-void ScreenTransitionState::updateImpl(sf::RenderWindow& window)
+void ScreenTransitionState::updateImpl(sf::RenderWindow& pWindow)
 {
-    sf::Event event;
-    sf::Color newColor = fadeEffect.getFillColor();
+    auto event = sf::Event{};
+    auto newColor = mFadeEffect.getFillColor();
 
-    while (window.pollEvent(event))
+    while (pWindow.pollEvent(event))
     {
         if (event.type == sf::Event::Closed)
         {
-            window.close();
+            pWindow.close();
         }
     }
 
-    if (speedOfFade > 0)
+    if (mSpeedOfFade > 0)
     {
-        if (newColor.a + speedOfFade >= 255)
+        if (newColor.a + mSpeedOfFade >= 255)
         {
             newColor.a = 255;
-            speedOfFade = -speedOfFade;
+            mSpeedOfFade = -mSpeedOfFade;
             Global::activeGameStateStack->popBeforeLast();
-            Global::activeGameStateStack->addBeforeLast(std::move(stateToSet));
-            stateToSet.release(); // normalement pas utile mais on sait jamais.
+            Global::activeGameStateStack->addBeforeLast(std::move(mStateToSet));
         }
         else
         {
-            newColor.a += speedOfFade;
+            newColor.a += mSpeedOfFade;
         }
     }
     else
     {
-        if (newColor.a + speedOfFade <= 0)
+        if (newColor.a + mSpeedOfFade <= 0)
         {
             Global::activeGameStateStack->pop();
             return;
         }
         else
         {
-            newColor.a += speedOfFade;
+            newColor.a += mSpeedOfFade;
         }
     }
 
-    fadeEffect.setFillColor(newColor);
+    mFadeEffect.setFillColor(newColor);
 }
 
-void ScreenTransitionState::drawImpl(sf::RenderWindow& window) const
+void ScreenTransitionState::drawImpl(sf::RenderWindow& pWindow) const
 {
-    Global::activeGameStateStack->drawBeforeLast(window);
+    Global::activeGameStateStack->drawBeforeLast(pWindow);
 
-    window.setView(window.getDefaultView());
+    pWindow.setView(pWindow.getDefaultView());
 
-    window.draw(fadeEffect);
+    pWindow.draw(mFadeEffect);
 }

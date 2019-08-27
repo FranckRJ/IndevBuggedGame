@@ -9,16 +9,16 @@
 class ScreenTransitionState : public GameState
 {
 public:
-    ScreenTransitionState(std::unique_ptr<GameState>&& newState, sf::Color color, int newSpeed);
+    ScreenTransitionState(std::unique_ptr<GameState> pState, sf::Color pColor, int pSpeed);
 
 private:
-    void updateImpl(sf::RenderWindow& window) override;
-    void drawImpl(sf::RenderWindow& window) const override;
+    void updateImpl(sf::RenderWindow& pWindow) override;
+    void drawImpl(sf::RenderWindow& pWindow) const override;
 
 private:
-    std::unique_ptr<GameState> stateToSet;
-    sf::RectangleShape fadeEffect;
-    int speedOfFade;
+    std::unique_ptr<GameState> mStateToSet;
+    sf::RectangleShape mFadeEffect;
+    int mSpeedOfFade;
 };
 
 #endif
