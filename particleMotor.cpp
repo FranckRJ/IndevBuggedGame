@@ -8,7 +8,7 @@ void ParticleMotor::update()
     {
         (*thisParticle)->update();
 
-        if ((*thisParticle)->getIsDead())
+        if ((*thisParticle)->isDead())
         {
             mListOfParticle.erase(thisParticle++);
             continue;

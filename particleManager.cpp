@@ -4,16 +4,8 @@
 
 void ParticleManager::initialize()
 {
-    auto baseInfo = ParticleInfo{};
-
-    baseInfo.attractedByGravity = true;
-    baseInfo.horizontalVelocity = 0;
-    baseInfo.lifeTime = 0.f;
-    baseInfo.verticalVelocity = 0;
-    baseInfo.lostAlphaSpeed = 255;
-
     {
-        auto info = baseInfo;
+        auto info = ParticleInfo{};
 
         info.verticalVelocity = -4;
         info.lostAlphaSpeed = 20;

@@ -5,28 +5,29 @@
 
 struct ParticleInfo
 {
-    bool attractedByGravity;
-    int verticalVelocity;
-    int horizontalVelocity;
-    float lifeTime;
-    int lostAlphaSpeed;
+    bool attractedByGravity = true;
+    int verticalVelocity = 0;
+    int horizontalVelocity = 0;
+    float lifeTime = 0.f;
+    int lostAlphaSpeed = 255;
 };
 
 class Particle
 {
 public:
-    Particle();
-    Particle(ParticleInfo newParticleInfo, sf::Color particleColor, sf::Vector2f particleSize, sf::Vector2i velocity,
-             sf::Vector2f basePosition);
+    Particle(ParticleInfo pParticleInfo, sf::Color pParticleColor, sf::Vector2f pParticleSize, sf::Vector2i pVelocity,
+             sf::Vector2f pBasePosition);
+
     void update();
     void draw(sf::RenderWindow& window) const;
-    bool getIsDead();
+
+    bool isDead() const;
 
 private:
-    sf::RectangleShape sprite;
-    sf::Clock timer;
-    ParticleInfo infoForParticle;
-    bool isDead;
+    sf::RectangleShape mSprite;
+    sf::Clock mTimer;
+    ParticleInfo mInfoForParticle;
+    bool mIsDead = false;
 };
 
 #endif
