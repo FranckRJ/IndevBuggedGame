@@ -18,6 +18,10 @@ private:
     void updateImpl(sf::RenderWindow& pWindow) override;
     void drawImpl(sf::RenderWindow& pWindow) const override;
 
+    void changeSelectedId(int pRelativePosition);
+
+    void launchNewSelectedState();
+
     void centerWidgetInList();
 
 private:

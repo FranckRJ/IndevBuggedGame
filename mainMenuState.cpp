@@ -3,6 +3,7 @@
 #include "global.hpp"
 #include "playState.hpp"
 #include "screenTransitionState.hpp"
+#include "utls.hpp"
 
 MainMenuState::MainMenuState()
 {
@@ -38,7 +39,6 @@ MainMenuState::MainMenuState()
     mCursorText.setPositionToReach(mListOfButton[mCurrentId].centralVerticalPos());
 }
 
-// TODO split cette fonction
 void MainMenuState::updateImpl(sf::RenderWindow& pWindow)
 {
     auto event = sf::Event{};
@@ -53,27 +53,11 @@ void MainMenuState::updateImpl(sf::RenderWindow& pWindow)
         {
             if (event.key.code == sf::Keyboard::Up)
             {
-                if (mCurrentId <= 0)
-                {
-                    mCurrentId = mListOfButton.size() - 1;
-                }
-                else
-                {
-                    --mCurrentId;
-                }
-                mCursorText.setPositionToReach(mListOfButton[mCurrentId].centralVerticalPos());
+                changeSelectedId(-1);
             }
             else if (event.key.code == sf::Keyboard::Down)
             {
-                if (mCurrentId >= (mListOfButton.size() - 1))
-                {
-                    mCurrentId = 0;
-                }
-                else
-                {
-                    ++mCurrentId;
-                }
-                mCursorText.setPositionToReach(mListOfButton[mCurrentId].centralVerticalPos());
+                changeSelectedId(1);
             }
             else if (event.key.code == sf::Keyboard::Space || event.key.code == sf::Keyboard::Return)
             {
@@ -92,22 +76,7 @@ void MainMenuState::updateImpl(sf::RenderWindow& pWindow)
 
     if (mChoiceIsSelected && mListOfButton[mCurrentId].numberOfBlinkNeeded() == 0)
     {
-        if (mCurrentId == 0)
-        {
-            Global::activeGameStateStack->add(std::make_unique<ScreenTransitionState>(
-                std::make_unique<PlayState>("level1.txt"), sf::Color::Black, 25));
-        }
-        else if (mCurrentId == 1)
-        {
-            Global::activeGameStateStack->add(std::make_unique<ScreenTransitionState>(
-                std::make_unique<EditLevelState>("level7.txt"), sf::Color::Black, 25));
-        }
-        else if (mCurrentId == 2)
-        {
-            Global::activeGameStateStack->add(std::make_unique<ScreenTransitionState>(
-                std::make_unique<PlayState>("level6.txt"), sf::Color::Black, 25));
-        }
-
+        launchNewSelectedState();
         mChoiceIsSelected = false;
     }
 
@@ -129,6 +98,43 @@ void MainMenuState::drawImpl(sf::RenderWindow& pWindow) const
     for (const auto& thisWidget : mListOfButton)
     {
         thisWidget.draw(pWindow);
+    }
+}
+
+void MainMenuState::changeSelectedId(int pRelativePosition)
+{
+    auto signedNewId = utls::asSigned(mCurrentId) + pRelativePosition;
+    auto signedMaxId = utls::asSigned(mListOfButton.size()) - 1;
+
+    if (signedNewId < 0)
+    {
+        signedNewId = signedMaxId;
+    }
+    else if (signedNewId > signedMaxId)
+    {
+        signedNewId = 0;
+    }
+    mCurrentId = utls::asUnsigned(signedNewId);
+
+    mCursorText.setPositionToReach(mListOfButton[mCurrentId].centralVerticalPos());
+}
+
+void MainMenuState::launchNewSelectedState()
+{
+    if (mCurrentId == 0)
+    {
+        Global::activeGameStateStack->add(
+            std::make_unique<ScreenTransitionState>(std::make_unique<PlayState>("level1.txt"), sf::Color::Black, 25));
+    }
+    else if (mCurrentId == 1)
+    {
+        Global::activeGameStateStack->add(std::make_unique<ScreenTransitionState>(
+            std::make_unique<EditLevelState>("level7.txt"), sf::Color::Black, 25));
+    }
+    else if (mCurrentId == 2)
+    {
+        Global::activeGameStateStack->add(
+            std::make_unique<ScreenTransitionState>(std::make_unique<PlayState>("level6.txt"), sf::Color::Black, 25));
     }
 }
 
