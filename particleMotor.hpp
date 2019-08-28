@@ -12,11 +12,10 @@ class ParticleMotor
 public:
     void update();
     void draw(sf::RenderWindow& pWindow) const;
-    void addParticle(sf::Vector2f pAtThisPosition, int pParticleSpeed);
+    void addParticle(sf::Vector2f pAtThisPosition, sf::Vector2f pWithThisRelativeMargin, int pParticleSpeed);
 
 private:
-    std::uniform_int_distribution<int> mRandomAddVerticalVelocity{-4, 0};
-    std::uniform_int_distribution<int> mRandomAddHorizontalVelocity{-2, 2};
+    std::uniform_int_distribution<int> mRandomVelocityChange{-2, 2};
     std::list<std::unique_ptr<Particle>> mListOfParticle;
 };
 

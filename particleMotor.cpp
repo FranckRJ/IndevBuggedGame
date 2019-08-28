@@ -19,12 +19,15 @@ void ParticleMotor::draw(sf::RenderWindow& pWindow) const
     }
 }
 
-void ParticleMotor::addParticle(sf::Vector2f pAtThisPosition, int pParticleSpeed)
+void ParticleMotor::addParticle(sf::Vector2f pAtThisPosition, sf::Vector2f pWithThisRelativeMargin, int pParticleSpeed)
 {
-    auto addVerticalVelocity = mRandomAddVerticalVelocity(Global::fast_random);
-    auto addHorizontalVelocity = mRandomAddHorizontalVelocity(Global::fast_random);
+    const auto particleSize = 10.f;
+    auto addVerticalVelocity = mRandomVelocityChange(Global::fast_random);
+    auto addHorizontalVelocity = mRandomVelocityChange(Global::fast_random);
 
-    mListOfParticle.emplace_back(ParticleManager::createParticle(
-        "NORMAL_PARTICLE", sf::Color::Blue, sf::Vector2f{10.f, 10.f},
-        sf::Vector2i{pParticleSpeed + addHorizontalVelocity, addVerticalVelocity}, pAtThisPosition));
+    mListOfParticle.emplace_back(
+        ParticleManager::createParticle("NORMAL_PARTICLE", sf::Color::Blue, sf::Vector2f{particleSize, particleSize},
+                                        sf::Vector2i{pParticleSpeed + addHorizontalVelocity, addVerticalVelocity},
+                                        sf::Vector2f{pAtThisPosition.x + (pWithThisRelativeMargin.x * particleSize),
+                                                     pAtThisPosition.y + (pWithThisRelativeMargin.y * particleSize)}));
 }

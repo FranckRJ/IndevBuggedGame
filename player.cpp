@@ -22,12 +22,14 @@ void Player::applyHorizontalMove()
         {
             if (movingDirection() == Direction::RIGHT)
             {
-                mParticleMotor.addParticle(sf::Vector2f(position().x + 5, position().y + mBaseSpriteSize.y), -speed());
+                mParticleMotor.addParticle(sf::Vector2f(position().x, position().y + mBaseSpriteSize.y), {0.f, -1.f},
+                                           -speed());
             }
             else if (movingDirection() == Direction::LEFT)
             {
                 mParticleMotor.addParticle(
-                    sf::Vector2f(position().x + mBaseSpriteSize.x - 5, position().y + mBaseSpriteSize.y), speed());
+                    sf::Vector2f(position().x + mBaseSpriteSize.x, position().y + mBaseSpriteSize.y), {-1.f, -1.f},
+                    speed());
             }
         }
 
