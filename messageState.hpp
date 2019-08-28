@@ -9,8 +9,8 @@ struct RectForMessage
     {
     }
     bool endOfIncrease;
-    double timeUntilStart;
-    double timeUntilHide;
+    float timeUntilStart;
+    float timeUntilHide;
     sf::Vector2i origin;
     sf::Vector2i trueSize;
     sf::Vector2i speedIncrease;

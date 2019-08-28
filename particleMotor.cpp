@@ -1,27 +1,21 @@
 #include "particleMotor.hpp"
 #include "global.hpp"
 #include "particleManager.hpp"
+#include "utls.hpp"
 
 void ParticleMotor::update()
 {
-    for (auto thisParticle = mListOfParticle.begin(); thisParticle != mListOfParticle.end();)
-    {
-        (*thisParticle)->update();
-
-        if ((*thisParticle)->isDead())
-        {
-            mListOfParticle.erase(thisParticle++);
-            continue;
-        }
-        ++thisParticle;
-    }
+    utls::updateRemoveErase(mListOfParticle, [](auto& particlePtr) {
+        particlePtr->update();
+        return particlePtr->isDead();
+    });
 }
 
 void ParticleMotor::draw(sf::RenderWindow& pWindow) const
 {
-    for (const auto& thisParticle : mListOfParticle)
+    for (const auto& particlePtr : mListOfParticle)
     {
-        thisParticle->draw(pWindow);
+        particlePtr->draw(pWindow);
     }
 }
 

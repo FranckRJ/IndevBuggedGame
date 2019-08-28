@@ -1,5 +1,6 @@
 #include "messageState.hpp"
 #include "global.hpp"
+#include "utls.hpp"
 
 MessageState::MessageState(std::vector<RectForMessage>& newListOfRect, sf::Text newMessageToShow)
 {
@@ -54,17 +55,16 @@ void MessageState::updateImpl(sf::RenderWindow& window)
         }
     }
 
-    for (auto it = listOfRect.begin(); it != listOfRect.end();)
-    {
+    utls::updateRemoveErase(listOfRect, [&](auto& rect) {
         if (!timeToLeave)
         {
-            if (!(it->endOfIncrease))
+            if (!(rect.endOfIncrease))
             {
-                if (time.getElapsedTime().asSeconds() > it->timeUntilStart)
+                if (time.getElapsedTime().asSeconds() > rect.timeUntilStart)
                 {
-                    if (changeSizeOfRect(*it, it->speedIncrease, it->trueSize))
+                    if (changeSizeOfRect(rect, rect.speedIncrease, rect.trueSize))
                     {
-                        it->endOfIncrease = true;
+                        rect.endOfIncrease = true;
                         ++numberOfEndOfIncrease;
 
                         if (numberOfEndOfIncrease == listOfRect.size())
@@ -77,19 +77,18 @@ void MessageState::updateImpl(sf::RenderWindow& window)
         }
         else
         {
-            if (time.getElapsedTime().asSeconds() > it->timeUntilHide)
+            if (time.getElapsedTime().asSeconds() > rect.timeUntilHide)
             {
-                if (changeSizeOfRect(*it, sf::Vector2i(-it->speedIncrease.x, -it->speedIncrease.y), sf::Vector2i(1, 1),
-                                     -1))
+                if (changeSizeOfRect(rect, sf::Vector2i{-(rect.speedIncrease.x), -(rect.speedIncrease.y)},
+                                     sf::Vector2i{1, 1}, -1))
                 {
-                    it = listOfRect.erase(it);
-                    continue;
+                    return true;
                 }
             }
         }
 
-        ++it;
-    }
+        return false;
+    });
 
     if (listOfRect.empty())
     {

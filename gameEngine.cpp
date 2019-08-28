@@ -167,27 +167,26 @@ void GameEngine::checkCharacterCollideWithBlock(Character& pCharacter, Direction
 
 void GameEngine::checkCharacterCollideWithEvent(Character& pCharacter)
 {
-    for (auto eventIte = mInfoForLevel.listOfEvent.begin(); eventIte != mInfoForLevel.listOfEvent.end();)
-    {
-        if ((*eventIte)->isCollideWith(pCharacter.collideBox()))
+    utls::updateRemoveErase(mInfoForLevel.listOfEvent, [&](auto& eventPtr) {
+        if (eventPtr->isCollideWith(pCharacter.collideBox()))
         {
-            if ((*eventIte)->eventInfo().isUpdateEvent)
+            if (eventPtr->eventInfo().isUpdateEvent)
             {
-                mVersionOfGame = (*eventIte)->eventInfo().newVersion;
+                mVersionOfGame = eventPtr->eventInfo().newVersion;
 
                 updateGameVersion();
             }
-            if ((*eventIte)->eventInfo().isShowMessageEvent)
+            if (eventPtr->eventInfo().isShowMessageEvent)
             {
-                MessageManager::addMessageStateToStack("NORMAL_MESSAGE", (*eventIte)->eventInfo().messageToShow);
-                mInfoForLevel.listOfEvent.erase(eventIte++);
-                break;
+                MessageManager::addMessageStateToStack("NORMAL_MESSAGE", eventPtr->eventInfo().messageToShow);
             }
-            mInfoForLevel.listOfEvent.erase(eventIte++);
-            continue;
+            return true;
         }
-        ++eventIte;
-    }
+        else
+        {
+            return false;
+        }
+    });
 }
 
 void GameEngine::setCameraToCharacter(Character& pCharacter)

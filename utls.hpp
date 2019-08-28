@@ -1,6 +1,7 @@
 #ifndef UTLS_HPP
 #define UTLS_HPP
 
+#include <algorithm>
 #include <cmath>
 #include <type_traits>
 
@@ -58,6 +59,12 @@ namespace utls
     constexpr int intCeil(const T& val)
     {
         return static_cast<int>(std::ceil(val));
+    }
+
+    template <class Container, class UnaryPredicate>
+    constexpr void updateRemoveErase(Container& container, const UnaryPredicate& updateFunWithRemoveCond)
+    {
+        container.erase(std::remove_if(container.begin(), container.end(), updateFunWithRemoveCond), container.end());
     }
 } // namespace utls
 
